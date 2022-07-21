@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.fine_app.GroupPosting
@@ -24,12 +25,12 @@ class Posting : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         binding = CommunityPostingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         lateinit var title:String
         lateinit var content:String
-        val memberID=1 as Long //todo 멤버아이디 불러오기
+        val memberID=11231231311 //todo 멤버아이디 불러오기
         var capacity=2
         val spinner: Spinner = binding.spinner
         val items = arrayOf("인원 선택", 2, 3, 4, 5, 6)
