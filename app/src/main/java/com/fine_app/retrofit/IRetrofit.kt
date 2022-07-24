@@ -7,27 +7,25 @@ import retrofit2.http.*
 
 interface IRetrofit {
     //일반 커뮤니티
-    @POST("/post/{memberID}") //글 작성
-    fun addMainPost(@Path("memberID")  memberID:Long, @Body postInfo:Posting):Call<Post>
+    @POST("/post/{memberId}") //글 작성
+    fun addMainPost(@Path("memberId")  memberId:Long, @Body postInfo:Posting):Call<Post>
 
     @GET("/post/general") //글 목록 조회
     fun viewMainCommunity() :Call<List<Post>>
 
     @GET("/post/{postingId}") //글 세부 조회
-    fun viewMainPosting(@Path("postingId") PostingID:Long):Call<Post>
+    fun viewMainPosting(@Path("postingId") postingId:Long):Call<Post>
 
     @DELETE("/post/{postingId}") //글 삭제
-    fun deletePosting(@Path("postingId") PostingID:Long):Call<Long>
+    fun deletePosting(@Path("postingId") postingId:Long):Call<Long>
 
     @PUT("/post/{postingId}/text") //글 내용 수정
-    fun editPosting(@Path("postingId") PostingID:Long, text:String):Call<Post>
+    fun editPosting(@Path("postingId") postingId:Long, text:String):Call<Post>
 
-    @PUT("/post/{postingId}/text") //글 마감여부 변경
-    fun editClosing(@Path("postingId") PostingID:Long):Call<Post>
 
     //그룹커뮤니티
-    @POST("/post/{memberID}") //글 작성
-    fun addGroupPost(@Path("memberID")  memberID:Long, @Body postInfo:GroupPosting):Call<GroupPosting>
+    @POST("/post/{memberId}") //글 작성
+    fun addGroupPost(@Path("memberId")  memberId:Long, @Body postInfo:GroupPosting):Call<GroupPosting>
 
     @GET("/post/group") //글 전체 목록 조회
     fun viewGroupCommunity() : Call<List<GroupPost>>
@@ -39,11 +37,7 @@ interface IRetrofit {
     fun viewGroupCommunityClose() : Call<List<GroupPost>>
 
     @GET("/post/{postingId}") //글 세부 조회
-    fun viewGroupPosting(@Path("postingId") PostingID:Long):Call<GroupPost>
-
-    @GET("/post/{postingId}") //대기자리스트 todo 대기자 리스트 api 문서 보고 수정 필요
-    fun viewWaitingList(@Path("postingId") postingId:Long) : Call<List<Recruit>>
-
+    fun viewGroupPosting(@Path("postingId") postingId:Long):Call<GroupPost>
 
     @POST("/post/{postingId}/{memberId}/join") //참여하기
     fun joinGroup(@Path("postingId") postingId:Long, @Path("memberId") memberId:Long, accept_check:Boolean) :Call<Join>
@@ -53,6 +47,16 @@ interface IRetrofit {
 
     @POST("{postingId}/{recruitingId}/accept") //참가 수락
     fun acceptJoinGroup(@Path("postingId") postingId:Long, @Path("recruitingId") recruitingId:Long, accept_check:Boolean) :Call<Join>
+
+    @DELETE("{postingId}/{recruitingId}/accept") //참여하기 수락 취소 todo 참여하기 수락 취소 api 문서 보고 수정
+    fun cancelAcceptJoinGroup(@Path("recruitingId") recruitingId:Long)
+
+    @PUT("/post/{postingId}/text") //글 마감여부 변경
+    fun editClosing(@Path("postingId") postingId:Long):Call<Post>
+
+    //검색
+    @GET("post/search") //커뮤니티 글 검색
+    fun searchPosting(@Query("title") title:String) :Call<List<Post>>
 
     //댓글
     @POST("/comment")

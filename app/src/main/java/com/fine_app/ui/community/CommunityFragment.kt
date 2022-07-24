@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
 import com.fine_app.databinding.FragmentCommunityBinding
 import com.google.android.material.tabs.TabLayout
@@ -42,9 +43,10 @@ class CommunityFragment : Fragment() {
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             //검색 버튼 눌렀을 때 호출
             override fun onQueryTextSubmit(p0: String): Boolean {
-                val postDetail= Intent(activity, SearchList::class.java)
-                postDetail.putExtra("text",p0)
-                startActivity(postDetail)
+                val search= Intent(activity, SearchList::class.java)
+                search.putExtra("text", p0)
+                startActivity(search)
+                binding.searchView.setQuery(null, false)
                 return true
             }
             //텍스트 입력과 동시에 호출
@@ -52,7 +54,6 @@ class CommunityFragment : Fragment() {
                 return true
             }
         })
-
         val writing_button=binding.floatingActionButton
         writing_button.setOnClickListener{
             var writingPage= Intent(getActivity(), Posting::class.java)
@@ -60,6 +61,7 @@ class CommunityFragment : Fragment() {
         }
         return root
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -28,11 +28,14 @@ import retrofit2.Response
 
 class PostDetail_Group : AppCompatActivity() {
     private lateinit var binding: CommunityGroupPostBinding
-    val writerID:Long=0 //todo 글 작성자 id 가져오기
+    val writerID:Long=intent.getLongExtra("memberId", 0)
     val myID:Long=0 //todo 내 id 가져오기
-    val postingID=intent.getLongExtra("postingID", 0)
+    val postingID=intent.getLongExtra("postingId", 0)
+    private val comments= intent.getSerializableExtra("comments") as ArrayList<Comment>
+    val adapter=MyAdapter(comments)
     var mark=false
     var bookMarkId:Long=0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,8 +82,7 @@ class PostDetail_Group : AppCompatActivity() {
         val joinButton=binding.joinButton
         val markButton=binding.markButton
 
-
-        if (closingCheck==true){ //마감된 글이면 //todo 마감은 언제 되는데..?
+        if (closingCheck){
             joinButton.visibility= INVISIBLE
         }else{
             joinButton.visibility= VISIBLE
@@ -90,6 +92,7 @@ class PostDetail_Group : AppCompatActivity() {
                     .setPositiveButton("확인",
                         DialogInterface.OnClickListener{ dialog, which ->
                             joinGroup(postingID,myID)
+                            dialog.dismiss()
                             finish()
                         })
                     .setNegativeButton("취소",null)
@@ -110,6 +113,7 @@ class PostDetail_Group : AppCompatActivity() {
                 postDetail.putExtra("title", postTitle)
                 postDetail.putExtra("content", postContent)
                 startActivity(postDetail)
+                finish()
             }
             deleteButton.setOnClickListener{
                 val builder = AlertDialog.Builder(this)
@@ -117,6 +121,7 @@ class PostDetail_Group : AppCompatActivity() {
                     .setPositiveButton("삭제",
                         DialogInterface.OnClickListener{ dialog, which ->
                             deletePosting(postingID)
+                            dialog.dismiss()
                             finish()
                         })
                     .setNegativeButton("취소",null)
@@ -126,16 +131,25 @@ class PostDetail_Group : AppCompatActivity() {
                 val waitingList = Intent(this, WaitingList::class.java)
                 waitingList.putExtra("postingID", postingID)
                 waitingList.putExtra("recruitingList",recruitingList )
+                waitingList.putExtra("closingCheck",closingCheck )
                 startActivity(waitingList)
                 finish()
             }
-            markButton.setOnClickListener{ //todo 북마크 디자인
+            markButton.setOnClickListener{
                 if (mark){//북마크 취소
+                    val builder = AlertDialog.Builder(this)
+                        .setMessage("북마크를 취소하였습니다.")
+                    builder.show()
                     deleteBookMark(bookMarkId)
+                    markButton.text="북마크"
                     mark=false
                 } else{//북마크 추가
-                    val newBookMark= BookMark(myID, postingID, bookMarkId)
+                    val builder = AlertDialog.Builder(this)
+                        .setMessage("북마크를 추가했습니다.")
+                    builder.show()
+                    val newBookMark=BookMark(myID, postingID, bookMarkId)
                     addBookMark(newBookMark)
+                    markButton.text="저장됨"
                     mark=true
                 }
             }
@@ -143,8 +157,8 @@ class PostDetail_Group : AppCompatActivity() {
 //-----------------------------댓글------------------------------------------------------
         val recyclerView:RecyclerView=binding.recyclerView
         recyclerView.layoutManager=LinearLayoutManager(this)
-        val comments= intent.getSerializableExtra("comments") as ArrayList<Comment>
-        val adapter=MyAdapter(comments)
+
+
         recyclerView.adapter=adapter
 
         val commentButton=binding.commentButton
@@ -159,6 +173,7 @@ class PostDetail_Group : AppCompatActivity() {
             })
             val newComment=Comment(myID, postingID, text, 0) //todo commentId 처리 어떻게?
             addComment(newComment)
+            adapter.notifyDataSetChanged()
         }
 
     }
@@ -183,8 +198,9 @@ class PostDetail_Group : AppCompatActivity() {
                 val items=arrayOf("수정", "삭제")
                 val builder = AlertDialog.Builder(this@PostDetail_Group)
                 builder.setTitle("댓글 관리")
-                builder.setItems(items){ _, which ->
+                builder.setItems(items){ dialog, which ->
                     if(which == 0) {
+                        dialog.dismiss()
                         binding.putComment.setText(this.comment.text) //수정 전 댓글을 보여줌
                         var text=""
                         binding.putComment.addTextChangedListener(object: TextWatcher {
@@ -197,7 +213,11 @@ class PostDetail_Group : AppCompatActivity() {
                         val newComment=Comment(myID, postingID, text, this.comment.commentId)
                         editComment(this.comment.commentId, newComment)
                     }
-                    else deleteComment(this.comment.commentId)
+                    else {
+                        dialog.dismiss()
+                        deleteComment(this.comment.commentId)
+                    }
+                    adapter.notifyDataSetChanged()
                 }
                     .show()
                 true
@@ -224,7 +244,7 @@ class PostDetail_Group : AppCompatActivity() {
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val term:Long= PostingID ?:0
-        val call = iRetrofit?.deletePosting(PostingID = term) ?:return
+        val call = iRetrofit?.deletePosting(postingId = term) ?:return
 
         call.enqueue(object : retrofit2.Callback<Long>{
             //응답성공
@@ -263,7 +283,7 @@ class PostDetail_Group : AppCompatActivity() {
             //응답성공
             override fun onResponse(call: Call<BookMark>, response: Response<BookMark>) {
                 Log.d("retrofit", "북마크 추가 - 응답 성공 / t : ${response.raw()}")
-                bookMarkId=response.body()!!.BookmarkId
+                bookMarkId=response.body()!!.bookmarkId
             }
             //응답실패
             override fun onFailure(call: Call<BookMark>, t: Throwable) {

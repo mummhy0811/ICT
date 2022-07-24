@@ -8,10 +8,9 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.fine_app.GroupPosting
-import com.fine_app.Post
+import com.fine_app.*
 import com.fine_app.Posting
-import com.fine_app.R
+import com.fine_app.databinding.CommunityMainPostBinding
 import com.fine_app.databinding.CommunityPostingBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
@@ -20,22 +19,24 @@ import retrofit2.Call
 import retrofit2.Response
 
 
-class Posting : AppCompatActivity() {
-    private lateinit var binding: CommunityPostingBinding
-
+class Posting : AppCompatActivity(), CustomDialog.CustomDialogInterface {
+    //private lateinit var binding: CommunityPostingBinding
+    private lateinit var binding: CommunityMainPostBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        binding = CommunityPostingBinding.inflate(layoutInflater)
+        //binding = CommunityPostingBinding.inflate(layoutInflater)
+        binding = CommunityMainPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
+/*
         lateinit var title:String
         lateinit var content:String
-        val memberID=11231231311 //todo 멤버아이디 불러오기
+        val memberID=123123123123 //todo 멤버아이디 불러오기
         var capacity=2
         val spinner: Spinner = binding.spinner
         val items = arrayOf("인원 선택", 2, 3, 4, 5, 6)
         var groupcheck=false
-        val groupCheckList:RadioGroup=binding.groupCheck
+        val groupCheckList: RadioGroup =binding.groupCheck
         groupCheckList.setOnCheckedChangeListener{_, checkedId ->
             when(checkedId){
                 R.id.radioButton_normal -> {
@@ -44,7 +45,7 @@ class Posting : AppCompatActivity() {
                 }
                 R.id.radioButton_group -> {
                     groupcheck=false
-                    spinner.visibility=View.VISIBLE
+                    spinner.visibility= View.VISIBLE
                 }
             }
         }
@@ -63,7 +64,7 @@ class Posting : AppCompatActivity() {
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
-        binding.inputTitle.addTextChangedListener(object:TextWatcher{
+        binding.inputTitle.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(p0: Editable?) {
@@ -78,34 +79,50 @@ class Posting : AppCompatActivity() {
             }
         })
         binding.backButton.setOnClickListener{ //뒤로가기
-            finish()
+            val customDialog = CustomDialog("글쓰기를 취소하시겠습니까?", this, this)
+            customDialog.show(supportFragmentManager, "CustomDialog")
+            //finish()
         }
         binding.finButton.setOnClickListener{ //등록
-            if(groupcheck==false){
-                val newPost=Posting(title, content, groupcheck)
-                addMainPost(memberID, newPost)
-            }else{
+            if(groupcheck){
                 val newPost= GroupPosting(title, content, groupcheck, capacity)
                 addGroupPost(memberID, newPost)
+
+            }else{
+                val newPost=Posting(title, content, groupcheck)
+                addMainPost(memberID, newPost)
             }
             finish()
         }
+
+ */
+
     }
 
-    private fun addMainPost(memberID:Long?, postInfo:Posting){
+    override fun onYesButtonClicked() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onCancelButtonClicked() {
+        Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show()
+    }
+
+
+
+    private fun addMainPost(memberId:Long?, postInfo:Posting){
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
-        val term:Long= memberID ?:0
-        val call = iRetrofit?.addMainPost(memberID = term, postInfo) ?:return
+        val term:Long= memberId ?:0
+        val call = iRetrofit?.addMainPost(memberId = term, postInfo) ?:return
 
         call.enqueue(object : retrofit2.Callback<Post>{
             //응답성공
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.d("retrofit", "글쓰기 - 응답 성공 / t : ${response.raw()}")
-                Log.d("retrofit", "id:  ${memberID}")
-                Log.d("retrofit", "id:  ${postInfo.title}")
-                Log.d("retrofit", "id:  ${postInfo.content}")
-                Log.d("retrofit", "id:  ${postInfo.groupCheck}")
+                Log.d("retrofit", "id:  ${memberId}")
+                Log.d("retrofit", "title:  ${postInfo.title}")
+                Log.d("retrofit", "content:  ${postInfo.content}")
+                Log.d("retrofit", "groupCheck:  ${postInfo.groupCheck}")
             }
             //응답실패
             override fun onFailure(call: Call<Post>, t: Throwable) {
@@ -117,7 +134,7 @@ class Posting : AppCompatActivity() {
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val term:Long= memberID ?:0
-        val call = iRetrofit?.addGroupPost(memberID = term, postInfo) ?:return
+        val call = iRetrofit?.addGroupPost(memberId = term, postInfo) ?:return
 
         call.enqueue(object : retrofit2.Callback<GroupPosting>{
             //응답성공

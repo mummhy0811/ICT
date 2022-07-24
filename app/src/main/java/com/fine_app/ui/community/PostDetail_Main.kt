@@ -26,13 +26,16 @@ import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
 import retrofit2.Call
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 
 class PostDetail_Main : AppCompatActivity() {
     private lateinit var binding: CommunityMainPostBinding
-    val writerID:Long=0 //todo 글 작성자 id 가져오기
+    val postingId=intent.getLongExtra("postingId", 1)
+    val writerID:Long=123123123 //intent.getLongExtra("memberId", 1)
     val myID:Long=0 //todo 내 id 가져오기
-    val postingID=intent.getLongExtra("postingID", 0)
+    val comments= intent.getSerializableExtra("comments") as ArrayList<Comment>
+    val adapter=MyAdapter(comments)
     var mark=false
     var bookMarkId:Long=0
 
@@ -53,6 +56,7 @@ class PostDetail_Main : AppCompatActivity() {
         val token=createdDate!!.split("-", "T", ":")
         val writtenTime=token[1]+"/"+token[2]+" "+token[3]+"/"+token[4]
         val modifiedWrittenTime= "$writtenTime (수정됨)"
+
         if(createdDate == lastModifiedDate) binding.writtenTime.text=writtenTime
         else binding.writtenTime.text=modifiedWrittenTime
 
@@ -66,7 +70,6 @@ class PostDetail_Main : AppCompatActivity() {
             userProfile.putExtra("memberId",writerID)
             startActivity(userProfile)
         }
-
         //-----------------------------------------------------버튼 클릭-------------------------------------------------
         binding.backButton.setOnClickListener{ //글 세부페이지 종료
             finish()
@@ -83,17 +86,19 @@ class PostDetail_Main : AppCompatActivity() {
             markButton.visibility= INVISIBLE //내가 쓴 글이면 북마크 버튼 안 보임
             editButton.setOnClickListener{
                 val postDetail= Intent(this, PostingEdit::class.java)
-                postDetail.putExtra("postingID", postingID) //todo 포스팅아이디 확인
+                postDetail.putExtra("postingId", postingId)
                 postDetail.putExtra("title", postTitle)
                 postDetail.putExtra("content", postContent)
                 startActivity(postDetail)
+                finish()
             }
             deleteButton.setOnClickListener{
                 val builder = AlertDialog.Builder(this)
                     .setMessage("글을 삭제하시겠습니까?")
                     .setPositiveButton("삭제",
-                        DialogInterface.OnClickListener{ _, _ ->
-                            deletePosting(postingID)
+                        DialogInterface.OnClickListener{ dialog, _ ->
+                            deletePosting(postingId)
+                            dialog.dismiss()
                             finish()
                         })
                     .setNegativeButton("취소",null)
@@ -101,11 +106,17 @@ class PostDetail_Main : AppCompatActivity() {
             }
             markButton.setOnClickListener{
                 if (mark){//북마크 취소
+                    val builder = AlertDialog.Builder(this)
+                        .setMessage("북마크를 취소하였습니다.")
+                    builder.show()
                     deleteBookMark(bookMarkId)
                     markButton.text="북마크"
                     mark=false
                 } else{//북마크 추가
-                    val newBookMark=BookMark(myID, postingID, bookMarkId)
+                    val builder = AlertDialog.Builder(this)
+                        .setMessage("북마크를 추가했습니다.")
+                    builder.show()
+                    val newBookMark=BookMark(myID, postingId, bookMarkId)
                     addBookMark(newBookMark)
                     markButton.text="저장됨"
                     mark=true
@@ -116,8 +127,6 @@ class PostDetail_Main : AppCompatActivity() {
         //-----------------------------댓글------------------------------------------------------
         val recyclerView:RecyclerView=binding.recyclerView
         recyclerView.layoutManager=LinearLayoutManager(this)
-        val comments= intent.getSerializableExtra("comments") as ArrayList<Comment>
-        val adapter=MyAdapter(comments)
         recyclerView.adapter=adapter
 
         val commentButton=binding.commentButton
@@ -130,8 +139,9 @@ class PostDetail_Main : AppCompatActivity() {
                     text=binding.putComment.text.toString()
                 }
             })
-            val newComment=Comment(myID, postingID, text, 0) //todo commentId 처리 어떻게?
+            val newComment=Comment(myID, postingId, text, 0) //todo commentId 처리 어떻게?
             addComment(newComment)
+            adapter.notifyDataSetChanged()
         }
 
     }
@@ -168,10 +178,11 @@ class PostDetail_Main : AppCompatActivity() {
                                 text=binding.putComment.text.toString()
                             }
                         })
-                        val newComment=Comment(myID, postingID, text, this.comment.commentId)
+                        val newComment=Comment(myID, postingId, text, this.comment.commentId)
                         editComment(this.comment.commentId, newComment)
                     }
                     else deleteComment(this.comment.commentId)
+                    adapter.notifyDataSetChanged()
                 }
                     .show()
                 true
@@ -199,7 +210,7 @@ class PostDetail_Main : AppCompatActivity() {
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val term:Long= PostingID ?:0
-        val call = iRetrofit?.deletePosting(PostingID = term) ?:return
+        val call = iRetrofit?.deletePosting(postingId = term) ?:return
 
         call.enqueue(object : retrofit2.Callback<Long>{
             //응답성공
@@ -272,7 +283,7 @@ class PostDetail_Main : AppCompatActivity() {
             //응답성공
             override fun onResponse(call: Call<BookMark>, response: Response<BookMark>) {
                 Log.d("retrofit", "북마크 추가 - 응답 성공 / t : ${response.raw()}")
-                bookMarkId=response.body()!!.BookmarkId
+                bookMarkId=response.body()!!.bookmarkId
             }
             //응답실패
             override fun onFailure(call: Call<BookMark>, t: Throwable) {

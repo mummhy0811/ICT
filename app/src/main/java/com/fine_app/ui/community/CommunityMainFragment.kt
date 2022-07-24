@@ -45,7 +45,9 @@ class CommunityMainFragment : Fragment() {
             postTitle.text=this.post.title
             commentNum.text=this.post.commentCount
             itemView.setOnClickListener{
-                viewMainPosting(this.post.PostingID)
+                viewMainPosting(this.post.postingId)
+                Log.d("posting", " 포스팅 postTitle : ${this.post.title}")
+                Log.d("posting", " 포스팅 아이디 : ${this.post.postingId}")
             }
         }
     }
@@ -87,8 +89,7 @@ class CommunityMainFragment : Fragment() {
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val term:Long= postingId ?:0
-        val call = iRetrofit?.viewMainPosting(PostingID = term) ?:return
-
+        val call = iRetrofit?.viewMainPosting(postingId = term) ?:return
         //enqueue 하는 순간 네트워킹
         call.enqueue(object : retrofit2.Callback<Post>{
             //응답성공
@@ -96,15 +97,17 @@ class CommunityMainFragment : Fragment() {
                 Log.d("retrofit", "메인 커뮤니티 세부 글 - 응답 성공 / t : ${response.raw()}")
                 Log.d("retrofit", response.body().toString())
 
+
                 val postDetail= Intent(activity, PostDetail_Main::class.java)
-                //postDetail.putExtra("nickname", response.body()!!.nickname)
-                postDetail.putExtra("title", response.body()?.title)
-                postDetail.putExtra("content", response.body()?.content)
-                postDetail.putExtra("comments", response.body()?.comments)
-                postDetail.putExtra("capacity", response.body()?.capacity)
-                postDetail.putExtra("createdDate", response.body()?.createdDate)
-                postDetail.putExtra("lastModifiedDate", response.body()?.lastModifiedDate)
-                postDetail.putExtra("postingID", postingId)
+                postDetail.putExtra("nickname", response.body()!!.nickname)
+                postDetail.putExtra("title", response.body()!!.title)
+                postDetail.putExtra("content", response.body()!!.content)
+                postDetail.putExtra("comments", response.body()!!.comments)
+                postDetail.putExtra("capacity", response.body()!!.capacity)
+                postDetail.putExtra("createdDate", response.body()!!.createdDate)
+                postDetail.putExtra("lastModifiedDate", response.body()!!.lastModifiedDate)
+                postDetail.putExtra("memberId", response.body()!!.memberId) //todo 멤버아이디 수정
+                postDetail.putExtra("postingId", postingId)
                 startActivity(postDetail)
             }
             //응답실패

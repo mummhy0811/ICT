@@ -1,5 +1,6 @@
 package com.fine_app.ui.community
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -29,21 +30,19 @@ class SearchList : AppCompatActivity() {
 
         binding = CommunitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var text=intent.getStringExtra("text")
-        binding.searchView.setQuery(text, true)
-
-        recyclerView=binding.recyclerView
-        recyclerView.layoutManager= LinearLayoutManager(this)
-
+        val text=intent.getStringExtra("text")
+        if (text != "") {
+            binding.searchView.setQuery(text, false)
+            searchPosting(text!!)
+        }
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             //검색 버튼 눌렀을 때 호출
             override fun onQueryTextSubmit(p0: String): Boolean {
-                //todo 검색 api 호출
+                searchPosting(p0)
                 return true
             }
             //텍스트 입력과 동시에 호출
             override fun onQueryTextChange(p0: String): Boolean {
-
                 return true
             }
         })
@@ -54,20 +53,35 @@ class SearchList : AppCompatActivity() {
     }
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
 
-        private lateinit var post: GroupPost
-        private val image: ImageView =itemView.findViewById(R.id.writer_image)
-        private val name: TextView =itemView.findViewById(R.id.writer_name)
-        private val level: ImageView =itemView.findViewById(R.id.levelImage)
-        private val accept: Button =itemView.findViewById(R.id.acceptButton)
+        private lateinit var post: Post
+        private val title: TextView =itemView.findViewById(R.id.searchTitle)
+        private val content: TextView =itemView.findViewById(R.id.searchContent)
+        private val groupCheck: TextView =itemView.findViewById(R.id.searchGroup)
+        private val commentNum: TextView =itemView.findViewById(R.id.searchComment)
 
-        fun bind(post: GroupPost, position: Int) {
+
+        fun bind(post: Post, position: Int) {
             this.post=post
-            name.text=this.post.commentCount
+            title.text=this.post.title
+            content.text=this.post.content
+            commentNum.text=this.post.commentCount
+            if (this.post.groupCheck){ //그룹포스트
+                groupCheck.text="그룹 커뮤니티"
+            }else{
+                groupCheck.text="일반 커뮤니티"
+            }
 
+            itemView.setOnClickListener{
+                if (this.post.groupCheck){ //그룹포스트
+                    viewGroupPosting(this.post.postingId)
 
+                }else{
+                    viewMainPosting(this.post.postingId)
+                }
+            }
         }
     }
-    inner class MyAdapter(val list:List<GroupPost> /*todo api 데이터 형태 확인 필요*/ ): RecyclerView.Adapter<MyViewHolder>() {
+    inner class MyAdapter(val list:List<Post>): RecyclerView.Adapter<MyViewHolder>() {
         override fun getItemCount(): Int = list.size
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
             val view=layoutInflater.inflate(R.layout.item_waitlist, parent, false)
@@ -81,5 +95,85 @@ class SearchList : AppCompatActivity() {
 
     //------------------------------API 연결------------------------------------
 
+    private fun searchPosting(title:String){
+        val iRetrofit : IRetrofit? =
+            RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
+        val call = iRetrofit?.searchPosting(title = title) ?:return
 
+        call.enqueue(object : Callback<List<Post>> {
+            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
+                Log.d("retrofit", "커뮤니티 글 검색 - 응답 성공 / t : ${response.raw()}")
+                val adapter=MyAdapter(response.body()!!)
+                recyclerView=binding.recyclerView
+                recyclerView.layoutManager= LinearLayoutManager(this@SearchList)
+                recyclerView.adapter=adapter
+            }
+            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
+                Log.d("retrofit", "커뮤니티 글 검색 - 응답 실패 / t: $t")
+            }
+        })
+    }
+    private fun viewGroupPosting(postingId:Long?){
+        val iRetrofit : IRetrofit? =
+            RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
+        val term:Long= postingId ?:0
+        val call = iRetrofit?.viewGroupPosting(postingId = term) ?:return
+
+        //enqueue 하는 순간 네트워킹
+        call.enqueue(object : retrofit2.Callback<GroupPost>{
+            //응답성공
+            override fun onResponse(call: Call<GroupPost>, response: Response<GroupPost>) {
+                Log.d("retrofit", "그룹 커뮤니티 세부 글 - 응답 성공 / t : ${response.raw()}")
+
+                val postDetail= Intent(this@SearchList, PostDetail_Group::class.java)
+                postDetail.putExtra("nickname", response.body()!!.nickname)
+                postDetail.putExtra("title", response.body()!!.title)
+                postDetail.putExtra("content", response.body()!!.content)
+                postDetail.putExtra("comments", response.body()!!.comments)
+                postDetail.putExtra("capacity", response.body()!!.capacity)
+                postDetail.putExtra("lastModifiedDate", response.body()!!.lastModifiedDate)
+                postDetail.putExtra("closingCheck", response.body()!!.closingCheck)
+                postDetail.putExtra("recruitingList", response.body()!!.recruitingList)
+                postDetail.putExtra("memberId", response.body()!!.memberId)
+                postDetail.putExtra("postingId", postingId)
+                startActivity(postDetail)
+            }
+            //응답실패
+            override fun onFailure(call: Call<GroupPost>, t: Throwable) {
+                Log.d("retrofit", "그룹 커뮤니티 세부 글 - 응답 실패 / t: $t")
+            }
+
+        })
+    }
+    private fun viewMainPosting(postingId:Long?){
+        val iRetrofit : IRetrofit? =
+            RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
+        val term:Long= postingId ?:0
+        val call = iRetrofit?.viewMainPosting(postingId = term) ?:return
+
+        //enqueue 하는 순간 네트워킹
+        call.enqueue(object : retrofit2.Callback<Post>{
+            //응답성공
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                Log.d("retrofit", "메인 커뮤니티 세부 글 - 응답 성공 / t : ${response.raw()}")
+                Log.d("retrofit", response.body().toString())
+
+                val postDetail= Intent(this@SearchList, PostDetail_Main::class.java)
+                //postDetail.putExtra("nickname", response.body()!!.nickname)
+                postDetail.putExtra("title", response.body()?.title)
+                postDetail.putExtra("content", response.body()?.content)
+                postDetail.putExtra("comments", response.body()?.comments)
+                postDetail.putExtra("capacity", response.body()?.capacity)
+                postDetail.putExtra("createdDate", response.body()?.createdDate)
+                postDetail.putExtra("lastModifiedDate", response.body()?.lastModifiedDate)
+                postDetail.putExtra("memberId", response.body()?.memberId)
+                postDetail.putExtra("postingId", postingId)
+                startActivity(postDetail)
+            }
+            //응답실패
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+                Log.d("retrofit", "메인 커뮤니티 세부 글 - 응답 실패 / t: $t")
+            }
+        })
+    }
 }

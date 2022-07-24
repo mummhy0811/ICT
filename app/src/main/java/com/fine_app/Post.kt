@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Post(
-    val PostingID:Long,
+    val postingId:Long,
+    val memberId: Long,
     val nickname: String,
     val title:String,
     val content: String,
@@ -19,7 +20,7 @@ data class Post(
 ):Serializable
 
 data class GroupPost(
-    val PostingId:Long,
+    val postingId:Long,
     val memberId: Long,
     val nickname: String,
     val title:String,
@@ -37,8 +38,7 @@ data class GroupPost(
 
 data class Recruit(
     val id:Long,
-    val memberId: Long,
-    val nickname: String,
+    val member:Member,
     val accept_check:Boolean
 ):Serializable
 
@@ -51,7 +51,8 @@ data class Comment(
 
 data class Member (
     val id: Long,
-    val nickname: Long,
+    val nickname: String,
+    val intro:String,
     val password:String,
     val email:String,
     val userIntroduction:String,
@@ -78,8 +79,8 @@ data class GroupPosting(
 
 data class BookMark(
     val memberId:Long,
-    val PostingId:Long,
-    val BookmarkId:Long
+    val postingId:Long,
+    val bookmarkId:Long
 )
 
 data class Join(

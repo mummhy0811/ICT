@@ -67,7 +67,7 @@ class CommunityGroupFragment : Fragment() {
                 image.visibility=View.VISIBLE
             }
             itemView.setOnClickListener{
-                viewGroupPosting(this.post.PostingId)
+                viewGroupPosting(this.post.postingId)
             }
         }
 
@@ -146,7 +146,7 @@ class CommunityGroupFragment : Fragment() {
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val term:Long= postingId ?:0
-        val call = iRetrofit?.viewGroupPosting(PostingID = term) ?:return
+        val call = iRetrofit?.viewGroupPosting(postingId = term) ?:return
 
         //enqueue 하는 순간 네트워킹
         call.enqueue(object : retrofit2.Callback<GroupPost>{
@@ -155,7 +155,7 @@ class CommunityGroupFragment : Fragment() {
                 Log.d("retrofit", "그룹 커뮤니티 세부 글 - 응답 성공 / t : ${response.raw()}")
 
                 val postDetail= Intent(activity, PostDetail_Group::class.java)
-                postDetail.putExtra("nickname", response.body()!!.nickname)
+                //postDetail.putExtra("nickname", response.body()!!.nickname)
                 postDetail.putExtra("title", response.body()!!.title)
                 postDetail.putExtra("content", response.body()!!.content)
                 postDetail.putExtra("comments", response.body()!!.comments)
@@ -163,6 +163,7 @@ class CommunityGroupFragment : Fragment() {
                 postDetail.putExtra("lastModifiedDate", response.body()!!.lastModifiedDate)
                 postDetail.putExtra("closingCheck", response.body()!!.closingCheck)
                 postDetail.putExtra("recruitingList", response.body()!!.recruitingList)
+                postDetail.putExtra("memberId", response.body()!!.memberId)
                 postDetail.putExtra("postingId", postingId)
                 startActivity(postDetail)
             }
