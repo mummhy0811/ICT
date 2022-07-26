@@ -1,15 +1,13 @@
 package com.fine_app.ui.community
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.*
-import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -29,15 +27,22 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
     private lateinit var binding: CommunityGroupPostBinding
     private val postingID=intent.getLongExtra("postingId", 1)
     private val writerID:Long=intent.getLongExtra("memberId", 1)
-    private val myID:Long=0 //todo 내 id 가져오기
+    private val myID:Long=1 //todo 내 id 가져오기
     private val comments= intent.getSerializableExtra("comments") as ArrayList<Comment>
     val adapter=MyAdapter(comments)
     private var mark=false
-    var bookMarkId:Long=0
+    var bookMarkId:Long=0 //todo 북마크 여부 임시
+    private var join=false //todo 참가하기 여부 임시
+    var recruitingId:Long=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window: Window = window
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        }
+        //window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         binding = CommunityGroupPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -85,9 +90,21 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
         }else{
             joinButton.visibility= VISIBLE
             joinButton.setOnClickListener {
-                val dialog = ConfirmDialog(this, "참여하시겠습니까?", 0, 0)
-                dialog.isCancelable = false
-                dialog.show(this.supportFragmentManager, "ConfirmDialog")
+                if (join){//참여하기 취소
+                    val dialog = ConfirmDialog(this, "참여하시겠습니까?", 4, 0)
+                    dialog.isCancelable = false
+                    dialog.show(this.supportFragmentManager, "ConfirmDialog")
+                    deleteBookMark(bookMarkId)
+                    joinButton.text="신청하기"
+                    join=false
+
+                } else{//참여하기 신청
+                    val dialog = ConfirmDialog(this, "참여하시겠습니까?", 0, 0)
+                    dialog.isCancelable = false
+                    dialog.show(this.supportFragmentManager, "ConfirmDialog")
+                    joinButton.text="신청 취소"
+                    join=true
+                }
             }
         }
 
@@ -156,7 +173,6 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
             })
             val newComment=NewComment(myID, postingID, text)
             addComment(newComment)
-            adapter.notifyDataSetChanged()
         }
 
     }
@@ -224,8 +240,11 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
 
 
     override fun onYesButtonClick(num: Int, theme:Int) {
-        if(num==0) joinGroup(postingID,myID)
-        else if(num==1)deletePosting(postingID)
+        when (num) {
+            0 -> joinGroup(postingID,myID)
+            1 -> deletePosting(postingID)
+            4 -> cancelJoinGroup(recruitingId)
+        }
         finish()
     }
 
@@ -258,10 +277,28 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
             //응답성공
             override fun onResponse(call: Call<Join>, response: Response<Join>) {
                 Log.d("retrofit", "참여하기 - 응답 성공 / t : ${response.raw()}")
+                recruitingId=response.body()!!.id
             }
             //응답실패
             override fun onFailure(call: Call<Join>, t: Throwable) {
                 Log.d("retrofit", "참여하기 - 응답 실패 / t: $t")
+            }
+        })
+    }
+    private fun cancelJoinGroup(recruitingId: Long?){
+        val iRetrofit : IRetrofit? =
+            RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
+        val term:Long= recruitingId ?:0
+        val call = iRetrofit?.cancelJoinGroup(recruitingId=term) ?:return
+
+        call.enqueue(object : Callback<Long>{
+            //응답성공
+            override fun onResponse(call: Call<Long>, response: Response<Long>) {
+                Log.d("retrofit", "참여하기 신청 취소 - 응답 성공 / t : ${response.raw()}")
+            }
+            //응답실패
+            override fun onFailure(call: Call<Long>, t: Throwable) {
+                Log.d("retrofit", "참여하기 신청 취소 - 응답 실패 / t: $t")
             }
         })
     }
@@ -308,6 +345,7 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
             //응답성공
             override fun onResponse(call: Call<NewComment>, response: Response<NewComment>) {
                 Log.d("retrofit", "댓글 추가 - 응답 성공 / t : ${response.raw()}")
+                adapter.notifyDataSetChanged()
             }
             //응답실패
             override fun onFailure(call: Call<NewComment>, t: Throwable) {
@@ -346,21 +384,6 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
             //응답실패
             override fun onFailure(call: Call<Long>, t: Throwable) {
                 Log.d("retrofit", "댓글 삭제 - 응답 실패 / t: $t")
-            }
-        })
-    }
-    private fun editClosing(postingId:Long?){
-        val iRetrofit : IRetrofit? =
-            RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
-        val term:Long= postingId ?:0
-        val call = iRetrofit?.editClosing(postingId = term) ?:return
-
-        call.enqueue(object : Callback<Post> {
-            override fun onResponse(call: Call<Post>, response: Response<Post>) {
-                Log.d("retrofit", "글 마감 변경 - 응답 성공 / t : ${response.raw()}")
-            }
-            override fun onFailure(call: Call<Post>, t: Throwable) {
-                Log.d("retrofit", "글 마감 변경 - 응답 실패 / t: $t")
             }
         })
     }

@@ -1,18 +1,20 @@
 package com.fine_app.ui.community
 
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.RadioGroup
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.fine_app.GroupPosting
 import com.fine_app.Post
 import com.fine_app.Posting
-import com.fine_app.databinding.CommunityGroupPostBinding
+import com.fine_app.R
+import com.fine_app.databinding.CommunityPostingBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
@@ -21,25 +23,16 @@ import retrofit2.Response
 
 
 class Posting : AppCompatActivity(), ConfirmDialogInterface {
-    //private lateinit var binding: CommunityPostingBinding
-    private lateinit var binding: CommunityGroupPostBinding
+    private lateinit var binding: CommunityPostingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val window: Window = window
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        }
-        //window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        //binding = CommunityPostingBinding.inflate(layoutInflater)
-        binding = CommunityGroupPostBinding.inflate(layoutInflater)
+        binding = CommunityPostingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*
         lateinit var title:String
         lateinit var content:String
-        val myID=123123123123 //todo 내 아이디 불러오기
+        val myID:Long=1 //todo 내 아이디 불러오기
         var capacity=2
         val spinner: Spinner = binding.spinner
         val items = arrayOf("인원 선택", 2, 3, 4, 5, 6)
@@ -102,11 +95,7 @@ class Posting : AppCompatActivity(), ConfirmDialogInterface {
             }
             finish()
         }
-
-         */
-
     }
-
 
     override fun onYesButtonClick(num: Int, theme:Int) {
         finish()

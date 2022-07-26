@@ -1,15 +1,13 @@
 package com.fine_app.ui.community
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.View.*
-import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -32,7 +30,7 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
     private lateinit var binding: CommunityMainPostBinding
     private val postingId=intent.getLongExtra("postingId", 1)
     private val writerID:Long=intent.getLongExtra("memberId", 1)
-    private val myID:Long=0 //todo 내 id 가져오기
+    private val myID:Long=1 //todo 내 id 가져오기
     private val comments= intent.getSerializableExtra("comments") as ArrayList<Comment>
     val adapter=MyAdapter(comments)
     private var mark=false
@@ -40,7 +38,12 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window: Window = window
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        }
+        //window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         binding = CommunityMainPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

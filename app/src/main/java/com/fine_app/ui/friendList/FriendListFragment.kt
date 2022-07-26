@@ -25,7 +25,7 @@ class FriendListFragment : Fragment() {
     private var _binding: FragmentFriendlistBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    val myId:Long=1 // TODO: 내 아이디 불러오기
+    private val myId:Long=1 // TODO: 내 아이디 불러오기
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFriendlistBinding.inflate(inflater, container, false)

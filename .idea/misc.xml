@@ -31,6 +31,8 @@
         <entry key="..\:/Users/user/Desktop/FINE-Frontend/app/src/main/res/layout/list_item_mypage_post.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/edittext_posting.xml" value="0.259" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/ic.xml" value="0.259" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.259" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/ic_group.xml" value="0.259" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/ic_setting.xml" value="0.259" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/ic_sprout.xml" value="0.259" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/keyword_border.xml" value="0.259" />
@@ -62,7 +64,7 @@
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_comment.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_friendlist.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_membertlist.xml" value="0.4" />
-        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_postlist_group.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_postlist_group.xml" value="0.536" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_postlist_main.xml" value="0.2" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_search.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_waitlist.xml" value="0.4" />

@@ -71,7 +71,7 @@ class WaitingList : AppCompatActivity() {
             //image.setImageResource(this.crew.capacity)
             //level.setImageResource(this.crew.capacity)
             button.setOnClickListener{
-                if(crew.accept_check) //todo 참가 수락 취소 api 연결
+                if(crew.accept_check) cancelAcceptJoinGroup(postingID, recruitingList[position].id)
                 else acceptJoinGroup(postingID, recruitingList[position].id)
             }
             image.setOnClickListener{
@@ -140,5 +140,19 @@ class WaitingList : AppCompatActivity() {
             }
         })
     }
+    private fun cancelAcceptJoinGroup(postingId:Long?, recruitingId:Long){
+        val iRetrofit : IRetrofit? =
+            RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
+        val term:Long= postingId ?:0
+        val call = iRetrofit?.cancelAcceptJoinGroup(postingId = term, recruitingId=recruitingId, true) ?:return
 
+        call.enqueue(object : Callback<Join> {
+            override fun onResponse(call: Call<Join>, response: Response<Join>) {
+                Log.d("retrofit", "참여 수락 취소 - 응답 성공 / t : ${response.raw()}")
+            }
+            override fun onFailure(call: Call<Join>, t: Throwable) {
+                Log.d("retrofit", "참여 수락 취소 - 응답 실패 / t: $t")
+            }
+        })
+    }
 }

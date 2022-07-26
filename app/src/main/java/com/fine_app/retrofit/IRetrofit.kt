@@ -1,7 +1,6 @@
 package com.fine_app.retrofit
 
 import com.fine_app.*
-import com.fine_app.ui.MyPage.Profile
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -43,12 +42,12 @@ interface IRetrofit {
     fun joinGroup(@Path("postingId") postingId:Long, @Path("memberId") memberId:Long, accept_check:Boolean) :Call<Join>
 
     @DELETE("post/{recruitingId}/delete") //참여하기 취소
-    fun cancelJoinGroup(@Path("recruitingId") recruitingId:Long)
+    fun cancelJoinGroup(@Path("recruitingId") recruitingId:Long):Call<Long>
 
     @POST("{postingId}/{recruitingId}/accept") //참가 수락
     fun acceptJoinGroup(@Path("postingId") postingId:Long, @Path("recruitingId") recruitingId:Long, accept_check:Boolean) :Call<Join>
 
-    @DELETE("/{postingId}/{recruitingId}/accept") //참여하기 수락 취소 todo 참여하기 수락 취소 api 문서 보고 수정
+    @DELETE("/{postingId}/{recruitingId}/accept") //참여하기 수락 취소
     fun cancelAcceptJoinGroup(@Path("postingId") postingId:Long, @Path("recruitingId") recruitingId:Long, accept_check:Boolean):Call<Join>
 
     @PUT("/post/{postingId}/text") //글 마감여부 변경
