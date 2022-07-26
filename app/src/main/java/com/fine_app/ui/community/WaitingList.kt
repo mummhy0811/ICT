@@ -61,12 +61,13 @@ class WaitingList : AppCompatActivity() {
         private lateinit var crew: Recruit
         private val image: ImageView =itemView.findViewById(R.id.writer_image)
         private val name: TextView =itemView.findViewById(R.id.writer_name)
-        private val level: ImageView =itemView.findViewById(R.id.levelImage)
+        private val level: ImageView =itemView.findViewById(R.id.levelImage) //todo 참여자 레벨
         private val button: Button =itemView.findViewById(R.id.acceptButton)
 
         fun bind(crew: Recruit, position: Int) {
             this.crew=crew
             name.text=this.crew.member.nickname
+            image.setImageResource(R.drawable.ic_sprout)
             //image.setImageResource(this.crew.capacity)
             //level.setImageResource(this.crew.capacity)
             button.setOnClickListener{
@@ -124,7 +125,7 @@ class WaitingList : AppCompatActivity() {
             }
         })
     }
-    private fun editClosing(postingId:Long?,){
+    private fun editClosing(postingId:Long?){
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val term:Long= postingId ?:0

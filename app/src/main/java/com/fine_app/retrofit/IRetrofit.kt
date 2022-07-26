@@ -48,8 +48,8 @@ interface IRetrofit {
     @POST("{postingId}/{recruitingId}/accept") //참가 수락
     fun acceptJoinGroup(@Path("postingId") postingId:Long, @Path("recruitingId") recruitingId:Long, accept_check:Boolean) :Call<Join>
 
-    @DELETE("{postingId}/{recruitingId}/accept") //참여하기 수락 취소 todo 참여하기 수락 취소 api 문서 보고 수정
-    fun cancelAcceptJoinGroup(@Path("recruitingId") recruitingId:Long)
+    @DELETE("/{postingId}/{recruitingId}/accept") //참여하기 수락 취소 todo 참여하기 수락 취소 api 문서 보고 수정
+    fun cancelAcceptJoinGroup(@Path("postingId") postingId:Long, @Path("recruitingId") recruitingId:Long, accept_check:Boolean):Call<Join>
 
     @PUT("/post/{postingId}/text") //글 마감여부 변경
     fun editClosing(@Path("postingId") postingId:Long):Call<Post>
@@ -60,22 +60,23 @@ interface IRetrofit {
 
     //댓글
     @POST("/comment")
-    fun addComment(@Body commentInfo: Comment):Call<Comment>
+    fun addComment(@Body commentInfo: NewComment):Call<NewComment>
 
-    @PUT("/comment/{commentId}") //내용 수정
-    fun editComment(@Path("commentId") commentId:Long, @Body commentInfo: Comment):Call<Comment>
+    @PUT("/comment/{commentId}")
+    fun editComment(@Path("commentId") commentId:Long, @Body commentInfo: NewComment):Call<Comment>
 
-    @DELETE("/comment/{commentId}") //삭제
+    @DELETE("/comment/{commentId}")
     fun deleteComment(@Path("commentId") commentId:Long):Call<Long>
 
     //북마크
     @POST("/bookmark")
-    fun addBookMark(@Body BookMark: BookMark):Call<BookMark>//생성
+    fun addBookMark(@Body BookMark: BookMark):Call<BookMark>
 
-    @DELETE("/bookmark/{bookmarkId}") //삭제
-    fun deleteBookMark(@Path("bookMarkId") bookMarkId:Long):Call<Long>//삭제
+    @DELETE("/bookmark/{bookmarkId}")
+    fun deleteBookMark(@Path("bookMarkId") bookMarkId:Long):Call<Long>
 
-    @GET("profile/{memberId}") // 유저 프로필 조회
-    fun getUserProfile(@Path("memberId") memberId: Long): Call<Profile>
+    //친구
+    @GET("/followlist/{memberId}")
+    fun viewFriendList(@Path("memberId") memberId:Long):Call<List<Friend>>
 
 }

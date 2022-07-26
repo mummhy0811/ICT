@@ -1,17 +1,18 @@
 package com.fine_app.ui.community
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.fine_app.*
+import androidx.core.content.ContextCompat
+import com.fine_app.GroupPosting
+import com.fine_app.Post
 import com.fine_app.Posting
-import com.fine_app.databinding.CommunityMainPostBinding
-import com.fine_app.databinding.CommunityPostingBinding
+import com.fine_app.databinding.CommunityGroupPostBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
@@ -19,32 +20,39 @@ import retrofit2.Call
 import retrofit2.Response
 
 
-class Posting : AppCompatActivity(), CustomDialog.CustomDialogInterface {
+class Posting : AppCompatActivity(), ConfirmDialogInterface {
     //private lateinit var binding: CommunityPostingBinding
-    private lateinit var binding: CommunityMainPostBinding
+    private lateinit var binding: CommunityGroupPostBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window: Window = window
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        }
+        //window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         //binding = CommunityPostingBinding.inflate(layoutInflater)
-        binding = CommunityMainPostBinding.inflate(layoutInflater)
+        binding = CommunityGroupPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
-/*
+
+        /*
         lateinit var title:String
         lateinit var content:String
-        val memberID=123123123123 //todo 멤버아이디 불러오기
+        val myID=123123123123 //todo 내 아이디 불러오기
         var capacity=2
         val spinner: Spinner = binding.spinner
         val items = arrayOf("인원 선택", 2, 3, 4, 5, 6)
-        var groupcheck=false
+        var groupCheck=false
         val groupCheckList: RadioGroup =binding.groupCheck
         groupCheckList.setOnCheckedChangeListener{_, checkedId ->
             when(checkedId){
                 R.id.radioButton_normal -> {
-                    groupcheck=false
+                    groupCheck=false
                     spinner.visibility=View.INVISIBLE
                 }
                 R.id.radioButton_group -> {
-                    groupcheck=false
+                    groupCheck=false
                     spinner.visibility= View.VISIBLE
                 }
             }
@@ -79,35 +87,30 @@ class Posting : AppCompatActivity(), CustomDialog.CustomDialogInterface {
             }
         })
         binding.backButton.setOnClickListener{ //뒤로가기
-            val customDialog = CustomDialog("글쓰기를 취소하시겠습니까?", this, this)
-            customDialog.show(supportFragmentManager, "CustomDialog")
-            //finish()
+            val dialog = ConfirmDialog(this, "글쓰기를 취소하시겠습니까?", 0, 0)
+            dialog.isCancelable = false
+            dialog.show(this.supportFragmentManager, "ConfirmDialog")
         }
         binding.finButton.setOnClickListener{ //등록
-            if(groupcheck){
-                val newPost= GroupPosting(title, content, groupcheck, capacity)
-                addGroupPost(memberID, newPost)
+            if(groupCheck){
+                val newPost= GroupPosting(title, content, groupCheck, capacity)
+                addGroupPost(myID, newPost)
 
             }else{
-                val newPost=Posting(title, content, groupcheck)
-                addMainPost(memberID, newPost)
+                val newPost=Posting(title, content, groupCheck)
+                addMainPost(myID, newPost)
             }
             finish()
         }
 
- */
+         */
 
     }
 
-    override fun onYesButtonClicked() {
-        TODO("Not yet implemented")
+
+    override fun onYesButtonClick(num: Int, theme:Int) {
+        finish()
     }
-
-    override fun onCancelButtonClicked() {
-        Toast.makeText(this, "취소", Toast.LENGTH_SHORT).show()
-    }
-
-
 
     private fun addMainPost(memberId:Long?, postInfo:Posting){
         val iRetrofit : IRetrofit? =
@@ -116,15 +119,11 @@ class Posting : AppCompatActivity(), CustomDialog.CustomDialogInterface {
         val call = iRetrofit?.addMainPost(memberId = term, postInfo) ?:return
 
         call.enqueue(object : retrofit2.Callback<Post>{
-            //응답성공
+
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.d("retrofit", "글쓰기 - 응답 성공 / t : ${response.raw()}")
-                Log.d("retrofit", "id:  ${memberId}")
-                Log.d("retrofit", "title:  ${postInfo.title}")
-                Log.d("retrofit", "content:  ${postInfo.content}")
-                Log.d("retrofit", "groupCheck:  ${postInfo.groupCheck}")
             }
-            //응답실패
+
             override fun onFailure(call: Call<Post>, t: Throwable) {
                 Log.d("retrofit", "글쓰기 - 응답 실패 / t: $t")
             }
@@ -137,13 +136,13 @@ class Posting : AppCompatActivity(), CustomDialog.CustomDialogInterface {
         val call = iRetrofit?.addGroupPost(memberId = term, postInfo) ?:return
 
         call.enqueue(object : retrofit2.Callback<GroupPosting>{
-            //응답성공
+
             override fun onResponse(call: Call<GroupPosting>, response: Response<GroupPosting>) {
-                Log.d("retrofit", "글쓰기 - 응답 성공 / t : ${response.raw()}")
+                Log.d("retrofit", "그룹 글쓰기 - 응답 성공 / t : ${response.raw()}")
             }
-            //응답실패
+
             override fun onFailure(call: Call<GroupPosting>, t: Throwable) {
-                Log.d("retrofit", "글쓰기 - 응답 실패 / t: $t")
+                Log.d("retrofit", "그룹 글쓰기 - 응답 실패 / t: $t")
             }
         })
     }

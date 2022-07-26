@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
 import com.fine_app.databinding.FragmentCommunityBinding
 import com.google.android.material.tabs.TabLayout
@@ -35,10 +34,10 @@ class CommunityFragment : Fragment() {
 
         // ###### TabLayout 과 ViewPager2를 연결
         // 1. 탭메뉴의 이름을 리스트로 생성해둔다.
-        val tabTitles = listOf<String>("일반", "그룹")
+        val tabTitles = listOf("일반", "그룹")
 
         // 2. TabLayout 과 ViewPager2를 연결하고, TabItem 의 메뉴명을 설정한다.
-        TabLayoutMediator(tabLayout, viewPager, {tab, position -> tab.text = tabTitles[position]}).attach()
+        TabLayoutMediator(tabLayout, viewPager) { tab, position -> tab.text = tabTitles[position] }.attach()
 
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             //검색 버튼 눌렀을 때 호출
@@ -54,9 +53,9 @@ class CommunityFragment : Fragment() {
                 return true
             }
         })
-        val writing_button=binding.floatingActionButton
-        writing_button.setOnClickListener{
-            var writingPage= Intent(getActivity(), Posting::class.java)
+        val writingButton=binding.floatingActionButton
+        writingButton.setOnClickListener{
+            val writingPage= Intent(activity, Posting::class.java)
             startActivity(writingPage)
         }
         return root

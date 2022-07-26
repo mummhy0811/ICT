@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,7 +58,7 @@ class SearchList : AppCompatActivity() {
         private val commentNum: TextView =itemView.findViewById(R.id.searchComment)
 
 
-        fun bind(post: Post, position: Int) {
+        fun bind(post: Post) {
             this.post=post
             title.text=this.post.title
             content.text=this.post.content
@@ -89,7 +87,7 @@ class SearchList : AppCompatActivity() {
         }
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val post=list[position]
-            holder.bind(post, position)
+            holder.bind(post)
         }
     }
 
@@ -120,7 +118,7 @@ class SearchList : AppCompatActivity() {
         val call = iRetrofit?.viewGroupPosting(postingId = term) ?:return
 
         //enqueue 하는 순간 네트워킹
-        call.enqueue(object : retrofit2.Callback<GroupPost>{
+        call.enqueue(object : Callback<GroupPost>{
             //응답성공
             override fun onResponse(call: Call<GroupPost>, response: Response<GroupPost>) {
                 Log.d("retrofit", "그룹 커뮤니티 세부 글 - 응답 성공 / t : ${response.raw()}")
@@ -152,7 +150,7 @@ class SearchList : AppCompatActivity() {
         val call = iRetrofit?.viewMainPosting(postingId = term) ?:return
 
         //enqueue 하는 순간 네트워킹
-        call.enqueue(object : retrofit2.Callback<Post>{
+        call.enqueue(object : Callback<Post>{
             //응답성공
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.d("retrofit", "메인 커뮤니티 세부 글 - 응답 성공 / t : ${response.raw()}")
