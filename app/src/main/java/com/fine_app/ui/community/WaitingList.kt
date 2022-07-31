@@ -19,20 +19,24 @@ import com.fine_app.retrofit.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 class WaitingList : AppCompatActivity() {
     private lateinit var binding: CommunityWaitinglistBinding
     private lateinit var memberRecyclerView: RecyclerView
     private lateinit var waitingRecyclerView: RecyclerView
-    private val postingID=intent.getLongExtra("postingID", 0)
-    private val recruitingList=intent.getSerializableExtra("recruitingList") as ArrayList<Recruit>
-    private val closingCheck=intent.getBooleanExtra("closingCheck", false)
+    private var postingID by Delegates.notNull<Long>()
+    private lateinit var recruitingList:ArrayList<Recruit>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = CommunityWaitinglistBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        postingID=intent.getLongExtra("postingID", 0)
+        recruitingList=intent.getSerializableExtra("recruitingList") as ArrayList<Recruit>
+
+        val closingCheck=intent.getBooleanExtra("closingCheck", false)
         val adapter1=MyAdapter(recruitingList)
         waitingRecyclerView=binding.recyclerView
         waitingRecyclerView.layoutManager= LinearLayoutManager(this)

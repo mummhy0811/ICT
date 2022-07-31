@@ -9,16 +9,17 @@ import com.fine_app.ui.MyPage.ServiceCreator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 class ShowUserProfileActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityShowUserProfileBinding
-    private var userId: Long = intent.getLongExtra("memberId", 1)
+    private var userId by Delegates.notNull<Long>()
     lateinit var userData: Profile
     private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        userId= intent.getLongExtra("memberId", 1)
         getUserProfile()
 
         _binding = ActivityShowUserProfileBinding.inflate(layoutInflater)

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,17 +53,28 @@ class SearchList : AppCompatActivity() {
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         private lateinit var post: Post
-        private val title: TextView =itemView.findViewById(R.id.searchTitle)
-        private val content: TextView =itemView.findViewById(R.id.searchContent)
-        private val groupCheck: TextView =itemView.findViewById(R.id.searchGroup)
-        private val commentNum: TextView =itemView.findViewById(R.id.searchComment)
-
+        private val title: TextView = itemView.findViewById(R.id.searchTitle)!!
+        //private val content: TextView =itemView.findViewById(R.id.searchContent)!!
+        private val groupCheck: TextView =itemView.findViewById(R.id.searchGroup)!!
+        private val commentNum: TextView =itemView.findViewById(R.id.searchComment)!!
+        private val writtenTime: TextView =itemView.findViewById(R.id.searchDate)!!
+        private val commentImage: ImageView =itemView.findViewById(R.id.imageView13 )!!
 
         fun bind(post: Post) {
             this.post=post
+            //content.text=this.post.content
             title.text=this.post.title
-            content.text=this.post.content
-            commentNum.text=this.post.commentCount
+            val token=this.post.createdDate.split("-", "T", ":")
+            writtenTime.text=token[1]+"/"+token[2]+" "+token[3]+":"+token[4]
+            if(this.post.closingCheck) {
+                commentImage.visibility=View.INVISIBLE
+                commentNum.text="마감"
+            }
+            else {
+                commentImage.visibility=View.VISIBLE
+                commentNum.text=this.post.commentCount
+            }
+
             if (this.post.groupCheck){ //그룹포스트
                 groupCheck.text="그룹 커뮤니티"
             }else{
@@ -82,7 +94,7 @@ class SearchList : AppCompatActivity() {
     inner class MyAdapter(val list:List<Post>): RecyclerView.Adapter<MyViewHolder>() {
         override fun getItemCount(): Int = list.size
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            val view=layoutInflater.inflate(R.layout.item_waitlist, parent, false)
+            val view=layoutInflater.inflate(R.layout.item_search, parent, false)
             return MyViewHolder(view)
         }
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -100,7 +112,7 @@ class SearchList : AppCompatActivity() {
 
         call.enqueue(object : Callback<List<Post>> {
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-                Log.d("retrofit", "커뮤니티 글 검색 - 응답 성공 / t : ${response.raw()}")
+                Log.d("retrofit", "커뮤니티 글 검색 - 응답 성공 / t : ${response.body().toString()}")
                 val adapter=MyAdapter(response.body()!!)
                 recyclerView=binding.recyclerView
                 recyclerView.layoutManager= LinearLayoutManager(this@SearchList)
