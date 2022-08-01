@@ -22,7 +22,7 @@ import retrofit2.Response
 class SearchList : AppCompatActivity() {
     private lateinit var binding: CommunitySearchBinding
     private lateinit var recyclerView: RecyclerView
-
+    private val myID:Long=1 //todo 내 id 가져오기
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,10 +83,10 @@ class SearchList : AppCompatActivity() {
 
             itemView.setOnClickListener{
                 if (this.post.groupCheck){ //그룹포스트
-                    viewGroupPosting(this.post.postingId)
+                    viewGroupPosting(this.post.postingId, myID)
 
                 }else{
-                    viewMainPosting(this.post.postingId)
+                    viewMainPosting(this.post.postingId, myID)
                 }
             }
         }
@@ -123,11 +123,11 @@ class SearchList : AppCompatActivity() {
             }
         })
     }
-    private fun viewGroupPosting(postingId:Long?){
+    private fun viewGroupPosting(postingId:Long?, memberId:Long){
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val term:Long= postingId ?:0
-        val call = iRetrofit?.viewPosting(postingId = term) ?:return
+        val call = iRetrofit?.viewPosting(postingId = term, memberId = memberId) ?:return
 
         //enqueue 하는 순간 네트워킹
         call.enqueue(object : Callback<Post>{
@@ -155,11 +155,11 @@ class SearchList : AppCompatActivity() {
 
         })
     }
-    private fun viewMainPosting(postingId:Long?){
+    private fun viewMainPosting(postingId:Long?, memberId:Long){
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val term:Long= postingId ?:0
-        val call = iRetrofit?.viewPosting(postingId = term) ?:return
+        val call = iRetrofit?.viewPosting(postingId = term, memberId=memberId) ?:return
 
         //enqueue 하는 순간 네트워킹
         call.enqueue(object : Callback<Post>{

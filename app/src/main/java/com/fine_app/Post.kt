@@ -2,12 +2,13 @@ package com.fine_app
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import java.lang.reflect.Member
 
 data class Post(
     val postingId:Long,
-    @SerializedName(value = "writer_id")
+    @SerializedName(value = "writerId")
     val memberId: Long,
-    @SerializedName(value = "writer_nickname")
+    @SerializedName(value = "writerNickname")
     val nickname: String,
     val title:String,
     val content: String,
@@ -15,28 +16,40 @@ data class Post(
     val createdDate:String,
     val lastModifiedDate:String,
     val closingCheck:Boolean,
-    @SerializedName(value = "group_check")
     val groupCheck:Boolean,
+    val checkRecruitingId:Long,
+    val checkBookmarkId:Long,
     @SerializedName(value = "maxMember")
     val capacity:Int,
     @SerializedName(value = "headCount")
     val participants:Int,
     val comments: ArrayList<Comment>,
     val recruitingList:ArrayList<Recruit>,
-    val bookmarks:ArrayList<BookMark>
 ):Serializable
 
 data class Recruit(
-    val id:Long,
-    val member:Member,
-    val accept_check:Boolean
+    val recruitingId:Long,
+    val member: RecruitMember,
+    val acceptCheck:Boolean
+):Serializable
+
+data class RecruitMember(
+    val memberId:Long,
+    val nickname:String,
+    val level:String
 ):Serializable
 
 data class Comment(
     val member:CommentMember,
     val text:String, //댓글 내용
     val commentId:Long
-    ):Serializable
+):Serializable
+
+data class CommentMember(
+    val memberId: Long,
+    val nickname:String,
+    val level:String
+):Serializable
 
 data class Member (
     val id: Long,
@@ -52,12 +65,14 @@ data class Member (
     val level:String,
     val report:Long
 ):Serializable
+
 data class Friend(
     val friendId: Long,
     val nickname: String,
     val intro: String,
     val level : String,
 ):Serializable
+
 data class Posting(
     val title:String,
     val content:String,
@@ -71,11 +86,6 @@ data class NewComment(
     val text:String
 ):Serializable
 
-data class CommentMember(
-    val memberId: Long,
-    val nickname:String,
-    val level:String
-):Serializable
 
 data class BookMark(
     val memberId:Long,
@@ -89,10 +99,10 @@ data class Join(
 
 data class MarkId(
     val bookmark_id:Long
-)
+):Serializable
 data class AcceptCheck(
-    val accept_check:String
-)
+    val acceptCheck:Boolean
+):Serializable
 data class EditPost(
     val text:String
-)
+):Serializable

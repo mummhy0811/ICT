@@ -67,9 +67,8 @@ class CommunityGroupFragment : Fragment() {
                 image.visibility=View.VISIBLE
             }
             itemView.setOnClickListener{
-                val postDetail= Intent(activity, PostDetail_Main::class.java)
+                val postDetail= Intent(activity, PostDetail_Group::class.java)
                 postDetail.putExtra("postingId", this.post.postingId)
-                postDetail.putExtra("memberId", this.post.memberId)
                 startActivity(postDetail)
             }
         }

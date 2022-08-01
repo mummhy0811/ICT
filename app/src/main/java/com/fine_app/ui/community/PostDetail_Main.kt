@@ -37,9 +37,7 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
     private var lastModifiedDate by Delegates.notNull<String>()
     private var comments by Delegates.notNull<ArrayList<Comment>>()
     //val postWriterImage=intent.getIntExtra("profileID", 0) //todo 사용자 이미지 표시
-
-    private var mark=false
-    var bookMarkId:Long=0
+    private var bookMarkId:Long=0//todo 북마크 아이디
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +50,7 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
         setContentView(binding.root)
         postingId=intent.getLongExtra("postingId", 1)
         writerID=intent.getLongExtra("memberId", 1)
-        viewPosting(postingId)
+        viewPosting(postingId, myID)
 
     }
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -123,7 +121,7 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
 //------------------------------------API 연결-------------------------------------------
 
     private fun attach(){
-        val token=createdDate!!.split("-", "T", ":")
+        val token= createdDate.split("-", "T", ":")
         val writtenTime=token[1]+"/"+token[2]+" "+token[3]+":"+token[4]
         val modifiedWrittenTime= "$writtenTime (수정됨)"
 
@@ -153,19 +151,15 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
             editButton.visibility= INVISIBLE
             deleteButton.visibility= INVISIBLE
             markButton.setOnClickListener{
-                if (mark){//북마크 취소
-                    val dialog = ConfirmDialog(this, "북마크를 취소하였습니다.", 1,1)
-                    dialog.show(this.supportFragmentManager, "ConfirmDialog")
-                    deleteBookMark(bookMarkId)
-                    markButton.text="북마크"
-                    mark=false
-                } else{//북마크 추가
+                if (bookMarkId ==0.toLong()){//북마크 추가
                     val dialog = ConfirmDialog(this, "북마크를 추가했습니다.", 2,1)
                     dialog.show(this.supportFragmentManager, "ConfirmDialog")
                     val newBookMark=BookMark(myID, postingId)
                     addBookMark(newBookMark)
-                    markButton.text="저장됨"
-                    mark=true
+                } else{//북마크 취소
+                    val dialog = ConfirmDialog(this, "북마크를 취소하였습니다.", 1,1)
+                    dialog.show(this.supportFragmentManager, "ConfirmDialog")
+                    deleteBookMark(bookMarkId)
                 }
             }
         }else{
@@ -205,10 +199,10 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
             binding.putComment.setText("")
         }
     }
-    private fun viewPosting(postingId:Long){
+    private fun viewPosting(postingId:Long, memberId:Long){
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
-        val call = iRetrofit?.viewPosting(postingId = postingId ) ?:return
+        val call = iRetrofit?.viewPosting(postingId = postingId , memberId=memberId) ?:return
 
         call.enqueue(object : retrofit2.Callback<Post>{
 
@@ -221,9 +215,12 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
                  writerID=response.body()!!.memberId
                  createdDate=response.body()!!.createdDate
                  lastModifiedDate=response.body()!!.lastModifiedDate
+                bookMarkId=response.body()!!.checkBookmarkId
                 // postWriterImage=intent.getIntExtra("profileID", 0) //todo 사용자 이미지 표시
                 comments=response.body()!!.comments
                 adapter=MyAdapter(comments)
+                if(bookMarkId == 0.toLong()) binding.markButton.text="북마크"
+                else binding.markButton.text="저장됨"
                 attach()
             }
             //응답실패
@@ -313,6 +310,7 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
             override fun onResponse(call: Call<MarkId>, response: Response<MarkId>) {
                 Log.d("retrofit", "북마크 추가 - 응답 성공 / t : ${response.body().toString()}")
                 bookMarkId=response.body()!!.bookmark_id
+                onResume()
             }
             //응답실패
             override fun onFailure(call: Call<MarkId>, t: Throwable) {
@@ -330,6 +328,7 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
             //응답성공
             override fun onResponse(call: Call<Long>, response: Response<Long>) {
                 Log.d("retrofit", "북마크 삭제 - 응답 성공 / t : ${response.raw()}")
+                onResume()
             }
             //응답실패
             override fun onFailure(call: Call<Long>, t: Throwable) {
@@ -339,6 +338,6 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
     }
     override fun onResume() {
         super.onResume()
-        viewPosting(intent.getLongExtra("postingId", 1))
+        viewPosting(intent.getLongExtra("postingId", 1), myID)
     }
 }

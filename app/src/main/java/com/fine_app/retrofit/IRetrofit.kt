@@ -9,8 +9,8 @@ interface IRetrofit {
     @POST("/post/{memberId}") //글 작성
     fun addPost(@Path("memberId")  memberId:Long, @Body postInfo:Posting):Call<Post>
 
-    @GET("/post/{postingId}") //글 세부 조회
-    fun viewPosting(@Path("postingId") postingId:Long):Call<Post>
+    @GET("/post/{postingId}/{memberId}") //글 세부 조회
+    fun viewPosting(@Path("postingId") postingId:Long, @Path("memberId") memberId:Long):Call<Post>
 
     @DELETE("/post/{postingId}") //글 삭제
     fun deletePosting(@Path("postingId") postingId:Long):Call<Long>
@@ -33,16 +33,14 @@ interface IRetrofit {
     fun viewGroupCommunityClose() : Call<List<Post>>
 
     @POST("/post/{postingId}/{memberId}/join") //참여하기
-    fun joinGroup(@Path("postingId") postingId:Long, @Path("memberId") memberId:Long, @Body accept_check:AcceptCheck) :Call<Join>
+    fun joinGroup(@Path("postingId") postingId:Long, @Path("memberId") memberId:Long, @Body acceptCheck:AcceptCheck) :Call<Join>
 
     @DELETE("/post/{recruitingId}/delete") //참여하기 취소
     fun cancelJoinGroup(@Path("recruitingId") recruitingId:Long):Call<Long>
 
-    @POST("/{postingId}/{recruitingId}/accept") //참가 수락
-    fun acceptJoinGroup(@Path("postingId") postingId:Long, @Path("recruitingId") recruitingId:Long, @Body accept_check:Boolean) :Call<Join>
+    @POST("/{postingId}/{recruitingId}/accept") //참가 수락 및 수락 취소
+    fun manageJoinGroup(@Path("postingId") postingId:Long, @Path("recruitingId") recruitingId:Long, @Body acceptCheck:AcceptCheck) :Call<Join>
 
-    @DELETE("/{postingId}/{recruitingId}/accept") //참여하기 수락 취소
-    fun cancelAcceptJoinGroup(@Path("postingId") postingId:Long, @Path("recruitingId") recruitingId:Long, @Body accept_check:Boolean):Call<Join>
 
     @PUT("/post/close/{postingId}") //글 마감여부 변경
     fun editClosing(@Path("postingId") postingId:Long):Call<Post>
