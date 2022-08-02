@@ -100,9 +100,11 @@ data class Join(
 data class MarkId(
     val bookmark_id:Long
 ):Serializable
+
 data class AcceptCheck(
     val acceptCheck:Boolean
 ):Serializable
+
 data class EditPost(
     val text:String
 ):Serializable

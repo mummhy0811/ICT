@@ -25,6 +25,8 @@ class WaitingList : AppCompatActivity() {
     private lateinit var binding: CommunityWaitinglistBinding
     private lateinit var memberRecyclerView: RecyclerView
     private lateinit var waitingRecyclerView: RecyclerView
+    var waitingList=ArrayList<Recruit>()
+    var memberList=ArrayList<Recruit>()
     private var postingID by Delegates.notNull<Long>()
     private val myID:Long=1 //todo 내 id 가져오기
     private lateinit var recruitingList:ArrayList<Recruit>
@@ -49,16 +51,15 @@ class WaitingList : AppCompatActivity() {
         private val level: ImageView =itemView.findViewById(R.id.levelImage) //todo 참여자 레벨
         private val button: Button =itemView.findViewById(R.id.acceptButton)
 
-        fun bind(crew: Recruit, position: Int) {
+        fun bind(crew: Recruit) {
             this.crew=crew
             name.text=this.crew.member.nickname
             //image.setImageResource(R.drawable.ic_sprout)
             //image.setImageResource(this.crew.capacity)
             //level.setImageResource(this.crew.capacity)
             button.setOnClickListener{
-                if(this.crew.acceptCheck) manageJoinGroup(postingID, recruitingList[position].recruitingId, AcceptCheck(false))
-                else manageJoinGroup(postingID, recruitingList[position].recruitingId, AcceptCheck(true))
-                onResume()
+                if(this.crew.acceptCheck) manageJoinGroup(postingID, this.crew.recruitingId, AcceptCheck(false))
+                else manageJoinGroup(postingID, this.crew.recruitingId, AcceptCheck(true))
             }
             image.setOnClickListener{
                 val userProfile = Intent(this@WaitingList, ShowUserProfileActivity::class.java)
@@ -75,9 +76,7 @@ class WaitingList : AppCompatActivity() {
         }
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val crew=list[position]
-            if(!crew.acceptCheck){
-                holder.bind(crew, position)
-            }
+            holder.bind(crew)
         }
     }
     inner class MemberAdapter(val list:List<Recruit> ): RecyclerView.Adapter<MyViewHolder>() {
@@ -88,9 +87,7 @@ class WaitingList : AppCompatActivity() {
         }
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
             val crew=list[position]
-            if(crew.acceptCheck){
-                holder.bind(crew, position)
-            }
+            holder.bind(crew)
         }
     }
 
@@ -105,22 +102,27 @@ class WaitingList : AppCompatActivity() {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.d("retrofit", "그룹 커뮤니티 대기 리스트 - 응답 성공 / t : ${response.raw()}")
                 recruitingList=response.body()!!.recruitingList
-                val adapter1=MemberAdapter(recruitingList)
+                memberList.clear()
+                waitingList.clear()
+                for(i in 0 until recruitingList.size){
+                    if(recruitingList[i].acceptCheck) memberList.add(recruitingList[i])
+                    else waitingList.add(recruitingList[i])
+                }
+
                 memberRecyclerView=binding.memberRecyclerView
                 memberRecyclerView.layoutManager= LinearLayoutManager(this@WaitingList)
-                memberRecyclerView.adapter=adapter1
+                memberRecyclerView.adapter=MemberAdapter(memberList)
 
-                val adapter2=WaitingAdapter(recruitingList)
                 waitingRecyclerView=binding.waitingRecyclerView
                 waitingRecyclerView.layoutManager= LinearLayoutManager(this@WaitingList)
-                waitingRecyclerView.adapter=adapter2
+                waitingRecyclerView.adapter=WaitingAdapter(waitingList)
 
-                if(response.body()!!.closingCheck == true){
+                if(response.body()!!.closingCheck){
                     binding.closingButton.text="마감 취소"
                     waitingRecyclerView.visibility=View.INVISIBLE
                     binding.textView5.visibility=View.INVISIBLE
                     binding.view15.visibility=View.INVISIBLE
-                }else if(response.body()!!.closingCheck == false) {
+                }else{
                     binding.closingButton.text="글 마감"
                     waitingRecyclerView.visibility=View.VISIBLE
                     binding.textView5.visibility=View.VISIBLE
@@ -146,7 +148,7 @@ class WaitingList : AppCompatActivity() {
         call.enqueue(object : Callback<Join> {
             override fun onResponse(call: Call<Join>, response: Response<Join>) {
                 Log.d("retrofit", "참여 수락 변경 - 응답 성공 / t : ${response.raw()}")
-                onResume()
+                showAgain()
             }
             override fun onFailure(call: Call<Join>, t: Throwable) {
                 Log.d("retrofit", "참여 수락 변경 - 응답 실패 / t: $t")
@@ -163,8 +165,7 @@ class WaitingList : AppCompatActivity() {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.d("retrofit", "글 마감 변경 - 응답 성공 / t : ${response.raw()}")
                 Log.d("retrofit", "글 마감 변경 - 응답 성공 / t : ${response.body()!!.closingCheck}")
-                onResume()
-
+                showAgain()
             }
             override fun onFailure(call: Call<Post>, t: Throwable) {
                 Log.d("retrofit", "글 마감 변경 - 응답 실패 / t: $t")
@@ -172,8 +173,7 @@ class WaitingList : AppCompatActivity() {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
+    fun showAgain(){
         viewPosting(intent.getLongExtra("postingID", 0), myID)
     }
 

@@ -29,7 +29,7 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
     private lateinit var adapter: MyAdapter
     private var postingID by Delegates.notNull<Long>()
     private var writerID by Delegates.notNull<Long>()
-    private val myID:Long=1 //todo 내 id 가져오기
+    private val myID:Long=1//todo 내 id 가져오기
     private var postTitle by Delegates.notNull<String>()
     private var postContent by Delegates.notNull<String>()
     private var postWriter by Delegates.notNull<String>()
@@ -225,16 +225,16 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
         recyclerView.layoutManager=LinearLayoutManager(this)
         recyclerView.adapter=adapter
 
-        val commentButton=binding.commentButton
-        commentButton.setOnClickListener{
-            var text=""
-            binding.putComment.addTextChangedListener(object: TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun afterTextChanged(p0: Editable?) {
-                    text=binding.putComment.text.toString()
-                }
-            })
+        var text=""
+        binding.putComment.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun afterTextChanged(p0: Editable?) {
+                text=binding.putComment.text.toString()
+            }
+        })
+
+        binding.commentButton.setOnClickListener{
             val newComment=NewComment(myID, postingID, text)
             addComment(newComment)
             binding.putComment.setText("")

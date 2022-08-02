@@ -2,6 +2,7 @@ package com.fine_app.ui.community
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.fine_app.databinding.ActivityShowUserProfileBinding
 import com.fine_app.ui.MyPage.Profile
