@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    tools:context=".ui.home.MatchingSchoolFragment">
+
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="50sp"
+        android:layout_height="15sp"
+        android:layout_gravity="right"
+        android:layout_margin="5sp"
+        android:background="@drawable/recommend_background"
+        android:backgroundTint="#8099DB42" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_matching" />
+</LinearLayout>

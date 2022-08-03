@@ -108,3 +108,8 @@ data class AcceptCheck(
 data class EditPost(
     val text:String
 ):Serializable
+
+data class Test(
+    val name:String,
+    val content:String
+):Serializable

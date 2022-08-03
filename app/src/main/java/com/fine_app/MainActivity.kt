@@ -7,8 +7,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.fine_app.databinding.ActivityMainBinding
+import com.fine_app.ui.home.FriendRecommendFragment
+import com.fine_app.ui.home.HomeFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), HomeFragment.ButtonListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -32,4 +34,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onButtonClick() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment_activity_main, FriendRecommendFragment())
+            .addToBackStack(null)
+            .commit()
+    }
 }
