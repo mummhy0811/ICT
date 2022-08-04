@@ -1,9 +1,7 @@
 package com.fine_app.ui.home
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +9,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.*
 import com.fine_app.databinding.FragmentHomeBinding
 import com.fine_app.ui.community.PostDetail_Main
-import kotlin.ClassCastException
 
 class HomeFragment : Fragment() {
 
@@ -24,10 +22,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
 
-    var activeCallback:ButtonListener?=null
-    interface ButtonListener{
-        fun onButtonClick()
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -46,38 +40,13 @@ class HomeFragment : Fragment() {
         recyclerView.layoutManager=LinearLayoutManager(context ,LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter=MyAdapter(testList)
 
-        val items = arrayOf("3개 일치", "2개 일치", "1개 일치")
-        binding.spinner2.adapter= ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
-        binding.spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long
-            ) {
-                when (position) {
-                    // todo 1개 일치 api
-                    // todo 2개 일치 api
-                    // todo 3개 일치 api
-                }
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
 
         binding.showButton.setOnClickListener {
-            //todo 친구 추천 프래그먼트 연결
-            Log.d("home", "친구 매칭 프래그먼트 이동")
-            activeCallback?.onButtonClick()
+            findNavController().navigate(R.id.action_navigation_home_to_navigation_home_recommend)
         }
         return root
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try{
-            if(context is ButtonListener){
-                activeCallback=context
-            }
-        } catch (e:ClassCastException){
-            throw ClassCastException(context.toString()+" must implement button Listener.")
-        }
-    }
     inner class MyViewHolder(view:View): RecyclerView.ViewHolder(view){
 
         private lateinit var post: Post

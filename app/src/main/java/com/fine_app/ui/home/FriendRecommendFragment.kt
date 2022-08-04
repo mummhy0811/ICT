@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.fine_app.*
@@ -22,6 +23,9 @@ class FriendRecommendFragment : Fragment() {
         _binding = FragmentHomeFriendRecommendBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_recommend_to_navigation_home)
+        }
         val viewPager: ViewPager2 = binding.pager
         val tabLayout: TabLayout = binding.tabLayout
         val viewpagerFragmentAdapter = ViewPagerAdapter2(this)

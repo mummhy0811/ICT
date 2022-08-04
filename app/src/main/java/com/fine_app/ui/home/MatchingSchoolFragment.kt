@@ -52,6 +52,7 @@ class MatchingSchoolFragment : Fragment() {
         recyclerView=binding.recyclerView
         recyclerView.layoutManager= GridLayoutManager(context, 2)
         recyclerView.adapter=MyAdapter(testList)
+
         return root
     }
     inner class MyViewHolder(view:View): RecyclerView.ViewHolder(view){

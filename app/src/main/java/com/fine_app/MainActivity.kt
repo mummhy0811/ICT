@@ -10,7 +10,7 @@ import com.fine_app.databinding.ActivityMainBinding
 import com.fine_app.ui.home.FriendRecommendFragment
 import com.fine_app.ui.home.HomeFragment
 
-class MainActivity : AppCompatActivity(), HomeFragment.ButtonListener {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivityMainBinding
 
@@ -34,10 +34,4 @@ class MainActivity : AppCompatActivity(), HomeFragment.ButtonListener {
 
     }
 
-    override fun onButtonClick() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment_activity_main, FriendRecommendFragment())
-            .addToBackStack(null)
-            .commit()
-    }
 }

@@ -60,7 +60,7 @@ class FriendListFragment : Fragment() {
     }
     inner class MyAdapter(private val list:List<Friend>): RecyclerView.Adapter<MyViewHolder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            val view=layoutInflater.inflate(R.layout.item_postlist_group, parent, false)
+            val view=layoutInflater.inflate(R.layout.item_friendlist, parent, false)
             return MyViewHolder(view)
         }
         override fun getItemCount(): Int = list.size
