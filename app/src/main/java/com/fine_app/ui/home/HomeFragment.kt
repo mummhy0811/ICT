@@ -31,10 +31,13 @@ class HomeFragment : Fragment() {
             "123456", " ", false, false, 123, 5, 5,3, ArrayList<Comment>(), ArrayList<Recruit>())
         val post2=Post(1, 1, "user2", "testTitle2", "가나다라 \n마바사\n아자차카타\n파하", "0",
             "123456", " ", false, false, 123, 5, 5,3, ArrayList<Comment>(), ArrayList<Recruit>())
+        val post3=Post(1, 1, "user3", "testTitle3", "helllooo \n마바사\n아자차카타\n파하", "0",
+            "123456", " ", false, false, 123, 5, 5,3, ArrayList<Comment>(), ArrayList<Recruit>())
         val testList=ArrayList<Post>()
 
         testList.add(post1)
         testList.add(post2)
+        testList.add(post3)
 
         recyclerView=binding.recyclerView
         recyclerView.layoutManager=LinearLayoutManager(context ,LinearLayoutManager.HORIZONTAL, false)
