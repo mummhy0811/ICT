@@ -113,3 +113,12 @@ data class Test(
     val name:String,
     val content:String
 ):Serializable
+
+data class ChatMessage(
+    val type:String,
+    val roomId:Long,
+    val memberId:Long,
+    val nickName:String,
+    val message:String,
+    val unreadCount:Int
+)
