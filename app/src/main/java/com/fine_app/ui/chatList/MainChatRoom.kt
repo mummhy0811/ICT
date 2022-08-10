@@ -52,9 +52,9 @@ class MainChatRoom: AppCompatActivity() {
         //방에 입장
         connectStomp()
         enter()
-        recyclerView=binding.recyclerView
-        recyclerView.layoutManager= LinearLayoutManager(this)
-        recyclerView.adapter=MyAdapter() //todo 채팅 내역 리스트...받아오기...
+        //recyclerView=binding.recyclerView
+        //recyclerView.layoutManager= LinearLayoutManager(this)
+        //recyclerView.adapter=MyAdapter() //todo 채팅 내역 리스트...받아오기...
 
         binding.backButton.setOnClickListener{
             exit()

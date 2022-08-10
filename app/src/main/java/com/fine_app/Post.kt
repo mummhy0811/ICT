@@ -121,4 +121,18 @@ data class ChatMessage(
     val nickName:String,
     val message:String,
     val unreadCount:Int
-)
+) :Serializable
+
+data class CreateChatRoom(
+    val roomId:Long,
+    val soloCheck:Boolean,
+    val updateTime:String,
+    val latestMessage:String
+):Serializable
+
+data class ChatRoom(
+    val roomId:Long,
+    val roomName:String,
+    val lastMessageTime:String,
+    val latestMessage:String
+):Serializable

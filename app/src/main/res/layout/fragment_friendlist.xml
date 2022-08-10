@@ -61,7 +61,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/findFriendButton"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_gravity="right"
