@@ -65,7 +65,7 @@
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/community_search.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/community_waitinglist.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/dialog_layout.xml" value="0.4" />
-        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_chatlist.xml" value="0.2" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_chatlist.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_community.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_community_group.xml" value="0.2" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_community_main.xml" value="0.25364583333333335" />
@@ -82,6 +82,7 @@
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/friend_search.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_chatlist.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_chatting_date.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_chatting_friendlist.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_chatting_group.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_chatting_member.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_chatting_my.xml" value="0.264" />

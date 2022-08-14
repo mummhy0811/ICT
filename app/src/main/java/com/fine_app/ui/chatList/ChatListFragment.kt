@@ -45,7 +45,7 @@ class ChatListFragment : Fragment() {
     private var compositeDisposable: CompositeDisposable? = null
 
     private val roomId = 2L
-    private val myId = 3L
+    private val myId = 2L
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

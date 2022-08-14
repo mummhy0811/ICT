@@ -38,7 +38,7 @@ class MainChatRoom: AppCompatActivity() {
     private var compositeDisposable: CompositeDisposable? = null
 
     private val roomId = 2L //todo 클릭이벤트로 룸아이디 받아오기
-    private val memberId = 3L
+    private val memberId = 2L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
