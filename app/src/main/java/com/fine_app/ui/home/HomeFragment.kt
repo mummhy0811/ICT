@@ -1,19 +1,18 @@
 package com.fine_app.ui.home
 
+import androidx.fragment.app.Fragment
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.*
+import com.fine_app.Post
 import com.fine_app.databinding.FragmentHomeBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
@@ -22,6 +21,7 @@ import com.fine_app.ui.community.PostDetail_Main
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class HomeFragment : Fragment() {
 

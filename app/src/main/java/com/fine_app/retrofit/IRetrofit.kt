@@ -1,7 +1,6 @@
 package com.fine_app.retrofit
 
 import com.fine_app.*
-import com.fine_app.ui.MyPage.Profile
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -67,11 +66,11 @@ interface IRetrofit {
     @DELETE("/bookmark/{bookmarkId}")
     fun deleteBookMark(@Path("bookmarkId") bookmarkId:Long):Call<Long>
 
-    //친구
-    @GET("/mypage/{memberId}")
-    fun getMyProfile(@Path("memberId") memberId: Long): Call<Member>
+//    //친구
+//    @GET("/mypage/{memberId}")
+//    fun getMyProfile(@Path("memberId") memberId: Long): Call<Member>
 
-    @GET("/followlist/{memberId}")
+    @GET("/followList/{memberId}")
     fun viewFriendList(@Path("memberId") memberId:Long):Call<List<Friend>>
 
     @GET("/followlist/search/{memberId}")
@@ -88,6 +87,26 @@ interface IRetrofit {
     @POST("/room/group")
     fun addGroupChatRoom(@Query("myId") myId:Long, @Query("roomName") roomName:String, @Query("receiverList") receiverList:List<Long> ):Call<CreateChatRoom>
 
-    @GET("/rooms/my/{memberId}")
-    fun viewChatList(@Path("memberId") memberId:Long) :Call<List<ChatRoom>>
+    @GET("/rooms/chat/{memberId}") //하단바 클릭시 보이는 리스트
+    fun viewChatList(@Path("memberId") memberId:Long) :Call<List<ChatRoomList>>
+
+    @PUT("/room/name")
+    fun changeRoomName(@Query("memberId") memberId:Long, @Query("roomName") roomName:String, @Query("roomId") roomId:Long) :Call<ChangeChatRoom>
+
+    @GET("/room/member/{roomId}") //채팅방 내 멤버 조회
+    fun viewMemberList(@Path("roomId") roomId:Long) :Call<ChatMember>
+
+    @GET("/rooms/login/{memberId}") //로그인시 불러오는 리스트
+    fun loadChatList(@Path("memberId") memberId:Long) :Call<List<Long>>
+
+    @GET("/rooms") //채팅 내역 조회
+    fun viewChatting(@Path("memberId") memberId:Long) :Call<Chat>
+
+    // 팔로우
+    @POST("/follow/{friendId}/{memberId}")
+    fun followFriend(@Path("friendId") friendId:Long, @Path("memberId") memberId:Long): Call<List<Friend>>
+
+    // 팔로우 취소
+    @DELETE("/follow/delete/{friendId}/{memberId}")
+    fun cancelFollow(@Path("friendId") friendId:Long, @Path("memberId") memberId:Long): Call<Long>
 }

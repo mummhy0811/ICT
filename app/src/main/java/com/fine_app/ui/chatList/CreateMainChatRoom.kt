@@ -33,8 +33,10 @@ class CreateMainChatRoom: AppCompatActivity(), ConfirmDialogInterface {
         super.onCreate(savedInstanceState)
         binding = ChattingCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         viewFriendList(myId)
+        binding.backButton2.setOnClickListener {
+            finish()
+        }
     }
     inner class MyViewHolder2(view:View): RecyclerView.ViewHolder(view){
         private lateinit var friend: Friend
@@ -77,7 +79,7 @@ class CreateMainChatRoom: AppCompatActivity(), ConfirmDialogInterface {
 
             override fun onResponse(call: Call<List<Friend>>, response: Response<List<Friend>>) {
                 Log.d("retrofit", "친구 목록 - 응답 성공 / t : ${response.raw()}")
-                recyclerView2=binding.recyclerView
+                recyclerView2=binding.recyclerView2
                 recyclerView2.layoutManager= LinearLayoutManager(this@CreateMainChatRoom)
                 recyclerView2.adapter=MyAdapter2(response.body()!!)
             }
@@ -96,7 +98,7 @@ class CreateMainChatRoom: AppCompatActivity(), ConfirmDialogInterface {
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val call = iRetrofit?.addPersonalChatRoom(myId = myId, receiverId=receiverId) ?:return
-
+        Log.d("retrofit", "개인 채팅방 생성 - 나: ${myId}, 상대: ${receiverId}")
         call.enqueue(object : Callback<CreateChatRoom> {
             override fun onResponse(call: Call<CreateChatRoom>, response: Response<CreateChatRoom>) {
                 Log.d("retrofit", "개인 채팅방 생성 - 응답 성공 / t : ${response.raw()}")

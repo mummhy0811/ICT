@@ -13,13 +13,28 @@
         android:theme="@style/Theme.Fine_app"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.myPage.AuthPhoneActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.myPage.ManageGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.myPage.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.myPage.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.myPage.ManageBookmarkActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.community.ShowUserProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MyPage.UpdateProfileActivity"
+            android:name=".ui.myPage.UpdateProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MyPage.ManagePostActivity"
+            android:name=".ui.myPage.ManagePostActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -37,25 +52,24 @@
         </activity>
         <activity
             android:name=".ui.community.PostDetail_Main"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.community.PostDetail_Group"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.community.Posting"
-            android:windowSoftInputMode="adjustResize"
             android:exported="true"
-            />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.community.PostingEdit"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.community.WaitingList"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.community.SearchList"
             android:windowSoftInputMode="adjustResize"
@@ -74,6 +88,10 @@
             android:exported="true" />
         <activity
             android:name=".ui.chatList.MainChatRoom"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true" />
+        <activity
+            android:name=".ui.chatList.CreateRoomName"
             android:windowSoftInputMode="adjustResize"
             android:exported="true" />
     </application>
