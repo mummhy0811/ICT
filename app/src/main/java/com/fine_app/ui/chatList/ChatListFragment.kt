@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -63,11 +64,11 @@ class ChatListFragment : Fragment() {
             startActivity(create)
         }
 
-
         mStompClient = Stomp.over(
-            Stomp.ConnectionProvider.OKHTTP, "ws://" + "10.0.2.2" + ":" + "8080" + "/ws-fine" + "/websocket"
+            Stomp.ConnectionProvider.OKHTTP, "ws://" + "54.209.17.39" + ":" + "8080" + "/ws-fine" + "/websocket"
         )
         resetSubscriptions()
+
         return root
     }
 
@@ -84,6 +85,7 @@ class ChatListFragment : Fragment() {
         }
         isFabOpen = !isFabOpen
     }
+
 
     fun disconnectStomp(view: View?) {
         mStompClient!!.disconnect()
@@ -111,14 +113,16 @@ class ChatListFragment : Fragment() {
                 }
             }
         compositeDisposable!!.add(dispLifecycle)
+
         val dispTopic =
             mStompClient!!.topic("/sub/message/$roomId") //note 어떤 방에 연결하겠다 -> topic 이 순간부터 수신 가능
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ topicMessage: StompMessage ->
+
                     Log.d(
                         TAG,
-                        "Received $topicMessage"
+                        "Received ${topicMessage.payload}" //note
                     )
                 }
                 ) { throwable: Throwable? ->
@@ -138,6 +142,8 @@ class ChatListFragment : Fragment() {
 
 
 
+
+
     private fun toast(text: String?) {
         Log.i(TAG, text!!)
         Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
@@ -150,10 +156,12 @@ class ChatListFragment : Fragment() {
         compositeDisposable = CompositeDisposable()
     }
 
+
+
     inner class MyViewHolder(view:View): RecyclerView.ViewHolder(view){
 
         private lateinit var chatroom: ChatRoomList
-        private val roomImage: TextView =itemView.findViewById(R.id.friend_image)
+        private val roomImage: ImageView =itemView.findViewById(R.id.friend_image)
         private val roomName: TextView =itemView.findViewById(R.id.friend_name)
         private val sendTime: TextView =itemView.findViewById(R.id.sendTime)
         private val recentChat: TextView =itemView.findViewById(R.id.recentChat)
@@ -162,9 +170,12 @@ class ChatListFragment : Fragment() {
             this.chatroom=chatroom
             val token= this.chatroom.lastMessageTime.split("-", "T", ":")
             roomName.text=this.chatroom.roomName
-            sendTime.text=token[1]+"/"+token[2]+" "+token[3]+":"+token[4] //todo 오늘 날짜 받아와서 수정하기
+            sendTime.text=token[1]+"/"+token[2]+" "+token[3]+":"+token[4]
             recentChat.text=this.chatroom.latestMessage
             itemView.setOnClickListener{
+                val create= Intent(activity, ChatRoom::class.java)
+                create.putExtra("roomId" , this.chatroom.roomId)
+                startActivity(create)
             }
         }
     }

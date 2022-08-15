@@ -77,6 +77,7 @@ data class Friend(
     val nickname: String,
     val intro: String,
     val level : String,
+    val imageNum: Int
 ):Serializable
 
 data class Posting(
@@ -131,14 +132,18 @@ data class ChatRoomList(
     val roomId:Long,
     val roomName:String,
     val lastMessageTime:String,
-    val latestMessage:String
+    val latestMessage:String,
+    val imageNum:Int,
+    val soloCheck:Boolean,
+    val memberCount:Int,
+    val unreadMessageCount:Int
 ):Serializable
 
 data class ChangeChatRoom(
     val roomName:String,
     val member:Member,
     val recentOutTime:String,
-    val present_position: Boolean,
+    val presentPosition: Boolean,
     val chatMemberId: Long
 ):Serializable
 
@@ -163,3 +168,25 @@ data class ChatMessage(
     val message:String,
     val unreadCount:Int
 ) :Serializable
+
+data class PersonalChat(
+    val myId:Long,
+    val receiverId:Long
+):Serializable
+
+data class GroupChat(
+    val myId:Long,
+    val receiverList:List<Long>,
+    val roomName:String
+):Serializable
+
+data class ChangeRoomName(
+    val memberId:Long,
+    val roomId:Long,
+    val roomName: String
+):Serializable
+
+data class ChatRoom(
+    val roomId:Long,
+    val memberId: Long
+):Serializable

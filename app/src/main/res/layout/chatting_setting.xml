@@ -61,6 +61,7 @@
         android:textStyle="normal" />
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20sp">
@@ -134,8 +135,8 @@
         android:layout_margin="30sp"
         android:ems="10"
         android:gravity="center"
+        android:hint="채팅방 이름을 입력하세요"
         android:inputType="textPersonName"
-        android:text="채팅방 이름을 입력하세요"
         android:textSize="14sp"
         tools:ignore="TouchTargetSizeCheck" />
 

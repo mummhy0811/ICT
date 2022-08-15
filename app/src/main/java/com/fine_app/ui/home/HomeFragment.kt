@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
         private val recommendVacancy: TextView =itemView.findViewById(R.id.recommendVacancy)
         //private val recommendKeyWord3: TextView =itemView.findViewById(R.id.recommendKeyWord3)
         //private val recommendKeyWord2: TextView =itemView.findViewById(R.id.recommendKeyWord2)
-        //private val recommendKeyWord1: TextView =itemView.findViewById(R.id.recommendKeyWord1)
+        private val recommendKeyWord1: TextView =itemView.findViewById(R.id.recommendKeyWord1)
 
         fun bind(post: Post) {
             this.post=post
@@ -59,6 +59,9 @@ class HomeFragment : Fragment() {
             recommendContent.text=this.post.content
             recommendCapacity.text=this.post.capacity.toString()
             recommendVacancy.text=(this.post.capacity - this.post.participants).toString()
+            if(this.post.groupCheck) recommendKeyWord1.text="그룹"
+            else recommendKeyWord1.text="개인"
+
 
             itemView.setOnClickListener{
                 val postDetail= Intent(activity, PostDetail_Main::class.java)
