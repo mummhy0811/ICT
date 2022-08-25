@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.fine_app.databinding.FragmentHomeBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
+import com.fine_app.ui.community.PostDetail_Group
 import com.fine_app.ui.community.PostDetail_Main
 import retrofit2.Call
 import retrofit2.Callback
@@ -52,22 +54,35 @@ class HomeFragment : Fragment() {
         //private val recommendKeyWord3: TextView =itemView.findViewById(R.id.recommendKeyWord3)
         //private val recommendKeyWord2: TextView =itemView.findViewById(R.id.recommendKeyWord2)
         private val recommendKeyWord1: TextView =itemView.findViewById(R.id.recommendKeyWord1)
+        private val capacityBox:LinearLayout=itemView.findViewById(R.id.capacityBox)
 
         fun bind(post: Post) {
             this.post=post
             recommendTitle.text=this.post.title
             recommendContent.text=this.post.content
-            recommendCapacity.text=this.post.capacity.toString()
-            recommendVacancy.text=(this.post.capacity - this.post.participants).toString()
-            if(this.post.groupCheck) recommendKeyWord1.text="그룹"
-            else recommendKeyWord1.text="개인"
+            if(this.post.groupCheck) {
+                recommendKeyWord1.text="그룹"
+                recommendCapacity.text=this.post.capacity.toString()
+                recommendVacancy.text=(this.post.capacity - this.post.participants).toString()
+            }
+            else {
+                recommendKeyWord1.text="개인"
+                capacityBox.visibility=View.INVISIBLE
+            }
 
 
             itemView.setOnClickListener{
-                val postDetail= Intent(activity, PostDetail_Main::class.java)
-                postDetail.putExtra("postingId", this.post.postingId)
-                postDetail.putExtra("memberId", this.post.memberId)
-                startActivity(postDetail)
+                if(this.post.groupCheck){
+                    val postDetail= Intent(activity, PostDetail_Group::class.java)
+                    postDetail.putExtra("postingId", this.post.postingId)
+                    postDetail.putExtra("memberId", this.post.memberId)
+                    startActivity(postDetail)
+                }else{
+                    val postDetail= Intent(activity, PostDetail_Main::class.java)
+                    postDetail.putExtra("postingId", this.post.postingId)
+                    postDetail.putExtra("memberId", this.post.memberId)
+                    startActivity(postDetail)
+                }
             }
         }
     }

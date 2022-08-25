@@ -46,6 +46,7 @@
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/scrollbar_background.xml" value="0.2525" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/scrollbar_track.xml" value="0.207" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/searchview_bg.xml" value="0.259" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/selector_chatting_radio_button.xml" value="0.198" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/selector_menu_color.xml" value="0.259" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/selector_radio_button.xml" value="0.259" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/selector_radio_text.xml" value="0.2525" />
@@ -60,9 +61,10 @@
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/chatting_create_roomName.xml" value="0.2" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/chatting_group.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/chatting_main.xml" value="0.2" />
-        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/chatting_room.xml" value="0.1" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/chatting_room.xml" value="0.264" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/chatting_room_main.xml" value="0.2" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/chatting_room_name.xml" value="0.176" />
-        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/chatting_setting.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/chatting_setting.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/chatting_setting_.xml" value="0.18958333333333333" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/community_group_post.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/community_main_post.xml" value="0.2" />
@@ -76,7 +78,7 @@
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_community_group.xml" value="0.2" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_community_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_friend_recommend.xml" value="0.1" />
-        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_friendlist.xml" value="0.2" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_friendlist.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_home_friend_recommend.xml" value="0.2" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_match_random.xml" value="0.20208333333333334" />
@@ -85,7 +87,7 @@
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_matching_major.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_matching_school.xml" value="0.176" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/fragment_mypage.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/friend_search.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/friend_search.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_chatlist.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_chatting_date.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/layout/item_chatting_friendlist.xml" value="0.264" />
