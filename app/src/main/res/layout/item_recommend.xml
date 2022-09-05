@@ -8,6 +8,7 @@
     android:paddingBottom="20sp">
 
     <LinearLayout
+        android:id="@+id/matchingBox"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/recommend_background"

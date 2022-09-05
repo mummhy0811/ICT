@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.R
 import com.fine_app.Test
@@ -50,7 +51,7 @@ class MatchingSchoolFragment : Fragment() {
         }
 
         recyclerView=binding.recyclerView
-        recyclerView.layoutManager= GridLayoutManager(context, 2)
+        recyclerView.layoutManager= LinearLayoutManager(context)
         recyclerView.adapter=MyAdapter(testList)
 
         return root

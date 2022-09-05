@@ -1,12 +1,12 @@
 package com.fine_app.ui.chatList
 
 import android.content.Intent
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +22,7 @@ import com.fine_app.ui.community.ConfirmDialogInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
 
@@ -29,7 +30,8 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
     private lateinit var recyclerView2: RecyclerView
     private lateinit var recyclerView: RecyclerView
     private lateinit var roomName: String
-    private val myId:Long=2 // TODO: 내 아이디 불러오기
+    private var myId by Delegates.notNull<Long>()
+    lateinit var userInfo: SharedPreferences
     val selectionList=mutableListOf<Friend>()
     val receiverId=mutableListOf<Long>()
 
@@ -37,6 +39,8 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
         super.onCreate(savedInstanceState)
         binding = ChattingCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userInfo = getSharedPreferences("userInfo", MODE_PRIVATE)
+        myId = userInfo.getString("userInfo", "2")!!.toLong()
         viewFriendList(myId)
         binding.backButton2.setOnClickListener {
             finish()
@@ -90,7 +94,7 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
         private val friendProfileImage:ImageView=itemView.findViewById(R.id.friend_image)
         private val friendLevelImage:ImageView=itemView.findViewById(R.id.friend_level) //todo 레벨 이미지 정해야함
         private val friendName:TextView=itemView.findViewById(R.id.friend_name)
-        private val checkBox:CheckBox=itemView.findViewById(R.id.checkBox)
+        //private val checkBox:CheckBox=itemView.findViewById(R.id.checkBox)
 
         fun bind(friend: Friend){
             this.friend=friend
@@ -106,6 +110,7 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
                 else -> friendProfileImage.setImageResource(R.drawable.profile1)
             }
             itemView.setOnClickListener{
+                /*
                 if(checkBox.isChecked){
                     checkBox.isChecked=false
                     if(selectionList.contains(this.friend)) {
@@ -120,11 +125,23 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
                     }
                     checkBox.isChecked=true
                 }
+
+                 */
+                if(selectionList.contains(this.friend)) {
+                    selectionList.remove(friend)
+                    receiverId.remove(friend.friendId)
+                    itemView.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                }else{
+                    selectionList.add(friend)
+                    receiverId.add(friend.friendId)
+                    itemView.setBackgroundColor(Color.parseColor("#3EC4C4C4"))
+                }
                 recyclerView=binding.recyclerView
                 recyclerView.layoutManager= LinearLayoutManager(this@CreateGroupChatRoom, LinearLayoutManager.HORIZONTAL, false)
                 recyclerView.visibility=View.VISIBLE
                 recyclerView.adapter=MyAdapter(selectionList)
             }
+            /*
             checkBox.setOnCheckedChangeListener(object:CompoundButton.OnCheckedChangeListener{
                 override fun onCheckedChanged(p0: CompoundButton?, isChecked: Boolean) {
                     if(isChecked){
@@ -144,6 +161,8 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
                     recyclerView.adapter=MyAdapter(selectionList)
                 }
             })
+
+             */
 
         }
     }

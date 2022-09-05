@@ -1,10 +1,12 @@
 package com.fine_app.ui.chatList
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils.split
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
@@ -24,6 +26,7 @@ import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
 import com.fine_app.ui.community.ShowUserProfileActivity
+import com.fine_app.ui.myPage.LoginActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.JsonObject
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,48 +40,47 @@ import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
 import ua.naiksoftware.stomp.dto.LifecycleEvent
 import ua.naiksoftware.stomp.dto.StompMessage
+import java.lang.System.exit
 import kotlin.properties.Delegates
 
 class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedListener {
     private val TAG = "ChatListFragment"
 
     private lateinit var binding: ChattingRoomBinding
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerView2: RecyclerView
+    lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView2: RecyclerView //사이드바
     private var soloCheck=true
     private lateinit var navigationView: NavigationView
     lateinit var drawerLayout: DrawerLayout
-    private var roomId by Delegates.notNull<Long>()
-    private val memberId:Long = 2
-
-    private var mStompClient: StompClient? = null
+    var roomId by Delegates.notNull<Long>()
+    private var memberId by Delegates.notNull<Long>()
+    lateinit var userInfo: SharedPreferences
     private var compositeDisposable: CompositeDisposable? = null
+    val oldMessage = ArrayList<SendChat>()
+    //var mStompClient = LoginActivity().mStompClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ChattingRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userInfo = getSharedPreferences("userInfo", MODE_PRIVATE)
+        memberId = userInfo.getString("userInfo", "2")!!.toLong()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window: Window = window
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
         roomId=intent.getLongExtra("roomId", 0)
+
+
+       // enter()
         viewChatting()
-
-        mStompClient = Stomp.over(
-            Stomp.ConnectionProvider.OKHTTP, "ws://" + "54.209.17.39" + ":" + "8080" + "/ws-fine" + "/websocket"
-        )
-        //방에 입장
-        connectStomp()
-        enter()
-
         binding.backButton.setOnClickListener{
-            exit()
-            disconnectStomp()
+            Log.d("ddddd", "뒤로가기")
+            //exit()
+            //isconnectStomp()
             finish()
         }
-
 
         var text=""
         binding.putChat.addTextChangedListener(object: TextWatcher {
@@ -93,7 +95,7 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
             }
         })
         binding.sendButton.setOnClickListener{
-            sendText(text)
+            //sendText(text)
             binding.putChat.setText("")
         }
 
@@ -115,8 +117,8 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
             drawerLayout.closeDrawers()
             Toast.makeText(this,"back btn clicked",Toast.LENGTH_SHORT).show()
         }else {
-            exit()
-            disconnectStomp()
+            //exit()
+            //disconnectStomp()
         }
     }
 
@@ -143,7 +145,7 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
         }
         return false
     }
-
+/*
     inner class OtherViewHolder(view:View): RecyclerView.ViewHolder(view){
         private lateinit var chat: ChatMessage
         private val nickname: TextView =itemView.findViewById(R.id.sender_name)
@@ -217,6 +219,81 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
         }
     }
 
+
+ */
+
+    inner class OtherViewHolder(view:View): RecyclerView.ViewHolder(view){
+    private lateinit var chat: SendChat
+    private val nickname: TextView =itemView.findViewById(R.id.sender_name)
+    private val profileImage: ImageView =itemView.findViewById(R.id.imageView16)
+    private val unReadNumber: TextView =itemView.findViewById(R.id.unreadNumber)
+    private val sendTime: TextView =itemView.findViewById(R.id.sendTime)
+    private val chatText: TextView =itemView.findViewById(R.id.chatText)
+
+    fun bind(chat: SendChat) {
+        this.chat=chat
+        val token= this.chat.createdTime.split("-", "T", ":")
+        sendTime.text=token[1]+"/"+token[2]+" "+token[3]+":"+token[4]
+        if(this.chat.unreadCount!=0) unReadNumber.text=this.chat.unreadCount.toString()
+        chatText.text=this.chat.message
+        nickname.text=this.chat.nickname
+        when (this.chat.imageNum) {
+            0 -> profileImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
+            1 -> profileImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
+            2 -> profileImage.setImageResource(R.drawable.ic_noun_dooda_business_man_2019971)
+            3 -> profileImage.setImageResource(R.drawable.ic_noun_dooda_mustache_2019978)
+            4 -> profileImage.setImageResource(R.drawable.ic_noun_dooda_prince_2019982)
+            5 -> profileImage.setImageResource(R.drawable.ic_noun_dooda_listening_music_2019991)
+            6 -> profileImage.setImageResource(R.drawable.ic_noun_dooda_in_love_2019979)
+            else -> profileImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
+        }
+
+        profileImage.setOnClickListener{ //작성자 프로필 조회
+            val userProfile = Intent(this@ChatRoom, ShowUserProfileActivity::class.java)
+            userProfile.putExtra("memberId",this.chat.memberId)
+            startActivity(userProfile)
+        }
+    }
+}
+    inner class MyViewHolder(view:View): RecyclerView.ViewHolder(view){
+        private lateinit var chat: SendChat
+        private val unReadNumber: TextView =itemView.findViewById(R.id.unreadNumber)
+        private val sendTime: TextView =itemView.findViewById(R.id.sendTime)
+        private val chatText: TextView =itemView.findViewById(R.id.chatText)
+
+        fun bind(chat: SendChat) {
+            this.chat=chat
+            val token= this.chat.createdTime.split("-", "T", ":")
+            sendTime.text=token[1]+"/"+token[2]+" "+token[3]+":"+token[4]
+            if(this.chat.unreadCount!=0) unReadNumber.text=this.chat.unreadCount.toString()
+            chatText.text=this.chat.message
+        }
+    }
+    inner class MyAdapter(val list:ArrayList<SendChat>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        override fun getItemCount(): Int = list.size
+
+        override fun getItemViewType(position: Int): Int {
+            return if(list[position].memberId == memberId) 1
+            else 2
+        }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            return if(viewType==1)
+                MyViewHolder(layoutInflater.inflate(R.layout.item_chatting_my, parent, false))
+            else
+                OtherViewHolder(layoutInflater.inflate(R.layout.item_chatting_group, parent, false))
+        }
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            if(list[position].memberId == memberId) {
+                (holder as MyViewHolder).bind(list[position])
+                holder.setIsRecyclable(false)
+            }
+            else {
+                (holder as OtherViewHolder).bind(list[position])
+                holder.setIsRecyclable(false)
+            }
+        }
+    }
+
     inner class SideViewHolder(view:View): RecyclerView.ViewHolder(view){
         private lateinit var friend: ChangeChatRoom
         private val friendImage: ImageView =itemView.findViewById(R.id.friend_image)
@@ -233,16 +310,15 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
                 now.visibility=View.INVISIBLE
                 button.visibility=View.INVISIBLE
             }
-            val imageResource = this.friend.member.userImageNum
-            when (imageResource) {
-                0 -> friendImage.setImageResource(R.drawable.profile1)
-                1 -> friendImage.setImageResource(R.drawable.profile1)
-                2 -> friendImage.setImageResource(R.drawable.profile2)
-                3 -> friendImage.setImageResource(R.drawable.profile3)
-                4 -> friendImage.setImageResource(R.drawable.profile4)
-                5 -> friendImage.setImageResource(R.drawable.profile5)
-                6 -> friendImage.setImageResource(R.drawable.profile6)
-                else -> friendImage.setImageResource(R.drawable.profile1)
+            when (this.friend.member.userImageNum) {
+                0 -> friendImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
+                1 -> friendImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
+                2 -> friendImage.setImageResource(R.drawable.ic_noun_dooda_business_man_2019971)
+                3 -> friendImage.setImageResource(R.drawable.ic_noun_dooda_mustache_2019978)
+                4 -> friendImage.setImageResource(R.drawable.ic_noun_dooda_prince_2019982)
+                5 -> friendImage.setImageResource(R.drawable.ic_noun_dooda_listening_music_2019991)
+                6 -> friendImage.setImageResource(R.drawable.ic_noun_dooda_in_love_2019979)
+                else -> friendImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
             }
             friendImage.setOnClickListener{ //작성자 프로필 조회
                 val userProfile = Intent(this@ChatRoom, ShowUserProfileActivity::class.java)
@@ -265,10 +341,14 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
         }
 
     }
+    /*
     fun disconnectStomp() {
+        Log.d("ddddd", "disconnectStomp 실행ㅕ")
         mStompClient!!.disconnect()
     }
 
+     */
+/*
     fun connectStomp() {
         mStompClient!!.withClientHeartbeat(1000).withServerHeartbeat(1000)
         resetSubscriptions()
@@ -297,15 +377,19 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ topicMessage: StompMessage ->
                     val text= topicMessage.payload //todo 이 text를 recyclerView에 입히기
-                    val roomId=JSONObject(text).getString("roomId")
+                    //val roomId=JSONObject(text).getString("roomId")
                     val memberId:Long=JSONObject(text).getString("memberId").toLong()
                     val nickName=JSONObject(text).getString("nickName")
                     val message=JSONObject(text).getString("message")
                     val unreadCount=JSONObject(text).getString("unreadCount").toInt()
-                    val token= JSONObject(text).getString("createdTime").split("-", "T", ":")
-                    val time=token[3]+":"+token[4]
-                    val newMessage=SendChat(memberId, nickName, message, unreadCount, time)
-                    //todo newMessage 리사이클러뷰에 등록
+                    //val time= JSONObject(text).getString("createdTime")
+                    //val imageNum=JSONObject(text).getString("imageNum").toInt() //todo 이미지넘버 확인
+                    val newMessage=SendChat(memberId, nickName, 1, message, unreadCount, "2022-08-18T17:24:05.3960486") //todo 이미지넘버 확인
+                    Log.d("sendChat", "${newMessage}")
+                    oldMessage.add(newMessage)
+                    Log.d("sendChat", "${oldMessage}")
+                    //MyAdapter(oldMessage).notifyItemInserted(oldMessage.size)
+                    recyclerView.adapter?.notifyItemInserted(oldMessage.size)
                     Log.d(
                         TAG,
                         "Received $topicMessage"
@@ -326,26 +410,36 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
         mStompClient!!.connect()
     }
 
-    fun enter() { //note 방에 들어간 걸 알림  -- 채팅방 화면 보여줌      //테스트 할 땐 topic이랑 enter 한 번에 처리해놓기
+ */
+
+
+/*
+    fun enter() { //note 방에 들어간 걸 알림  -- 채팅방 화면 보여줌
+        Log.d("dkdkdk", "채팅방 입장 완료 ${roomId} , ${memberId}")
         val jsonObject = JsonObject()
         jsonObject.addProperty("type", "ENTER")
         jsonObject.addProperty("roomId", roomId)
         jsonObject.addProperty("memberId", memberId)
+        Log.d("dkdkdk", "채팅방 입장 완료 ${jsonObject}")
         mStompClient!!.send("/pub/message", jsonObject.toString()) //note pub 송신 sub 수신
-            .subscribe(
-                {
+            .subscribe({
+                    Log.d("dkdkdk", "방 입장 완료")
                     Log.d(
                         TAG,
                         "STOMP send successfully"
                     )
+
                 }
             ) { throwable: Throwable ->
+                Log.d("dkdkdk", "방 입장 실패")
                 Log.e(TAG, "Error send STOMP", throwable)
                 toast(throwable.message)
             }
+        Log.d("dkdkdk", "send...")
     }
 
-    private fun sendText(text:String?) { //note 메세지 보내는 코드
+    fun sendText(text:String?) { //note 메세지 보내는 코드
+        Log.d("dkdkdk", "sendText 입장: ${text}")
         val jsonObject = JsonObject()
         jsonObject.addProperty("type", "TALK")
         jsonObject.addProperty("roomId", roomId)
@@ -354,12 +448,14 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
         mStompClient!!.send("/pub/message", jsonObject.toString())
             .subscribe(
                 {
+                    Log.d("dkdkdk", "sendText 메세지 보냄: ${text}")
                     Log.d(
                         TAG,
                         "STOMP send successfully"
                     )
                 }
             ) { throwable: Throwable ->
+                Log.d("dkdkdk", "sendText 메세지 전송 실패: ${text}")
                 Log.e(TAG, "Error send STOMP", throwable)
                 toast(throwable.message)
             }
@@ -384,12 +480,7 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
             }
     }
 
-    private fun resetSubscriptions() {
-        if (compositeDisposable != null) {
-            compositeDisposable!!.dispose()
-        }
-        compositeDisposable = CompositeDisposable()
-    }
+ */
 
     private fun toast(text: String?) {
         Log.i(TAG, text!!)
@@ -426,22 +517,23 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
 
         call.enqueue(object : Callback<Chat> {
             override fun onResponse(call: Call<Chat>, response: Response<Chat>) {
+
                 Log.d("retrofit", "메인 채팅방 내부 - 응답 성공 / t : ${response.raw()}")
 
+
                 //테스트
-                val messageList:List<ChatMessage> =response.body()!!.chatMessageList
-                val oldMessage:List<SendChat>
+                val messageList:List<ChatMessage> = response.body()!!.chatMessageList
+                Log.d("chat", "${messageList.size}")
                 for(i in 0 until messageList.size){ //아이디 닉네임 메세지 카운트 타임
-                    val a=SendChat(messageList[i].sender.userID, messageList[i].sender.nickname, messageList[i].message, messageList[i].unreadCount, messageList[i].createdDate)
-                    //todo a를 oldMessage 리스트에 추가
-                    //todo 리사이클러뷰에 oldMessage 등록
+                    val message=SendChat(messageList[i].sender.id, messageList[i].sender.nickname, messageList[i].sender.userImageNum, messageList[i].message, messageList[i].unreadCount, messageList[i].createdDate)
+                    Log.d("chat", "${message}")
+                    oldMessage.add(message)
                 }
-
-
-
+                Log.d("old chat", "${oldMessage}")
                 recyclerView=binding.recyclerView
                 recyclerView.layoutManager= LinearLayoutManager(this@ChatRoom)
-                recyclerView.adapter=MyAdapter(response.body()!!.chatMessageList)
+                //recyclerView.adapter=MyAdapter(response.body()!!.chatMessageList)
+                recyclerView.adapter= MyAdapter(oldMessage)
 
                 soloCheck=response.body()!!.soloCheck
                 if(soloCheck){

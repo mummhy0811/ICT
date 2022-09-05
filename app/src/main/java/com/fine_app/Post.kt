@@ -181,7 +181,7 @@ data class GroupChat(
     val myId:Long,
     val receiverList:List<Long>,
     val roomName:String,
-    val imageNum: Int
+    val roomImageNum: Int
 ):Serializable
 
 data class ChangeRoomName(
@@ -198,6 +198,7 @@ data class ChatRoom(
 data class SendChat(
     val memberId:Long,
     val nickname:String,
+    val imageNum:Int,
     val message:String,
     val unreadCount:Int,
     val createdTime:String

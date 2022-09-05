@@ -1,6 +1,7 @@
 package com.fine_app.ui.friendList
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,20 +25,26 @@ import com.fine_app.ui.community.ShowUserProfileActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 class FriendListFragment : Fragment() {
     private var _binding: FragmentFriendlistBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private val myId:Long=2 // TODO: 내 아이디 불러오기
+    private var myId by Delegates.notNull<Long>()
+    lateinit var userInfo: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFriendlistBinding.inflate(inflater, container, false)
+        userInfo = this.requireActivity().getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        myId = userInfo.getString("userInfo", "2")!!.toLong()
+
         getMyProfile(myId)
         viewFriendList(myId)
         binding.myImage.setOnClickListener {
             activity?.let{
                 val intent = Intent(context, ShowUserProfileActivity::class.java)
+                intent.putExtra("memberId", myId)
                 startActivity(intent)
             }
         }
@@ -60,14 +68,14 @@ class FriendListFragment : Fragment() {
             friendIntro.text=this.friend.intro
 
             when (this.friend.imageNum) {
-                0 -> friendProfileImage.setImageResource(R.drawable.profile1)
-                1 -> friendProfileImage.setImageResource(R.drawable.profile1)
-                2 -> friendProfileImage.setImageResource(R.drawable.profile2)
-                3 -> friendProfileImage.setImageResource(R.drawable.profile3)
-                4 -> friendProfileImage.setImageResource(R.drawable.profile4)
-                5 -> friendProfileImage.setImageResource(R.drawable.profile5)
-                6 -> friendProfileImage.setImageResource(R.drawable.profile6)
-                else -> friendProfileImage.setImageResource(R.drawable.profile1)
+                0 -> friendProfileImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
+                1 -> friendProfileImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
+                2 -> friendProfileImage.setImageResource(R.drawable.ic_noun_dooda_business_man_2019971)
+                3 -> friendProfileImage.setImageResource(R.drawable.ic_noun_dooda_mustache_2019978)
+                4 -> friendProfileImage.setImageResource(R.drawable.ic_noun_dooda_prince_2019982)
+                5 -> friendProfileImage.setImageResource(R.drawable.ic_noun_dooda_listening_music_2019991)
+                6 -> friendProfileImage.setImageResource(R.drawable.ic_noun_dooda_in_love_2019979)
+                else -> friendProfileImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
             }
             // todo 사용자 레벨
             friendLevelImage.setImageResource(R.drawable.ic_sprout)
@@ -104,14 +112,14 @@ class FriendListFragment : Fragment() {
                     binding.myIntro.text=response.body()!!.intro
                     var imageResource = response.body()!!.userImageNum
                     when (imageResource) {
-                        0 -> binding.myImage.setImageResource(R.drawable.profile)
-                        1 -> binding.myImage.setImageResource(R.drawable.profile1)
-                        2 -> binding.myImage.setImageResource(R.drawable.profile2)
-                        3 -> binding.myImage.setImageResource(R.drawable.profile3)
-                        4 -> binding.myImage.setImageResource(R.drawable.profile4)
-                        5 -> binding.myImage.setImageResource(R.drawable.profile5)
-                        6 -> binding.myImage.setImageResource(R.drawable.profile6)
-                        else -> binding.myImage.setImageResource(R.drawable.profile)
+                        0 -> binding.myImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
+                        1 -> binding.myImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
+                        2 -> binding.myImage.setImageResource(R.drawable.ic_noun_dooda_business_man_2019971)
+                        3 -> binding.myImage.setImageResource(R.drawable.ic_noun_dooda_mustache_2019978)
+                        4 -> binding.myImage.setImageResource(R.drawable.ic_noun_dooda_prince_2019982)
+                        5 -> binding.myImage.setImageResource(R.drawable.ic_noun_dooda_listening_music_2019991)
+                        6 -> binding.myImage.setImageResource(R.drawable.ic_noun_dooda_in_love_2019979)
+                        else -> binding.myImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
                     }
                     //todo 레벨 연결
                 }
@@ -144,6 +152,7 @@ class FriendListFragment : Fragment() {
     }
     override fun onResume() {
         super.onResume()
+        myId = userInfo.getString("userInfo", "2")!!.toLong()
         viewFriendList(myId)
     }
     override fun onDestroyView() {
