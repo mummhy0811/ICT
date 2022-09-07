@@ -36,18 +36,22 @@ class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     private var userId by Delegates.notNull<Long>()
     lateinit var userInfo: SharedPreferences
+    /*
     var mStompClient: StompClient? = Stomp.over(
         Stomp.ConnectionProvider.OKHTTP, "ws://" + "54.209.17.39" + ":" + "8080" + "/ws-fine" + "/websocket"
     )
     private var compositeDisposable: CompositeDisposable? = null
     private val TAG = "MainActivity"
+
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         userInfo = getSharedPreferences("userInfo", 0)
         userInfo.edit().putString("userInfo", "0").apply()
         userId = userInfo.getString("userInfo", "2")!!.toLong()
-        loadChatList()
+
+        //loadChatList()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -69,6 +73,7 @@ class MainActivity : AppCompatActivity(){
         navView.setupWithNavController(navController)
 
     }
+    /*
     fun connectStomp() {
         mStompClient!!.withClientHeartbeat(1000).withServerHeartbeat(1000)
         resetSubscriptions()
@@ -162,6 +167,8 @@ class MainActivity : AppCompatActivity(){
         Log.i(TAG, text!!)
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
+
+     */
     override fun onResume() {
         super.onResume()
         userId = userInfo.getString("userInfo", "2")!!.toLong()

@@ -39,8 +39,10 @@ class LoginActivity : AppCompatActivity() {
     )
     private var compositeDisposable: CompositeDisposable? = null
 
-     */
+
     private val TAG = "ChatListFragment"
+
+     */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +78,9 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
                     userData = response.body()!!
                     userInfo.edit().putString("userInfo", userData.id.toString()).apply()
+                    //Log.d("aaaa", "${userInfo.getString("userInfo", "2")!!.toLong()}")
                     //loadChatList()
+                    //com.fine_app.ui.Stomp().runStomp(userInfo.getString("userInfo", "2")!!.toLong())
                     finish()
                 } else {
                     Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()

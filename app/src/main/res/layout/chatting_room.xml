@@ -118,17 +118,6 @@ tools:openDrawer="start">
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <ImageView
-                android:id="@+id/addButton"
-                android:layout_width="24dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                app:srcCompat="@drawable/car_ui_icon_add"
-                app:tint="#615A55" />
-
             <EditText
                 android:id="@+id/putChat"
                 android:layout_width="wrap_content"

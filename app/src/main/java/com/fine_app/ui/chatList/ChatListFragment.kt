@@ -42,13 +42,12 @@ class ChatListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var isFabOpen = false
     //private var mStompClient: StompClient? = null
-    var mStompClient=MainActivity().mStompClient
+    //var mStompClient=MainActivity().mStompClient
     private var compositeDisposable: CompositeDisposable? = null
 
     private val roomId:Long = 2
     private var myId by Delegates.notNull<Long>()
     lateinit var userInfo: SharedPreferences
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
@@ -57,6 +56,7 @@ class ChatListFragment : Fragment() {
 
         userInfo = this.requireActivity().getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         myId = userInfo.getString("userInfo", "2")!!.toLong()
+        //roomInfo = this.requireActivity().getSharedPreferences("roomInfo", AppCompatActivity.MODE_PRIVATE)
 
         viewChatList()
         binding.fabMain.setOnClickListener {
@@ -74,10 +74,13 @@ class ChatListFragment : Fragment() {
             startActivity(create)
         }
 
+        /*
         mStompClient = Stomp.over(
             Stomp.ConnectionProvider.OKHTTP, "ws://" + "54.209.17.39" + ":" + "8080" + "/ws-fine" + "/websocket"
         )
         resetSubscriptions()
+
+         */
 
         return root
     }
@@ -95,13 +98,15 @@ class ChatListFragment : Fragment() {
         isFabOpen = !isFabOpen
     }
 
-
+/*
     private fun resetSubscriptions() {
         if (compositeDisposable != null) {
             compositeDisposable!!.dispose()
         }
         compositeDisposable = CompositeDisposable()
     }
+
+ */
 
 
 
@@ -142,13 +147,15 @@ class ChatListFragment : Fragment() {
                 else -> roomImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
             }
             itemView.setOnClickListener{
-                enter(this.chatroom.roomId)
+                //enter(this.chatroom.roomId)
+                //com.fine_app.ui.Stomp().enter(this.chatroom.roomId, myId)
                 val create= Intent(activity, ChatRoom::class.java)
                 create.putExtra("roomId" , this.chatroom.roomId)
                 startActivity(create)
             }
         }
     }
+    /*
     fun enter(roomId:Long) { //note 방에 들어간 걸 알림  -- 채팅방 화면 보여줌
         val jsonObject = JsonObject()
         jsonObject.addProperty("type", "ENTER")
@@ -176,6 +183,8 @@ class ChatListFragment : Fragment() {
         Log.i(TAG, text!!)
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
+
+     */
 
     inner class MyAdapter(val list:List<ChatRoomList>): RecyclerView.Adapter<MyViewHolder>() {
         override fun getItemCount(): Int = list.size

@@ -203,3 +203,13 @@ data class SendChat(
     val unreadCount:Int,
     val createdTime:String
 ):Serializable
+
+data class MatchingFriend(
+    val nickname:String,
+    val userImageNum:Int,
+    val intro:String,
+    val keyword1:String,
+    val keyword2: String,
+    val follower:Int,
+    val level:Int
+):Serializable

@@ -6,10 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.SearchView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.*
@@ -38,6 +37,20 @@ class SearchFriendList : AppCompatActivity() {
         binding = FriendSearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val items = arrayOf("닉네임", "키워드")
+        val spinner: Spinner = binding.spinner5
+        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long
+            ) {
+                when (position) {
+                    0 -> binding.keywordBox.visibility=View.INVISIBLE
+                    1 -> binding.keywordBox.visibility=View.VISIBLE
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener,
             SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String): Boolean {
@@ -51,6 +64,7 @@ class SearchFriendList : AppCompatActivity() {
         binding.cancelButton.setOnClickListener{
             finish()
         }
+
 
     }
     inner class MyViewHolder(view:View): RecyclerView.ViewHolder(view){

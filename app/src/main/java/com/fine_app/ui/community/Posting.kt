@@ -51,12 +51,10 @@ class Posting : AppCompatActivity(), ConfirmDialogInterface {
                 R.id.radioButton_normal -> {
                     groupCheck=false
                     spinner.visibility=View.INVISIBLE
-                    spinner2.visibility=View.INVISIBLE
                 }
                 R.id.radioButton_group -> {
                     groupCheck=true
                     spinner.visibility= View.VISIBLE
-                    spinner2.visibility= View.VISIBLE
                 }
             }
         }
