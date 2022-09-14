@@ -29,6 +29,7 @@ class WaitingList : AppCompatActivity() {
     var waitingList=ArrayList<Recruit>()
     var memberList=ArrayList<Recruit>()
     private var postingID by Delegates.notNull<Long>()
+    private var capacity by Delegates.notNull<Long>()
     private var myID by Delegates.notNull<Long>()
     lateinit var userInfo: SharedPreferences
     private lateinit var recruitingList:ArrayList<Recruit>
@@ -43,6 +44,7 @@ class WaitingList : AppCompatActivity() {
         binding.backButton.setOnClickListener{
             finish()
         }
+        capacity=intent.getLongExtra("capacity", 0)
         postingID=intent.getLongExtra("postingID", 0)
         viewPosting(postingID, myID)
     }
@@ -70,8 +72,18 @@ class WaitingList : AppCompatActivity() {
             }
             //level.setImageResource(this.crew.capacity)
             button.setOnClickListener{
-                if(this.crew.acceptCheck) manageJoinGroup(postingID, this.crew.recruitingId, AcceptCheck(false))
-                else manageJoinGroup(postingID, this.crew.recruitingId, AcceptCheck(true))
+                if(this.crew.acceptCheck) {
+                    manageJoinGroup(postingID, this.crew.recruitingId, AcceptCheck(false))
+                }
+                else {
+                    manageJoinGroup(postingID, this.crew.recruitingId, AcceptCheck(true))
+                    if(memberList.size.toLong() == capacity) {
+                        binding.closingButton.text="글 마감"
+                        waitingRecyclerView.visibility=View.VISIBLE
+                        binding.textView5.visibility=View.VISIBLE
+                        binding.view15.visibility=View.VISIBLE
+                    }
+                }
             }
             image.setOnClickListener{
                 val userProfile = Intent(this@WaitingList, ShowUserProfileActivity::class.java)

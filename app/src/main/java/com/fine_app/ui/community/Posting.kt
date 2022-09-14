@@ -40,7 +40,7 @@ class Posting : AppCompatActivity(), ConfirmDialogInterface {
         lateinit var content:String
         var capacity=2
         val spinner: Spinner = binding.spinner
-        val items = arrayOf("인원", 2, 3, 4, 5, 6)
+        val items = arrayOf("인원 선택", 2, 3, 4, 5, 6)
         val spinner2: Spinner = binding.spinner2
         val spinner2Item = arrayOf("자유","기획, 전략","회계, 재무", "유통, 물류", "연구개발, 설계",  "건축, 인테리어","의료, 보건","미디어",
             "영업, 영업관리", "마케팅, 광고, 홍보","인사, 노무" ,"IT, SW","생산, 생산관리", "토목, 환경", "교육", "디자인"  )
@@ -118,7 +118,7 @@ class Posting : AppCompatActivity(), ConfirmDialogInterface {
             dialog.show(this.supportFragmentManager, "ConfirmDialog")
         }
         binding.finButton.setOnClickListener{ //등록
-            val newPost= Posting(title, content, groupCheck, capacity)
+            val newPost= Posting(title, content, groupCheck, capacity, keyWord)
             addPost(myID, newPost)
             finish()
         }

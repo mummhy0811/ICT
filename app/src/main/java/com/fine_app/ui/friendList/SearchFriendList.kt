@@ -27,6 +27,7 @@ class SearchFriendList : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private var myID by Delegates.notNull<Long>()
     lateinit var userInfo: SharedPreferences
+    lateinit var keyword:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +62,29 @@ class SearchFriendList : AppCompatActivity() {
                 return true
             }
         })
-        binding.cancelButton.setOnClickListener{
+        binding.cancelButton.setOnClickListener {
             finish()
+        }
+        binding.keywordGroup.setOnCheckedChangeListener { _, id ->
+            when(id){ //todo 키워드 검색 api보고 수정정
+               R.id.keyword1 -> keyword="1"
+                R.id.keyword2 -> keyword="1"
+                R.id.keyword3 -> keyword="1"
+                R.id.keyword4 -> keyword="1"
+                R.id.keyword5 -> keyword="1"
+                R.id.keyword6 -> keyword="1"
+                R.id.keyword7 -> keyword="1"
+                R.id.keyword8 -> keyword="1"
+                R.id.keyword9-> keyword="1"
+                R.id.keyword10 -> keyword="1"
+                R.id.keyword11 -> keyword="1"
+                R.id.keyword12 -> keyword="1"
+                R.id.keyword13 -> keyword="1"
+                R.id.keyword14 -> keyword="1"
+                R.id.keyword15 -> keyword="1"
+
+            }
+
         }
 
 

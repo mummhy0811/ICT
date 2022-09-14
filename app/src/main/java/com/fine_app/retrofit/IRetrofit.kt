@@ -81,7 +81,7 @@ interface IRetrofit {
     fun viewPopularPosting():Call<List<Post>>
 
     @GET("/recommend/{memberId}")
-    fun viewMatchingFriends(@Path("memberId") memberId:Long, @Query("category ") category :Int):Call<List<MatchingFriend>>
+    fun viewMatchingFriends(@Path("memberId") memberId:Long, @Query("category") category :Int):Call<List<MatchingFriend>>
 
     //채팅
     @POST("/room/solo")

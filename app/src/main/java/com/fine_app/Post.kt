@@ -25,6 +25,7 @@ data class Post(
     val participants:Int,
     val comments: ArrayList<Comment>,
     val recruitingList:ArrayList<Recruit>,
+    val keyword:String
 ):Serializable
 
 data class Recruit(
@@ -87,7 +88,8 @@ data class Posting(
     val title:String,
     val content:String,
     val groupCheck : Boolean,
-    val maxMember:Int
+    val maxMember:Int,
+    val keyword: String
 ):Serializable
 
 data class NewComment(
@@ -210,6 +212,7 @@ data class MatchingFriend(
     val intro:String,
     val keyword1:String,
     val keyword2: String,
+    val keyword3: String,
     val follower:Int,
     val level:Int
 ):Serializable

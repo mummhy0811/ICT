@@ -45,9 +45,10 @@
                     android:paddingTop="2sp"
                     android:paddingEnd="6sp"
                     android:paddingBottom="2sp"
-                    android:text="IT, SW"
+                    android:text="자유"
                     android:textAlignment="center"
-                    android:textColor="#6DB33F" />
+                    android:textColor="#6DB33F"
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

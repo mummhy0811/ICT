@@ -242,6 +242,7 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
                 val waitingList = Intent(this, WaitingList::class.java)
                 waitingList.putExtra("postingID", postingID)
                 waitingList.putExtra("myID", myID)
+                waitingList.putExtra("capacity", postCapacity)
                 //waitingList.putExtra("recruitingList",recruitingList)
                 //waitingList.putExtra("closingCheck",closingCheck )
                 startActivity(waitingList)

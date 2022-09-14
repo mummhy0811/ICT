@@ -81,6 +81,8 @@ class LoginActivity : AppCompatActivity() {
                     //Log.d("aaaa", "${userInfo.getString("userInfo", "2")!!.toLong()}")
                     //loadChatList()
                     //com.fine_app.ui.Stomp().runStomp(userInfo.getString("userInfo", "2")!!.toLong())
+                    ChatRoom().connectStomp(userInfo.getString("userInfo", "2")!!.toLong())
+                    //ChatRoom().loadChatList(userInfo.getString("userInfo", "2")!!.toLong())
                     finish()
                 } else {
                     Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()

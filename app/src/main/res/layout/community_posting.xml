@@ -132,6 +132,7 @@
                     android:layout_width="100sp"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
                     android:visibility="invisible"
                     tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </LinearLayout>
@@ -147,7 +148,7 @@
 
             <Spinner
                 android:id="@+id/spinner2"
-                android:layout_width="150sp"
+                android:layout_width="200sp"
                 android:layout_height="match_parent" />
 
             <View
