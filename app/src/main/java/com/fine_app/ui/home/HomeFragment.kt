@@ -172,7 +172,7 @@ class HomeFragment : Fragment() {
     private fun viewMatchingFriends(category:Int){
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
-        val call = iRetrofit?.viewMatchingFriends(myId, category = category ) ?:return
+        val call = iRetrofit?.viewMatchingFriends(myId, category = category , select="level") ?:return
 
         call.enqueue(object : Callback<List<MatchingFriend>> {
 

@@ -47,12 +47,12 @@ class MatchingAreaFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long
             ) {
                 when (position) {
-                    //todo api 연결
+                    0 -> viewMatchingFriends(2, "new")
+                    else -> viewMatchingFriends(2, "level")
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
-        viewMatchingFriends(2)
         return root
     }
     inner class MyViewHolder(view:View): RecyclerView.ViewHolder(view){
@@ -96,10 +96,10 @@ class MatchingAreaFragment : Fragment() {
             holder.bind(post)
         }
     }
-    private fun viewMatchingFriends(category:Int){
+    private fun viewMatchingFriends(category:Int, select:String){
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
-        val call = iRetrofit?.viewMatchingFriends(myId, category = category ) ?:return
+        val call = iRetrofit?.viewMatchingFriends(myId, category = category , select=select) ?:return
 
         call.enqueue(object : Callback<List<MatchingFriend>> {
 
