@@ -64,7 +64,10 @@
         android:layout_marginRight="20sp"
         android:layout_marginBottom="10sp"
         android:background="@drawable/solid_button"
-        android:backgroundTint="#3EC4C4C4">
+        android:backgroundTint="#3EC4C4C4"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@null"
+        android:submitBackground="@null">
 
     </SearchView>
 

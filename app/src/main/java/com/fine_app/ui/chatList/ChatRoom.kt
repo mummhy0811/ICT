@@ -122,11 +122,8 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
         super.onBackPressed()
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){ //사이드바 열려있을 때
             drawerLayout.closeDrawers()
-            Toast.makeText(this,"back btn clicked",Toast.LENGTH_SHORT).show()
         }else { //채팅방 화면일 때
-            //com.fine_app.ui.Stomp().exit(roomId, memberId)
             exit(roomId, memberId)
-            //disconnectStomp()
         }
     }
 
@@ -138,7 +135,6 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
             val imageNum = data?.getIntExtra("imageNum", 0)
             Log.d("ff", "방 이름: ${roomName}")
             PutRoomName(ChangeRoomName(memberId, roomId, roomName, imageNum))
-            finish()
         }
     }
 

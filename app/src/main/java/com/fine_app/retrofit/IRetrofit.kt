@@ -66,14 +66,10 @@ interface IRetrofit {
     @DELETE("/bookmark/{bookmarkId}")
     fun deleteBookMark(@Path("bookmarkId") bookmarkId:Long):Call<Long>
 
-//    //친구
-//    @GET("/mypage/{memberId}")
-//    fun getMyProfile(@Path("memberId") memberId: Long): Call<Member>
-
     @GET("/followList/{memberId}")
     fun viewFriendList(@Path("memberId") memberId:Long):Call<List<Friend>>
 
-    @GET("/followlist/search/{memberId}")
+    @GET("/followList/search/{memberId}")
     fun searchFriend(@Path("memberId") memberId:Long, @Query("search") search:String) :Call<List<Friend>>
 
     //메인

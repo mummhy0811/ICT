@@ -9,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.R
 import com.fine_app.Test
@@ -50,7 +49,7 @@ class MatchingHobbyFragment : Fragment() {
         }
 
         recyclerView=binding.recyclerView
-        recyclerView.layoutManager= LinearLayoutManager(context)
+        recyclerView.layoutManager= GridLayoutManager(context, 2)
         recyclerView.adapter=MyAdapter(testList)
         return root
     }

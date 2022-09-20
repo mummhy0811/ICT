@@ -9,12 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.ChatMessage
+import com.fine_app.Post
 import com.fine_app.R
 import com.fine_app.databinding.ChattingMainBinding
 import com.google.gson.JsonObject

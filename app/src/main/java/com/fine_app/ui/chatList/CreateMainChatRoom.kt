@@ -45,7 +45,7 @@ class CreateMainChatRoom: AppCompatActivity(), ConfirmDialogInterface {
                 return true
             }
             override fun onQueryTextChange(p0: String): Boolean {
-                searchFriend(p0)
+               // searchFriend(p0)
                 return true
             }
         })
@@ -144,9 +144,11 @@ class CreateMainChatRoom: AppCompatActivity(), ConfirmDialogInterface {
         call.enqueue(object : Callback<List<Friend>> {
             override fun onResponse(call: Call<List<Friend>>, response: Response<List<Friend>>) {
                 Log.d("retrofit", "친구 검색 - 응답 성공 / t : ${response.body().toString()}")
-                recyclerView2=binding.recyclerView2
-                recyclerView2.layoutManager= LinearLayoutManager(this@CreateMainChatRoom)
-                recyclerView2.adapter=MyAdapter2(response.body()!!)
+                if(response.body()!=null){
+                    recyclerView2=binding.recyclerView2
+                    recyclerView2.layoutManager= LinearLayoutManager(this@CreateMainChatRoom)
+                    recyclerView2.adapter=MyAdapter2(response.body()!!)
+                }
             }
             override fun onFailure(call: Call<List<Friend>>, t: Throwable) {
                 Log.d("retrofit", "친구 검색 - 응답 실패 / t: $t")
