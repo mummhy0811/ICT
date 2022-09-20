@@ -36,16 +36,13 @@ class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     private var userId by Delegates.notNull<Long>()
     lateinit var userInfo: SharedPreferences
-    /*
-    var mStompClient: StompClient? = Stomp.over(
-        Stomp.ConnectionProvider.OKHTTP, "ws://" + "54.209.17.39" + ":" + "8080" + "/ws-fine" + "/websocket"
-    )
-    private var compositeDisposable: CompositeDisposable? = null
-    private val TAG = "MainActivity"
 
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        var mStompClient: StompClient? = Stomp.over(
+            Stomp.ConnectionProvider.OKHTTP, "ws://" + "54.209.17.39" + ":" + "8080" + "/ws-fine" + "/websocket"
+        )
 
         userInfo = getSharedPreferences("userInfo", 0)
         userInfo.edit().putString("userInfo", "0").apply()
@@ -73,7 +70,7 @@ class MainActivity : AppCompatActivity(){
         navView.setupWithNavController(navController)
 
     }
-    /*
+/*
     fun connectStomp() {
         mStompClient!!.withClientHeartbeat(1000).withServerHeartbeat(1000)
         resetSubscriptions()

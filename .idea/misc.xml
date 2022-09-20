@@ -40,10 +40,11 @@
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/chatting_create.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/chatting_group.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/chatting_main.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/chatting_room.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/chatting_room.xml" value="0.31875607385811466" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/chatting_room_main.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/chatting_setting.xml" value="0.175" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/chatting_setting.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/community_group_post.xml" value="0.264" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/community_main_post.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/community_posting.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/community_search.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/community_waitinglist.xml" value="0.175" />
@@ -56,15 +57,23 @@
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_chatlist.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_chatting_date.xml" value="0.21145833333333333" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_chatting_friendlist.xml" value="0.264" />
-        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_chatting_group.xml" value="0.4" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_chatting_group.xml" value="0.264" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_chatting_my.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_comment.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_create_chat.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_friendlist.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_matching.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_matching_home.xml" value="0.4" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_membertlist.xml" value="0.16" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_postlist_group.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_postlist_main.xml" value="0.264" />
         <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_recommend.xml" value="0.264" />
-        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_sidebar.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_sidebar.xml" value="0.264" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/item_waitlist.xml" value="0.24166666666666667" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/sidebar.xml" value="0.4" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/layout/sidebar_header.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/user/Desktop/fine/app/src/main/res/menu/sidebarlayout.xml" value="0.22916666666666666" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/comment_bg.xml" value="0.2525" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/edittext_posting.xml" value="0.259" />
         <entry key="..\:/Users/user/Desktop/new/app/src/main/res/drawable/ic.xml" value="0.259" />

@@ -154,6 +154,8 @@ data class ChangeChatRoom(
 
 data class ChatMember(
     val roomId:String,
+    @SerializedName(value = "onerId")
+    val ownerId:Long,
     val chatMemberList:List<ChangeChatRoom>
 ):Serializable
 
@@ -189,7 +191,8 @@ data class GroupChat(
 data class ChangeRoomName(
     val memberId:Long,
     val roomId:Long,
-    val roomName: String
+    val roomName: String,
+    val roomImageNum: Int
 ):Serializable
 
 data class ChatRoom(

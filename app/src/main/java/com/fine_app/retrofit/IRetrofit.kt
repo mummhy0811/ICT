@@ -81,7 +81,7 @@ interface IRetrofit {
     fun viewPopularPosting():Call<List<Post>>
 
     @GET("/recommend/{memberId}")
-    fun viewMatchingFriends(@Path("memberId") memberId:Long, @Query("category") category :Int):Call<List<MatchingFriend>>
+    fun viewMatchingFriends(@Path("memberId") memberId:Long, @Query("category") category :Int, @Query("select") select :String):Call<List<MatchingFriend>>
 
     //채팅
     @POST("/room/solo")
@@ -104,6 +104,9 @@ interface IRetrofit {
 
     @GET("/room/{memberId}/{roomId}") //채팅 내역 조회
     fun viewChatting(@Path("memberId") memberId:Long, @Path("roomId") roomId:Long ) :Call<Chat>
+
+    @DELETE("/room/{roomId}/{targetId}")
+    fun exitChatroom(@Path("roomId") roomId:Long, @Path("targetId") targetId:Long): Call<Long>
 
     // 팔로우
     @POST("/follow/{friendId}/{memberId}")
