@@ -77,40 +77,40 @@
 
             <TextView
                 android:id="@+id/textView22"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="3sp"
                 android:layout_weight="1"
                 android:background="@drawable/manage_button"
                 android:gravity="center"
                 android:padding="3sp"
-                android:text="서울"
+                android:text="-"
                 android:textColor="#6DB33F"
                 android:textSize="8sp" />
 
             <TextView
                 android:id="@+id/textView23"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="3sp"
                 android:layout_weight="1"
                 android:background="@drawable/manage_button"
                 android:gravity="center"
                 android:padding="3sp"
-                android:text="컴퓨터"
+                android:text="-"
                 android:textColor="#6DB33F"
                 android:textSize="8sp" />
 
             <TextView
                 android:id="@+id/textView26"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="3sp"
                 android:layout_weight="1"
                 android:background="@drawable/manage_button"
                 android:gravity="center"
                 android:padding="3sp"
-                android:text="코딩"
+                android:text="-"
                 android:textColor="#6DB33F"
                 android:textSize="8sp" />
         </LinearLayout>

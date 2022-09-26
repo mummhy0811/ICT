@@ -39,7 +39,7 @@ class SearchList : AppCompatActivity() {
             searchPosting(text!!)
         }
 
-        val items = arrayOf("제목", "키워드")
+        val items = arrayOf("닉네임", "키워드")
         val spinner: Spinner = binding.spinner5
         spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

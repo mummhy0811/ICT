@@ -35,7 +35,7 @@ interface IRetrofit {
     @POST("/post/{postingId}/{memberId}/join") //참여하기
     fun joinGroup(@Path("postingId") postingId:Long, @Path("memberId") memberId:Long, @Body acceptCheck:AcceptCheck) :Call<Join>
 
-    @DELETE("/post/{recruitingId}/delete") //참여하기 취소
+    @DELETE("/post/delete/{recruitingId}") //참여하기 취소
     fun cancelJoinGroup(@Path("recruitingId") recruitingId:Long):Call<Long>
 
     @POST("/{postingId}/{recruitingId}/accept") //참가 수락 및 수락 취소
@@ -66,10 +66,14 @@ interface IRetrofit {
     @DELETE("/bookmark/{bookmarkId}")
     fun deleteBookMark(@Path("bookmarkId") bookmarkId:Long):Call<Long>
 
+//    //친구
+//    @GET("/mypage/{memberId}")
+//    fun getMyProfile(@Path("memberId") memberId: Long): Call<Member>
+
     @GET("/followList/{memberId}")
     fun viewFriendList(@Path("memberId") memberId:Long):Call<List<Friend>>
 
-    @GET("/followList/search/{memberId}")
+    @GET("/followlist/search/{memberId}")
     fun searchFriend(@Path("memberId") memberId:Long, @Query("search") search:String) :Call<List<Friend>>
 
     //메인
@@ -102,7 +106,7 @@ interface IRetrofit {
     fun viewChatting(@Path("memberId") memberId:Long, @Path("roomId") roomId:Long ) :Call<Chat>
 
     @DELETE("/room/{roomId}/{targetId}")
-    fun exitChatroom(@Path("roomId") roomId:Long, @Path("targetId") targetId:Long): Call<Long>
+    fun exitChatroom(@Path("roomId") roomId:Long, @Path("targetId") targetId:Long): Call<ExitChat>
 
     // 팔로우
     @POST("/follow/{friendId}/{memberId}")

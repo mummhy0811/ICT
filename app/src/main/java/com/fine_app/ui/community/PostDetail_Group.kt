@@ -139,18 +139,12 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
     }
     override fun onYesButtonClick(num: Int, theme:Int) {
         when (num) {
-            0 -> {
-                Log.d("join - 참여하기", "${recruitingId}")
-                joinGroup(postingID,myID, AcceptCheck(false))
-            }
+            0 -> joinGroup(postingID,myID, AcceptCheck(false))
             1 -> {
                 deletePosting(postingID)
                 finish()
             }
-            4 -> {
-                Log.d("join - 참여취소", "${recruitingId}")
-                cancelJoinGroup(recruitingId)
-            }
+            4 -> cancelJoinGroup(recruitingId)
         }
 
     }
@@ -198,10 +192,12 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
 
         if (closingCheck){
             joinButton.visibility= INVISIBLE
+            binding.participants.visibility= INVISIBLE
+            binding.max.visibility= INVISIBLE
+            binding.textView11.text="모집 마감"
         }else{
             joinButton.visibility= VISIBLE
             joinButton.setOnClickListener {
-                Log.d("join button click", "${recruitingId}")
                 if (recruitingId!=0.toLong()){//참여하기 취소
                     val dialog = ConfirmDialog(this, "참여를 취소하시겠습니까?", 4, 0)
                     dialog.isCancelable = false
@@ -308,7 +304,6 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
                 else binding.markButton.text="저장됨"
                 if(recruitingId==0.toLong()) binding.joinButton.text="참여하기"
                 else binding.joinButton.text="참여 취소"
-                Log.d("join","글 상세 리크루팅 아이디- ${recruitingId}")
                 attach()
             }
             //응답실패
@@ -356,7 +351,7 @@ class PostDetail_Group : AppCompatActivity(), ConfirmDialogInterface {
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val term:Long= recruitingId ?:0
-        val call = iRetrofit?.cancelJoinGroup(recruitingId= term) ?:return
+        val call = iRetrofit?.cancelJoinGroup(recruitingId=term) ?:return
 
         call.enqueue(object : Callback<Long>{
             //응답성공

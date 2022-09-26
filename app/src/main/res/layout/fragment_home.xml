@@ -8,23 +8,40 @@
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/appTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_margin="20sp"
-        android:layout_weight="2"
-        android:text="FINE (로고)"
-        android:textColor="#6DB33F"
-        android:textSize="22sp"
-        android:textStyle="bold|italic" />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="0dp"
+            android:layout_height="30sp"
+            android:layout_marginRight="10sp"
+            android:layout_weight="2"
+            android:scaleType="fitEnd"
+            android:src="@drawable/logo_crop" />
+
+        <TextView
+            android:id="@+id/appTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="FINE"
+            android:textAlignment="textStart"
+            android:textColor="#6DB33F"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20sp"
+        android:layout_marginBottom="5sp"
         android:layout_weight="1"
         android:text="추천 게시글"
         android:textColor="#000000"
@@ -56,7 +73,7 @@
         android:layout_height="1dp"
         android:layout_gravity="center"
         android:layout_marginTop="10sp"
-        android:layout_marginBottom="10sp"
+        android:layout_marginBottom="20sp"
         android:background="#DDDDDD" />
 
     <LinearLayout
@@ -136,7 +153,7 @@
                     app:srcCompat="@drawable/ic_noun_dooda_angry_2019970" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -177,7 +194,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
@@ -190,20 +207,7 @@
                             android:background="@drawable/manage_button"
                             android:gravity="center"
                             android:padding="3sp"
-                            android:text="서울"
-                            android:textColor="#6DB33F"
-                            android:textSize="8sp" />
-
-                        <TextView
-                            android:id="@+id/home_matching_keyword2"
-                            android:layout_width="30sp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2sp"
-                            android:layout_weight="1"
-                            android:background="@drawable/manage_button"
-                            android:gravity="center"
-                            android:padding="3sp"
-                            android:text="컴퓨터"
+                            android:text="-"
                             android:textColor="#6DB33F"
                             android:textSize="8sp" />
 
@@ -216,7 +220,7 @@
                             android:background="@drawable/manage_button"
                             android:gravity="center"
                             android:padding="3sp"
-                            android:text="코딩"
+                            android:text="-"
                             android:textColor="#6DB33F"
                             android:textSize="8sp" />
                     </LinearLayout>
@@ -267,7 +271,7 @@
                     app:srcCompat="@drawable/ic_noun_dooda_angry_2019970" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -308,7 +312,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
@@ -321,7 +325,7 @@
                             android:background="@drawable/manage_button"
                             android:gravity="center"
                             android:padding="3sp"
-                            android:text="서울"
+                            android:text="-"
                             android:textColor="#6DB33F"
                             android:textSize="8sp" />
 
@@ -334,22 +338,10 @@
                             android:background="@drawable/manage_button"
                             android:gravity="center"
                             android:padding="3sp"
-                            android:text="컴퓨터"
+                            android:text="-"
                             android:textColor="#6DB33F"
                             android:textSize="8sp" />
 
-                        <TextView
-                            android:id="@+id/home_matching_keyword6"
-                            android:layout_width="30sp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2sp"
-                            android:layout_weight="1"
-                            android:background="@drawable/manage_button"
-                            android:gravity="center"
-                            android:padding="3sp"
-                            android:text="코딩"
-                            android:textColor="#6DB33F"
-                            android:textSize="8sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -397,7 +389,7 @@
                     app:srcCompat="@drawable/ic_noun_dooda_angry_2019970" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -438,22 +430,9 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/home_matching_keyword7"
-                            android:layout_width="30sp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2sp"
-                            android:layout_weight="1"
-                            android:background="@drawable/manage_button"
-                            android:gravity="center"
-                            android:padding="3sp"
-                            android:text="서울"
-                            android:textColor="#6DB33F"
-                            android:textSize="8sp" />
 
                         <TextView
                             android:id="@+id/home_matching_keyword8"
@@ -464,7 +443,7 @@
                             android:background="@drawable/manage_button"
                             android:gravity="center"
                             android:padding="3sp"
-                            android:text="컴퓨터"
+                            android:text="-"
                             android:textColor="#6DB33F"
                             android:textSize="8sp" />
 
@@ -477,7 +456,7 @@
                             android:background="@drawable/manage_button"
                             android:gravity="center"
                             android:padding="3sp"
-                            android:text="코딩"
+                            android:text="-"
                             android:textColor="#6DB33F"
                             android:textSize="8sp" />
                     </LinearLayout>
