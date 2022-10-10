@@ -67,13 +67,11 @@ class ChatListFragment : Fragment() {
         }
 
         binding.fabSolo.setOnClickListener {
-            val create= Intent(activity, CreateMainChatRoom::class.java)
-            startActivity(create)
+            findNavController().navigate(R.id.action_navigation_chatList_to_navigation_create_main_chatroom)
         }
 
         binding.fabGroup.setOnClickListener {
-            val create= Intent(activity, CreateGroupChatRoom::class.java)
-            startActivity(create)
+            findNavController().navigate(R.id.action_navigation_chatList_to_navigation_create_group_chatroom)
         }
 
         /*

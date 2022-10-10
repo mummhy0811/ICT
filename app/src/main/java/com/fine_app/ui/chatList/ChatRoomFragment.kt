@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.*
@@ -51,6 +53,8 @@ class ChatRoomFragment : Fragment() , NavigationView.OnNavigationItemSelectedLis
     var exitMember by Delegates.notNull<Long>()
     var ownerId by Delegates.notNull<Long>()
     val oldMessage = ArrayList<SendChat>()
+    lateinit var roomName:String
+    var imageNum by Delegates.notNull<Int>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -139,8 +143,15 @@ class ChatRoomFragment : Fragment() , NavigationView.OnNavigationItemSelectedLis
         Log.d("drawer", "아이템 클릭 아아")
         when(item.itemId){
             R.id.menu_item1-> {
-                val create= Intent(context, CreateRoomName::class.java)
-                startActivityForResult(create, 100)
+                findNavController().navigate(R.id.action_navigation_create_group_chatroom_to_navigation_create_room_name2)
+
+                setFragmentResultListener("text") { key, bundle ->
+                    roomName= bundle.getString("text")!!
+                }
+                setFragmentResultListener("image") { key, bundle ->
+                    imageNum = bundle.getInt("image")
+                }
+                PutRoomName(ChangeRoomName(memberId, roomId, roomName, imageNum))
             }
             R.id.menu_item2-> {
                 val dialog = ConfirmDialog(this, "채팅방에서 나가시겠습니까?\n모든 대화 기록이 사라집니다.", 0, 0)

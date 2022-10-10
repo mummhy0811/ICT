@@ -124,6 +124,12 @@
         <action
             android:id="@+id/action_navigation_chatList_to_navigation_create_group_chatroom"
             app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_chatList_to_navigation_create_main_chatroom"
+            app:destination="@id/navigation_create_main_chatroom" />
+        <action
+            android:id="@+id/action_navigation_chatList_to_navigation_create_group_chatroom2"
+            app:destination="@id/navigation_create_group_chatroom" />
     </fragment>
 
     <fragment
@@ -202,6 +208,9 @@
         <action
             android:id="@+id/action_navigation_community_to_navigation_create_group_chatroom"
             app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_community_to_postingFragment"
+            app:destination="@id/postingFragment" />
     </fragment>
 
     <fragment
@@ -249,6 +258,31 @@
         <action
             android:id="@+id/action_navigation_create_group_chatroom_to_navigation_create_room_name2"
             app:destination="@id/navigation_create_room_name" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_create_main_chatroom"
+        android:name="com.fine_app.ui.chatList.CreateMainChatRoomFragment"
+        android:label="개인채팅방생성">
+        <action
+            android:id="@+id/action_navigation_create_group_chatroom_to_navigation_create_room_name2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_create_main_chatroom_to_navigation_create_room_name"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_create_main_chatroom_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_create_main_chatroom_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+    </fragment>
+    <fragment
+        android:id="@+id/postingFragment"
+        android:name="com.fine_app.ui.community.PostingFragment"
+        android:label="PostingFragment" >
+        <action
+            android:id="@+id/action_postingFragment_to_navigation_community"
+            app:destination="@id/navigation_community" />
     </fragment>
 
 </navigation>

@@ -1,19 +1,16 @@
 package com.fine_app.ui.chatList
 
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import com.fine_app.MainActivity
 import com.fine_app.R
-import com.fine_app.databinding.FragmentCreateGroupChatroomBinding
 import com.fine_app.databinding.FragmentCreateRoomNameBinding
 
 class CreateRoomNameFragment : Fragment() {
@@ -27,6 +24,8 @@ class CreateRoomNameFragment : Fragment() {
     ): View? {
         _binding = FragmentCreateRoomNameBinding.inflate(layoutInflater)
         val root: View = binding.root
+        val mainAct=activity as MainActivity
+        mainAct.HideBottomNavi(true)
         /*
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window: Window = view.window
@@ -111,6 +110,12 @@ class CreateRoomNameFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
         return root
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+
+        val mainAct=activity as MainActivity
+        mainAct.HideBottomNavi(false)
     }
 
 }

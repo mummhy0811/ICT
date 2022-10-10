@@ -15,10 +15,7 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fine_app.CreateChatRoom
-import com.fine_app.Friend
-import com.fine_app.GroupChat
-import com.fine_app.R
+import com.fine_app.*
 import com.fine_app.databinding.FragmentCreateChatroomBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
@@ -51,6 +48,10 @@ class CreateGroupChatroomFragment : Fragment(), ConfirmDialogInterface {
     ): View? {
         _binding = FragmentCreateChatroomBinding.inflate(layoutInflater)
         val root: View = binding.root
+
+        val mainAct=activity as MainActivity
+        mainAct.HideBottomNavi(true)
+
         userInfo = this.requireActivity().getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         myId = userInfo.getString("userInfo", "2")!!.toLong()
         viewFriendList(myId)
@@ -208,5 +209,11 @@ class CreateGroupChatroomFragment : Fragment(), ConfirmDialogInterface {
                 Log.d("retrofit", "그룹 채팅방 생성 - 응답 실패 / t: $t")
             }
         })
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+
+        val mainAct=activity as MainActivity
+        mainAct.HideBottomNavi(false)
     }
 }
