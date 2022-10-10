@@ -36,3 +36,7 @@ data class ResidenceDto(
     val userResidence: String,
     val updateDate: LocalDateTime
 )
+
+data class AddressRequest(
+    val address: String,
+)

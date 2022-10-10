@@ -70,7 +70,7 @@ interface IMypageService {
     // 대학 메일 보내기
     @POST("/mail")
     fun sendMail(
-        @Body address: String
+        @Body addressRequest: AddressRequest
     ): Call<Long>
 
     // 대학 메일 인증

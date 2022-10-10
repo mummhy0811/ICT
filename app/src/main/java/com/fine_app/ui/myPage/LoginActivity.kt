@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.loginOkBtn.setOnClickListener {
             userLogin()
-            Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
         }
 
         binding.loginSignupTv.setOnClickListener {

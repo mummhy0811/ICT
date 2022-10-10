@@ -71,19 +71,19 @@ class AuthLocationActivity : AppCompatActivity() {
         call.enqueue(object : Callback<Long> {
             override fun onResponse(call: Call<Long>, response: Response<Long>) {
                 if (response.isSuccessful) {
-
                     //Toast.makeText(this@AuthLocationActivity, "인증 성공", Toast.LENGTH_SHORT).show()
+                    finish()
                 } else {
                     //Toast.makeText(this@AuthLocationActivity, "인증 실패", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Long>, t: Throwable) {
-                Toast.makeText(this@AuthLocationActivity, "서버 연결 실패", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@AuthLocationActivity, "서버 연결 실패", Toast.LENGTH_SHORT).show()
 
             }
         })
-        finish()
+
     }
 
 

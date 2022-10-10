@@ -12,7 +12,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.*
@@ -154,9 +156,15 @@ class ChatListFragment : Fragment() {
             itemView.setOnClickListener{
                 //enter(this.chatroom.roomId)
                 //com.fine_app.ui.Stomp().enter(this.chatroom.roomId, myId)
+                /*
                 val create= Intent(activity, ChatRoom::class.java)
                 create.putExtra("roomId" , this.chatroom.roomId)
                 startActivity(create)
+
+                 */
+
+                val bundle= bundleOf("roomId" to this.chatroom.roomId)
+                findNavController().navigate(R.id.action_navigation_chatList_to_navigation_chattingRoom, bundle)
             }
         }
     }

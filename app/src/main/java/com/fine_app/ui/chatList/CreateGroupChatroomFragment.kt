@@ -1,20 +1,25 @@
-/*
 package com.fine_app.ui.chatList
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fine_app.*
-import com.fine_app.databinding.ChattingCreateBinding
+import com.fine_app.CreateChatRoom
+import com.fine_app.Friend
+import com.fine_app.GroupChat
+import com.fine_app.R
+import com.fine_app.databinding.FragmentCreateChatroomBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
@@ -24,44 +29,52 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlin.properties.Delegates
-//note 삭제
-class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
 
-    private lateinit var binding: ChattingCreateBinding
+
+class CreateGroupChatroomFragment : Fragment(), ConfirmDialogInterface {
+
+
+    private var _binding: FragmentCreateChatroomBinding? = null
+    private val binding get() = _binding!!
     private lateinit var recyclerView2: RecyclerView
     private lateinit var recyclerView: RecyclerView
     private lateinit var roomName: String
     private var myId by Delegates.notNull<Long>()
+    private var imageNum by Delegates.notNull<Int>()
     lateinit var userInfo: SharedPreferences
     val selectionList=mutableListOf<Friend>()
     val receiverId=mutableListOf<Long>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ChattingCreateBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        userInfo = getSharedPreferences("userInfo", MODE_PRIVATE)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentCreateChatroomBinding.inflate(layoutInflater)
+        val root: View = binding.root
+        userInfo = this.requireActivity().getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         myId = userInfo.getString("userInfo", "2")!!.toLong()
         viewFriendList(myId)
         binding.backButton2.setOnClickListener {
-            finish()
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
+            //todo 백버튼
         }
         binding.button.setOnClickListener{
             if(receiverId.size==0){
-                val dialog = ConfirmDialog(this@CreateGroupChatRoom, "인원을 선택해주세요", 0, 1)
-                dialog.show(this@CreateGroupChatRoom.supportFragmentManager, "ConfirmDialog")
+                val dialog = ConfirmDialog(this, "인원을 선택해주세요", 0, 1)
+                dialog.show(requireFragmentManager(), "ConfirmDialog")
             }else{
-                val dialog = ConfirmDialog(this@CreateGroupChatRoom, "그룹 채팅방을 개설하시겠습니까?", 0, 0)
+                val dialog = ConfirmDialog(this, "그룹 채팅방을 개설하시겠습니까?", 0, 0)
                 dialog.isCancelable = false
-                dialog.show(this@CreateGroupChatRoom.supportFragmentManager, "ConfirmDialog")
+                dialog.show(requireFragmentManager(), "ConfirmDialog")
             }
         }
+        return root
     }
-
     inner class MyViewHolder(view:View): RecyclerView.ViewHolder(view){
         private lateinit var friend: Friend
-        private val friendProfile:ImageView=itemView.findViewById(R.id.friendProfile)
-        private val friendNickname:TextView=itemView.findViewById(R.id.friendNickname)
+        private val friendProfile: ImageView =itemView.findViewById(R.id.friendProfile)
+        private val friendNickname: TextView =itemView.findViewById(R.id.friendNickname)
         fun bind(friend: Friend){
             this.friend=friend
             friendNickname.text=this.friend.nickname
@@ -92,9 +105,9 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
     }
     inner class MyViewHolder2(view:View): RecyclerView.ViewHolder(view){
         private lateinit var friend: Friend
-        private val friendProfileImage:ImageView=itemView.findViewById(R.id.friend_image)
-        private val friendLevelImage:ImageView=itemView.findViewById(R.id.friend_level) //todo 레벨 이미지 정해야함
-        private val friendName:TextView=itemView.findViewById(R.id.friend_name)
+        private val friendProfileImage: ImageView =itemView.findViewById(R.id.friend_image)
+        private val friendLevelImage: ImageView =itemView.findViewById(R.id.friend_level) //todo 레벨 이미지 정해야함
+        private val friendName: TextView =itemView.findViewById(R.id.friend_name)
         //private val checkBox:CheckBox=itemView.findViewById(R.id.checkBox)
 
         fun bind(friend: Friend){
@@ -122,7 +135,7 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
                     itemView.setBackgroundColor(Color.parseColor("#3EC4C4C4"))
                 }
                 recyclerView=binding.recyclerView
-                recyclerView.layoutManager= LinearLayoutManager(this@CreateGroupChatRoom, LinearLayoutManager.HORIZONTAL, false)
+                recyclerView.layoutManager= LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 recyclerView.visibility=View.VISIBLE
                 recyclerView.adapter=MyAdapter(selectionList)
             }
@@ -153,7 +166,7 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
             override fun onResponse(call: Call<List<Friend>>, response: Response<List<Friend>>) {
                 Log.d("retrofit", "그룹 채팅 추가 친구 목록 - 응답 성공 / t : ${response.raw()}")
                 recyclerView2=binding.recyclerView2
-                recyclerView2.layoutManager= LinearLayoutManager(this@CreateGroupChatRoom)
+                recyclerView2.layoutManager= LinearLayoutManager(context)
                 recyclerView2.adapter=MyAdapter2(response.body()!!.toMutableList())
             }
 
@@ -164,23 +177,22 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
     }
 
     override fun onYesButtonClick(num: Int, theme: Int) {
-        val create= Intent(this@CreateGroupChatRoom, CreateRoomName::class.java)
-        startActivityForResult(create, 100)
 
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d("retrofit", "인텐트 종료")
-        if (resultCode == RESULT_OK) {
-            roomName = data?.getStringExtra("text")!!
-            val imageNum = data.getIntExtra("image", 1)
-            Log.d("image", "받은 이미지 넘버: ${imageNum}")
-            addGroupChatRoom(GroupChat(myId,receiverId.toList(), roomName, imageNum))
-            finish()
+        findNavController().navigate(R.id.action_navigation_create_group_chatroom_to_navigation_create_room_name2)
+
+        setFragmentResultListener("text") { key, bundle ->
+            roomName= bundle.getString("text")!!
         }
+        setFragmentResultListener("image") { key, bundle ->
+            imageNum = bundle.getInt("image")
+        }
+        addGroupChatRoom(GroupChat(myId,receiverId.toList(), roomName, imageNum))
+        //todo 뒤로가기 작동 확인
+        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+        requireActivity().supportFragmentManager.popBackStack()
     }
 
-    private fun addGroupChatRoom(Info:GroupChat){
+    private fun addGroupChatRoom(Info: GroupChat){
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val call = iRetrofit?.addGroupChatRoom(Info) ?:return
@@ -188,7 +200,9 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
         call.enqueue(object : Callback<CreateChatRoom> {
             override fun onResponse(call: Call<CreateChatRoom>, response: Response<CreateChatRoom>) {
                 Log.d("retrofit", "그룹 채팅방 생성 - 응답 성공 / t : ${response.raw()}")
-                finish()
+                //todo 뒤로가기 확인
+                requireActivity().supportFragmentManager.beginTransaction().remove(this@CreateGroupChatroomFragment).commit()
+                requireActivity().supportFragmentManager.popBackStack()
             }
             override fun onFailure(call: Call<CreateChatRoom>, t: Throwable) {
                 Log.d("retrofit", "그룹 채팅방 생성 - 응답 실패 / t: $t")
@@ -196,4 +210,3 @@ class CreateGroupChatRoom: AppCompatActivity(), ConfirmDialogInterface {
         })
     }
 }
-*/

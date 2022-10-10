@@ -105,7 +105,8 @@ class MatchingFragment : Fragment() {
 
             override fun onResponse(call: Call<List<MatchingFriend>>, response: Response<List<MatchingFriend>>) {
                 Log.d("retrofit", "홈 친구추천 - 응답 성공 / t : ${response.raw()}")
-                val adapter=MyAdapter(response.body()!!)
+                val list = arrayListOf<MatchingFriend>(MatchingFriend(9.toLong(), "꼬부기", 3, "영상편집 마스터를 향해!ㅎㅎ", "미디어", "서울특별시", "동덕여자대학교", 0, 3,) )
+                val adapter=MyAdapter(list)
                 recyclerView=binding.recyclerView
                 recyclerView.layoutManager= LinearLayoutManager(context)
                 recyclerView.adapter=adapter

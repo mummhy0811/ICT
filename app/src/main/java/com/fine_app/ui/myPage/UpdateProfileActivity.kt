@@ -167,8 +167,8 @@ class UpdateProfileActivity : AppCompatActivity() {
             nickname = intent.getStringExtra("nickname").toString(),
             intro = binding.etInfo.text.toString(),
             keyword1 = intent.getStringExtra("keyword1").toString(),
-            keyword2 = intent.getStringExtra("keyword2").toString(),
-            keyword3 = checked[0].toString()
+            keyword2 = "서울특별시 성북구",
+            keyword3 = "동덕여자대학교"
         )
 
         val call: Call<Profile> = ServiceCreator.service.editProfile(userId, requestProfileData)

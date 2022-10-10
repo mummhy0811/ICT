@@ -9,7 +9,7 @@
         android:id="@+id/profile_user_follow_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/box_border"
         android:drawableLeft="@drawable/ic_follow"
@@ -110,24 +110,24 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView17"
+                android:id="@+id/mypage_icon_im"
                 android:layout_width="17dp"
                 android:layout_height="19dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toStartOf="@+id/view29"
                 app:layout_constraintStart_toStartOf="@+id/box"
                 app:layout_constraintTop_toBottomOf="@+id/profile_user_intro_tv"
-                app:srcCompat="@drawable/ic_sprout" />
+                app:srcCompat="@drawable/ic_tree" />
 
             <TextView
                 android:id="@+id/mypage_profile_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="새싹 3단계"
+                android:text="나무"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toStartOf="@+id/view29"
                 app:layout_constraintStart_toStartOf="@+id/box"
-                app:layout_constraintTop_toBottomOf="@+id/imageView17" />
+                app:layout_constraintTop_toBottomOf="@+id/mypage_icon_im" />
 
             <TextView
                 android:id="@+id/profile_user_nickname_tv"
@@ -204,7 +204,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/box_border"
         android:drawableLeft="@drawable/ic_chat"
         android:paddingLeft="25dp"
@@ -263,15 +263,16 @@
         app:layout_constraintEnd_toEndOf="@+id/box2"
         app:layout_constraintStart_toEndOf="@+id/view31"
         app:layout_constraintTop_toTopOf="@+id/box2"
-        app:srcCompat="@drawable/ic_auth_add" />
+        app:srcCompat="@drawable/ic_auth_check" />
 
     <TextView
         android:id="@+id/mypage_auth_university_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="한국대학교"
+        android:text="동덕여자대학교"
         android:textColor="@color/black"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/view30"
         app:layout_constraintStart_toStartOf="@+id/box2"
         app:layout_constraintTop_toBottomOf="@+id/mypage_auth_university_ic" />
@@ -283,6 +284,7 @@
         android:layout_marginTop="10dp"
         android:text="번호 인증"
         android:textColor="@color/black"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/view31"
         app:layout_constraintStart_toEndOf="@+id/view30"
         app:layout_constraintTop_toBottomOf="@+id/mypage_auth_phone_ic" />
@@ -292,8 +294,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="지역 인증"
+        android:text="서울특별시 성북구"
         android:textColor="@color/black"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/box2"
         app:layout_constraintStart_toEndOf="@+id/view31"
         app:layout_constraintTop_toBottomOf="@+id/mypage_auth_location_ic" />
@@ -302,9 +305,9 @@
         android:id="@+id/mypage_auth_university_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2022.8.15"
+        android:text="2022.09.15"
         android:textColor="#C4C4C4"
-        android:textSize="12sp"
+        android:textSize="11sp"
         app:layout_constraintEnd_toStartOf="@+id/view30"
         app:layout_constraintStart_toStartOf="@+id/box2"
         app:layout_constraintTop_toBottomOf="@+id/mypage_auth_university_tv" />
@@ -323,8 +326,9 @@
         android:id="@+id/mypage_auth_location_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="2022.09.15"
         android:textColor="#C4C4C4"
-        android:textSize="12sp"
+        android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="@+id/box2"
         app:layout_constraintStart_toEndOf="@+id/view31"
         app:layout_constraintTop_toBottomOf="@+id/mypage_auth_location_tv" />

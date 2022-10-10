@@ -1,5 +1,7 @@
 package com.fine_app.ui.myPage
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.Intent.getIntent
 import android.content.SharedPreferences
@@ -28,6 +30,7 @@ class MyPageFragment : Fragment() {
     lateinit var userInfo: SharedPreferences
     var userId by Delegates.notNull<Long>()
     lateinit var userData: Profile
+    var count = -1
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -46,6 +49,8 @@ class MyPageFragment : Fragment() {
 
         // 프로필 생성
         getMyProfile()
+
+
 
         binding.tvManagePost.setOnClickListener {
             activity?.let{
@@ -129,8 +134,36 @@ class MyPageFragment : Fragment() {
         ft.detach(fragment).attach(fragment).commit()
     }
 
+    fun getPopup() {
+        val builder = AlertDialog.Builder(context)
+        builder
+            .setTitle("재인증")
+            .setMessage("마지막 인증 날짜가 1달 전이에요. 다시 인증해주세요")
+            .setPositiveButton("확인", null)
+        builder.create()
+        builder.show()
+    }
+
     override fun onResume() {
         super.onResume()
+
+        count++
+        if (count == 1) {
+            binding.box6.setVisibility(View.GONE)
+            binding.mypageIconIm.setImageResource(R.drawable.ic_sprout)
+            binding.mypageProfileLevel.setText("새싹")
+            binding.mypageAuthUniversityDate.setText("2022.09.28")
+        }
+        if (count == 2) {
+            binding.mypageIconIm.setImageResource(R.drawable.ic_tree)
+            binding.mypageProfileLevel.setText("나무")
+            binding.mypageAuthPhoneDate.setText("2022.09.28")
+        }
+        if (count == 3) {
+            binding.mypageIconIm.setImageResource(R.drawable.ic_apple)
+            binding.mypageProfileLevel.setText("열매")
+            binding.mypageAuthLocationDate.setText("2022.09.28")
+        }
         getMyProfile()
 
         // Fragment 클래스에서 사용 시
@@ -163,13 +196,16 @@ class MyPageFragment : Fragment() {
                         6 -> binding.mypageProfileImageIv.setImageResource(R.drawable.ic_noun_dooda_in_love_2019979)
                         else -> binding.mypageProfileImageIv.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
                     }
-                    if (userData.level == null) {
-                        binding.mypageProfileLevel.setText("새싹 " + "1단계")
-                    } else {
-                        binding.mypageProfileLevel.setText("새싹 " + userData.level + "단계")
-                    }
 
-                    binding.mypageProfileKeyword1.setText(userData.keyword3)
+//                    if (userData.level == null) {
+//                        binding.mypageProfileLevel.setText("새싹 " + "1단계")
+//                    } else {
+//                        binding.mypageProfileLevel.setText("새싹 " + userData.level + "단계")
+//                    }
+
+                    // 관심분야
+                    binding.mypageProfileKeyword1.setText(userData.keyword1)
+
                     if (userData.follower != null) {
                         binding.mypageProfileFriendNumTv.setText(userData.follower.toString())
                     } else {
@@ -177,32 +213,32 @@ class MyPageFragment : Fragment() {
 
                     }
 
-                    if (userData.keyword1 == null) {
-                        binding.mypageAuthUniversityIc.setImageResource(R.drawable.ic_auth_add)
-                        binding.mypageAuthUniversityTv.setText("학교 인증")
-                    } else {
-                        binding.mypageAuthUniversityIc.setImageResource(R.drawable.ic_auth_check)
-                        binding.mypageAuthUniversityTv.setText(userData.keyword1)
-                        binding.mypageAuthUniversityDate.setText("2022.9.15")
-                    }
-
-                    if (userData.userPhoneNumber == null) {
-                        binding.mypageAuthPhoneIc.setImageResource(R.drawable.ic_auth_add)
-                        binding.mypageAuthPhoneTv.setText("번호 인증")
-                    } else {
-                        binding.mypageAuthPhoneIc.setImageResource(R.drawable.ic_auth_check)
-                        binding.mypageAuthPhoneTv.setText(userData.userPhoneNumber)
-                        binding.mypageAuthPhoneDate.setText("2022.9.15")
-                    }
-
-                    if (userData.keyword2 == null) {
-                        binding.mypageAuthLocationIc.setImageResource(R.drawable.ic_auth_add)
-                        binding.mypageAuthLocationTv.setText("지역 인증")
-                    } else {
-                        binding.mypageAuthLocationIc.setImageResource(R.drawable.ic_auth_check)
-                        binding.mypageAuthLocationTv.setText(userData.keyword2)
-                        binding.mypageAuthLocationDate.setText("2022.9.15")
-                    }
+//                    if (userData.keyword3 == null) {
+//                        binding.mypageAuthUniversityIc.setImageResource(R.drawable.ic_auth_add)
+//                        binding.mypageAuthUniversityTv.setText("학교 인증")
+//                    } else {
+//                        binding.mypageAuthUniversityIc.setImageResource(R.drawable.ic_auth_check)
+//                        binding.mypageAuthUniversityTv.setText(userData.keyword3)
+//                        binding.mypageAuthUniversityDate.setText("2022.9.15")
+//                    }
+//
+//                    if (userData.userPhoneNumber == null) {
+//                        binding.mypageAuthPhoneIc.setImageResource(R.drawable.ic_auth_add)
+//                        binding.mypageAuthPhoneTv.setText("번호 인증")
+//                    } else {
+//                        binding.mypageAuthPhoneIc.setImageResource(R.drawable.ic_auth_check)
+//                        binding.mypageAuthPhoneTv.setText(userData.userPhoneNumber)
+//                        binding.mypageAuthPhoneDate.setText("2022.9.15")
+//                    }
+//
+//                    if (userData.keyword2 == null) {
+//                        binding.mypageAuthLocationIc.setImageResource(R.drawable.ic_auth_add)
+//                        binding.mypageAuthLocationTv.setText("지역 인증")
+//                    } else {
+//                        binding.mypageAuthLocationIc.setImageResource(R.drawable.ic_auth_check)
+//                        binding.mypageAuthLocationTv.setText(userData.keyword2)
+//                        binding.mypageAuthLocationDate.setText("2022.9.15")
+//                    }
 
                 } else {
                     Toast.makeText(context, "프로필 정보 불러오기 실패", Toast.LENGTH_SHORT).show()

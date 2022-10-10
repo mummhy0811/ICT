@@ -25,6 +25,15 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_myPage"
             app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
     </fragment>
 
     <fragment
@@ -47,6 +56,15 @@
         <action
             android:id="@+id/action_navigation_home_recommend_to_navigation_community"
             app:destination="@id/navigation_community" />
+        <action
+            android:id="@+id/action_navigation_home_recommend_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_home_recommend_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_home_recommend_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
     </fragment>
 
     <fragment
@@ -66,6 +84,15 @@
         <action
             android:id="@+id/action_navigation_friendList_to_navigation_community"
             app:destination="@id/navigation_community" />
+        <action
+            android:id="@+id/action_navigation_friendList_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_friendList_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_friendList_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
     </fragment>
 
     <fragment
@@ -88,8 +115,64 @@
         <action
             android:id="@+id/action_navigation_chatList_to_navigation_friendList"
             app:destination="@id/navigation_friendList" />
+        <action
+            android:id="@+id/action_navigation_chatList_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_chatList_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_chatList_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_chattingRoom"
+        android:name="com.fine_app.ui.chatList.ChatRoomFragment"
+        android:label="채팅방">
+        <action
+            android:id="@+id/action_navigation_chatList_to_navigation_home_recommend"
+            app:destination="@id/navigation_home_recommend" />
+        <action
+            android:id="@+id/action_navigation_chatList_to_navigation_myPage"
+            app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_chatList_to_navigation_community"
+            app:destination="@id/navigation_community" />
+        <action
+            android:id="@+id/action_navigation_chatList_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_chatList_to_navigation_friendList"
+            app:destination="@id/navigation_friendList" />
+        <action
+            android:id="@+id/action_navigation_chattingRoom_to_navigation_myPage"
+            app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_chattingRoom_to_navigation_chatList"
+            app:destination="@id/navigation_chatList" />
+        <action
+            android:id="@+id/action_navigation_chattingRoom_to_navigation_community"
+            app:destination="@id/navigation_community" />
+        <action
+            android:id="@+id/action_navigation_chattingRoom_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_chattingRoom_to_navigation_friendList"
+            app:destination="@id/navigation_friendList" />
+        <action
+            android:id="@+id/action_navigation_chattingRoom_to_navigation_home_recommend"
+            app:destination="@id/navigation_home_recommend" />
+        <action
+            android:id="@+id/action_navigation_chattingRoom_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_chattingRoom_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_chattingRoom_to_navigation_create_room_name"
+            app:destination="@id/navigation_create_room_name" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_community"
         android:name="com.fine_app.ui.community.CommunityFragment"
@@ -110,6 +193,15 @@
         <action
             android:id="@+id/action_navigation_community_to_navigation_myPage"
             app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
     </fragment>
 
     <fragment
@@ -132,6 +224,31 @@
         <action
             android:id="@+id/action_navigation_myPage_to_navigation_community"
             app:destination="@id/navigation_community" />
+        <action
+            android:id="@+id/action_navigation_myPage_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_myPage_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_myPage_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_create_room_name"
+        android:name="com.fine_app.ui.chatList.CreateRoomNameFragment"
+        android:label="채팅방설정">
+        <action
+            android:id="@+id/action_navigation_create_room_name_to_navigation_create_group_chatroom2"
+            app:destination="@id/navigation_create_group_chatroom" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_create_group_chatroom"
+        android:name="com.fine_app.ui.chatList.CreateGroupChatroomFragment"
+        android:label="그룹채팅방생성">
+        <action
+            android:id="@+id/action_navigation_create_group_chatroom_to_navigation_create_room_name2"
+            app:destination="@id/navigation_create_room_name" />
     </fragment>
 
 </navigation>

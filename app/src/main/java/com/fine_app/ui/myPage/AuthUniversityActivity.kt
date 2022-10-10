@@ -44,6 +44,7 @@ class AuthUniversityActivity : AppCompatActivity() {
 
         binding.authUniversitySendMessage.setOnClickListener{
             sendMail()
+            binding.authUniversityMsg.setText("인증번호를 발송했습니다.")
         }
 
         binding.authUniversityReSendMessage.setOnClickListener{
@@ -52,6 +53,7 @@ class AuthUniversityActivity : AppCompatActivity() {
 
         binding.authUniversityOk.setOnClickListener{
             verifyUniversityAuth()
+            finish()
         }
     }
 
@@ -64,20 +66,23 @@ class AuthUniversityActivity : AppCompatActivity() {
 
     private fun sendMail() {
         var address = binding.authUniversityMailEt.text.toString() + link
-        val call: Call<Long> = ServiceCreator.service.sendMail(address)
+
+        val addressRequest = AddressRequest(
+            address = address
+        )
+        val call: Call<Long> = ServiceCreator.service.sendMail(addressRequest)
 
         call.enqueue(object : Callback<Long> {
             override fun onResponse(call: Call<Long>, response: Response<Long>) {
                 if (response.isSuccessful) {
-                    binding.authUniversityMsg.setText("인증번호를 발송했습니다.")
-                    Toast.makeText(this@AuthUniversityActivity, "인증번호 전송 성공", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@AuthUniversityActivity, "인증번호 전송 성공", Toast.LENGTH_SHORT).show()
                 } else {
                     //Toast.makeText(this@AuthUniversityActivity, "인증번호 전송 실패", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Long>, t: Throwable) {
-                Toast.makeText(this@AuthUniversityActivity, "서버 연결 실패", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@AuthUniversityActivity, "서버 연결 실패", Toast.LENGTH_SHORT).show()
 
             }
         })

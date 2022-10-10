@@ -105,16 +105,16 @@ class ShowUserProfileActivity : AppCompatActivity() {
                         else -> binding.profileUserImageIv.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
                     }
 
-                    binding.mypageProfileKeyword1.setText(userData.keyword3)
+                    binding.mypageProfileKeyword1.setText("미디어")
 
-                    if (userData.keyword1 == null) {
-                        binding.mypageAuthUniversityIc.setImageResource(R.drawable.ic_auth_add)
-                        binding.mypageAuthUniversityTv.setText("학교 인증")
-                    } else {
-                        binding.mypageAuthUniversityIc.setImageResource(R.drawable.ic_auth_check)
-                        binding.mypageAuthUniversityTv.setText(userData.keyword1)
-                        binding.mypageAuthUniversityDate.setText("2022.9.15")
-                    }
+//                    if (userData.keyword1 == null) {
+//                        binding.mypageAuthUniversityIc.setImageResource(R.drawable.ic_auth_add)
+//                        binding.mypageAuthUniversityTv.setText("학교 인증")
+//                    } else {
+//                        binding.mypageAuthUniversityIc.setImageResource(R.drawable.ic_auth_check)
+//                        binding.mypageAuthUniversityTv.setText(userData.keyword1)
+//                        binding.mypageAuthUniversityDate.setText("2022.9.15")
+//                    }
 
                     if (userData.userPhoneNumber == null) {
                         binding.mypageAuthPhoneIc.setImageResource(R.drawable.ic_auth_add)
@@ -125,14 +125,14 @@ class ShowUserProfileActivity : AppCompatActivity() {
                         binding.mypageAuthPhoneDate.setText("2022.9.15")
                     }
 
-                    if (userData.keyword2 == null) {
-                        binding.mypageAuthLocationIc.setImageResource(R.drawable.ic_auth_add)
-                        binding.mypageAuthLocationTv.setText("지역 인증")
-                    } else {
-                        binding.mypageAuthLocationIc.setImageResource(R.drawable.ic_auth_check)
-                        binding.mypageAuthLocationTv.setText(userData.keyword2)
-                        binding.mypageAuthLocationDate.setText("2022.9.15")
-                    }
+//                    if (userData.keyword2 == null) {
+//                        binding.mypageAuthLocationIc.setImageResource(R.drawable.ic_auth_add)
+//                        binding.mypageAuthLocationTv.setText("지역 인증")
+//                    } else {
+//                        binding.mypageAuthLocationIc.setImageResource(R.drawable.ic_auth_check)
+//                        binding.mypageAuthLocationTv.setText(userData.keyword2)
+//                        binding.mypageAuthLocationDate.setText("2022.9.15")
+//                    }
 
                     // 내 프로필일 경우
                     if (userId == myId) { // TODO: 내 아이디 불러오기

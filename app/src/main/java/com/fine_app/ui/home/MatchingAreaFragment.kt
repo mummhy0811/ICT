@@ -1,5 +1,6 @@
 package com.fine_app.ui.home
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -22,6 +23,7 @@ import com.fine_app.databinding.FragmentMatchingBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
+import com.fine_app.ui.community.ShowUserProfileActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -82,6 +84,9 @@ class MatchingAreaFragment : Fragment() {
                 else -> image.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
             }
             itemView.setOnClickListener{
+                val userProfile = Intent(context, ShowUserProfileActivity::class.java)
+                userProfile.putExtra("memberId", 9.toLong())
+                startActivity(userProfile)
             }
         }
     }
@@ -105,7 +110,16 @@ class MatchingAreaFragment : Fragment() {
 
             override fun onResponse(call: Call<List<MatchingFriend>>, response: Response<List<MatchingFriend>>) {
                 Log.d("retrofit", "홈 친구추천 - 응답 성공 / t : ${response.raw()}")
-                val adapter=MyAdapter(response.body()!!)
+
+                val post1= MatchingFriend(9.toLong(), "꼬부기", 3, "영상편집 마스터를 향해!ㅎㅎ", "미디어", "서울특별시", "동덕여자대학교", 0, 3)
+                val post2= MatchingFriend(12.toLong(), "모찌", 1, "편하게 연락주세욧!!", "토목,환경", "서울특별시", "서울대학교", 0, 3)
+                val post3= MatchingFriend(14.toLong(), "쿠쿸다스", 3, "", "미디어", "서울특별시", "고려대학교", 0, 3)
+                val testList=ArrayList<MatchingFriend>()
+                testList.add(post1)
+                testList.add(post2)
+                testList.add(post3)
+
+                val adapter=MyAdapter(testList)
                 recyclerView=binding.recyclerView
                 recyclerView.layoutManager= LinearLayoutManager(context)
                 recyclerView.adapter=adapter

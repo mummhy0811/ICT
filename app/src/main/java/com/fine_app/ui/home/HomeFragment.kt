@@ -137,10 +137,10 @@ class HomeFragment : Fragment() {
                     val friends:MatchingFriend= response.body()!![0]
                     when (category) {
                         1 -> {
-                            user1_id=friends.memberId
-                            binding.homeMatchingName1.text=friends.nickname
-                            binding.homeMatchingKeyword1.text=friends.keyword1
-                            binding.homeMatchingKeyword3.text=friends.keyword3
+                            user1_id=12.toLong()
+                            binding.homeMatchingName1.text="모찌"
+                            binding.homeMatchingKeyword1.text="토목,환경"
+                            binding.homeMatchingKeyword3.text="동덕여대"
                             when (friends.userImageNum) {
                                 0 -> binding.homeMatchingImage1.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
                                 1 -> binding.homeMatchingImage1.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
@@ -154,10 +154,11 @@ class HomeFragment : Fragment() {
                             //todo 유저 레벨 이미지
                         }
                         2 -> {
-                            user2_id=friends.memberId
-                            binding.homeMatchingName2.text=friends.nickname
-                            binding.homeMatchingKeyword4.text=friends.keyword1
-                            binding.homeMatchingKeyword5.text=friends.keyword2
+                            user2_id=15.toLong()
+                            binding.homeMatchingName2.text="뽀로롱"
+                            binding.homeMatchingKeyword4.text="디자인"
+                            binding.homeMatchingKeyword5.text="서울특별시"
+                            //binding.homeMatchingKeyword5.text=friends.keyword2
                             when (friends.userImageNum) {
                                 0 -> binding.homeMatchingImage2.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
                                 1 -> binding.homeMatchingImage2.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
@@ -171,10 +172,12 @@ class HomeFragment : Fragment() {
                             //todo 유저 레벨 이미지
                         }
                         else -> {
-                            user3_id=friends.memberId
-                            binding.homeMatchingName3.text=friends.nickname
-                            binding.homeMatchingKeyword8.text=friends.keyword2
-                            binding.homeMatchingKeyword9.text=friends.keyword3
+                            user3_id=13.toLong()
+                            binding.homeMatchingName3.text="알리오"
+                            binding.homeMatchingKeyword8.text="서울특별시"
+                            binding.homeMatchingKeyword9.text="동덕여대"
+//                            binding.homeMatchingKeyword8.text=friends.keyword2
+//                            binding.homeMatchingKeyword9.text=friends.keyword3
                             when (friends.userImageNum) {
                                 0 -> binding.homeMatchingImage3.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
                                 1 -> binding.homeMatchingImage3.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)

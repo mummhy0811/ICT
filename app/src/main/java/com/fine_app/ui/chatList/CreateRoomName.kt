@@ -1,3 +1,4 @@
+/*
 package com.fine_app.ui.chatList
 
 import android.content.Intent
@@ -108,3 +109,4 @@ class CreateRoomName: AppCompatActivity(){
         setContentView(binding.root)
     }
 }
+ */

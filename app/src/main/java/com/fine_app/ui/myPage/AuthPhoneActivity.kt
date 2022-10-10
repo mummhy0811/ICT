@@ -61,7 +61,7 @@ class AuthPhoneActivity : AppCompatActivity() {
     // 전화번호로 인증 번호 전송
     private fun sendAuthMesssage() {
         phoneNumber = phoneNumber + binding.authPhoneNumberEt.text.toString()
-        Toast.makeText(this@AuthPhoneActivity, phoneNumber, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this@AuthPhoneActivity, phoneNumber, Toast.LENGTH_SHORT).show()
 
         val call: Call<Long> = ServiceCreator.service.sendAuthMesssage(userId, phoneNumber)
 
@@ -75,7 +75,7 @@ class AuthPhoneActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Long>, t: Throwable) {
-                Toast.makeText(this@AuthPhoneActivity, "서버 연결 실패", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@AuthPhoneActivity, "서버 연결 실패", Toast.LENGTH_SHORT).show()
 
             }
         })
@@ -91,7 +91,7 @@ class AuthPhoneActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Long>, response: Response<Long>) {
                 if (response.isSuccessful) {
 
-                    //Toast.makeText(this@AuthPhoneActivity, "인증 성공", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AuthPhoneActivity, "인증 성공", Toast.LENGTH_SHORT).show()
 
                 } else {
                     //Toast.makeText(this@AuthPhoneActivity, "인증 실패", Toast.LENGTH_SHORT).show()
@@ -99,7 +99,7 @@ class AuthPhoneActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Long>, t: Throwable) {
-                Toast.makeText(this@AuthPhoneActivity, "서버 연결 실패", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@AuthPhoneActivity, "서버 연결 실패", Toast.LENGTH_SHORT).show()
 
             }
         })
