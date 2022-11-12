@@ -1,4 +1,4 @@
-
+/*
 package com.fine_app.ui.chatList
 
 import android.content.Intent
@@ -533,3 +533,4 @@ class ChatRoom: AppCompatActivity() ,NavigationView.OnNavigationItemSelectedList
         })
     }
 }
+ */

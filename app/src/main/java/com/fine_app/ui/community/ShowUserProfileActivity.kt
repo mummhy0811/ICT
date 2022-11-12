@@ -2,23 +2,17 @@ package com.fine_app.ui.community
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.fine_app.CreateChatRoom
-import com.fine_app.Friend
-import com.fine_app.PersonalChat
-import com.fine_app.R
+import com.fine_app.*
 import com.fine_app.databinding.ActivityShowUserProfileBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
-import com.fine_app.ui.chatList.ChatRoom
-import com.fine_app.ui.chatList.CreateMainChatRoom
 import com.fine_app.ui.myPage.Profile
 import com.fine_app.ui.myPage.ServiceCreator
 import retrofit2.Call

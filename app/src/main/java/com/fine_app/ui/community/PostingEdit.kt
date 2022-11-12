@@ -1,4 +1,4 @@
-package com.fine_app.ui.community
+/*package com.fine_app.ui.community
 
 import android.os.Bundle
 import android.text.Editable
@@ -65,3 +65,4 @@ class PostingEdit : AppCompatActivity() {
         })
     }
 }
+ */

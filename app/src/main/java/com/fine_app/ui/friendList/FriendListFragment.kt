@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.Friend
@@ -49,8 +50,7 @@ class FriendListFragment : Fragment() {
             }
         }
         binding.findFriendButton.setOnClickListener {
-            val intent = Intent(context, SearchFriendList::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_navigation_friendList_to_navigation_SearchFriendList)
         }
         return binding.root
     }

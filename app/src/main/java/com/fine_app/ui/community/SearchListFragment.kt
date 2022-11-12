@@ -1,17 +1,23 @@
-/*package com.fine_app.ui.community
+package com.fine_app.ui.community
 
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.fine_app.*
-import com.fine_app.databinding.CommunitySearchBinding
+import com.fine_app.MainActivity
+import com.fine_app.Post
+import com.fine_app.R
+import com.fine_app.databinding.FragmentSearchListBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
@@ -20,20 +26,26 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.properties.Delegates
 
-class SearchList : AppCompatActivity() {
-    private lateinit var binding: CommunitySearchBinding
+class SearchListFragment : Fragment() {
+    private var _binding: FragmentSearchListBinding? = null
+    private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private var myID by Delegates.notNull<Long>()
     lateinit var userInfo: SharedPreferences
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentSearchListBinding.inflate(layoutInflater)
+        val root: View = binding.root
 
-        binding = CommunitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        userInfo = getSharedPreferences("userInfo", MODE_PRIVATE)
+        val mainAct=activity as MainActivity
+        mainAct.HideBottomNavi(true)
+
+        userInfo = this.requireActivity().getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
         myID = userInfo.getString("userInfo", "2")!!.toLong()
-        val text=intent.getStringExtra("text")
+        val text=arguments?.getString("text")!!
         if (text != "") {
             binding.searchView.setQuery(text, false)
             searchPosting(text!!)
@@ -41,7 +53,7 @@ class SearchList : AppCompatActivity() {
 
         val items = arrayOf("닉네임", "키워드")
         val spinner: Spinner = binding.spinner5
-        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
+        spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long
             ) {
@@ -63,10 +75,13 @@ class SearchList : AppCompatActivity() {
             }
         })
         binding.cancelButton.setOnClickListener{
-            finish()
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
+            //todo 백버튼
         }
-
+        return root
     }
+
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         private lateinit var post: Post
@@ -132,7 +147,7 @@ class SearchList : AppCompatActivity() {
                 Log.d("retrofit", "커뮤니티 글 검색 - 응답 성공 / t : ${response.raw()}")
                 val adapter=MyAdapter(response.body()!!)
                 recyclerView=binding.recyclerView
-                recyclerView.layoutManager= LinearLayoutManager(this@SearchList)
+                recyclerView.layoutManager= LinearLayoutManager(context)
                 recyclerView.adapter=adapter
             }
             override fun onFailure(call: Call<List<Post>>, t: Throwable) {
@@ -147,23 +162,14 @@ class SearchList : AppCompatActivity() {
         val call = iRetrofit?.viewPosting(postingId = term, memberId = memberId) ?:return
 
         //enqueue 하는 순간 네트워킹
-        call.enqueue(object : Callback<Post>{
+        call.enqueue(object : Callback<Post> {
             //응답성공
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.d("retrofit", "그룹 커뮤니티 세부 글 - 응답 성공 / t : ${response.raw()}")
 
-                val postDetail= Intent(this@SearchList, PostDetail_Group::class.java)
-                postDetail.putExtra("nickname", response.body()!!.nickname)
-                postDetail.putExtra("title", response.body()!!.title)
-                postDetail.putExtra("content", response.body()!!.content)
-                postDetail.putExtra("comments", response.body()!!.comments)
-                postDetail.putExtra("capacity", response.body()!!.capacity)
-                postDetail.putExtra("lastModifiedDate", response.body()!!.lastModifiedDate)
-                postDetail.putExtra("closingCheck", response.body()!!.closingCheck)
-                postDetail.putExtra("recruitingList", response.body()!!.recruitingList)
-                postDetail.putExtra("memberId", response.body()!!.memberId)
-                postDetail.putExtra("postingId", postingId)
-                startActivity(postDetail)
+                val bundle= bundleOf("postingId" to postingId)
+                findNavController().navigate(R.id.action_navigation_chatList_to_navigation_chattingRoom, bundle)
+                //todo 네비 수정
             }
             //응답실패
             override fun onFailure(call: Call<Post>, t: Throwable) {
@@ -179,23 +185,15 @@ class SearchList : AppCompatActivity() {
         val call = iRetrofit?.viewPosting(postingId = term, memberId=memberId) ?:return
 
         //enqueue 하는 순간 네트워킹
-        call.enqueue(object : Callback<Post>{
+        call.enqueue(object : Callback<Post> {
             //응답성공
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.d("retrofit", "메인 커뮤니티 세부 글 - 응답 성공 / t : ${response.raw()}")
                 Log.d("retrofit", response.body().toString())
 
-                val postDetail= Intent(this@SearchList, PostDetail_Main::class.java)
-                postDetail.putExtra("nickname", response.body()!!.nickname)
-                postDetail.putExtra("title", response.body()?.title)
-                postDetail.putExtra("content", response.body()?.content)
-                postDetail.putExtra("comments", response.body()?.comments)
-                postDetail.putExtra("capacity", response.body()?.capacity)
-                postDetail.putExtra("createdDate", response.body()?.createdDate)
-                postDetail.putExtra("lastModifiedDate", response.body()?.lastModifiedDate)
-                postDetail.putExtra("memberId", response.body()?.memberId)
-                postDetail.putExtra("postingId", postingId)
-                startActivity(postDetail)
+                val bundle= bundleOf("postingId" to postingId)
+                findNavController().navigate(R.id.action_navigation_chatList_to_navigation_chattingRoom, bundle)
+                //todo 네비 수정
             }
             //응답실패
             override fun onFailure(call: Call<Post>, t: Throwable) {
@@ -203,6 +201,10 @@ class SearchList : AppCompatActivity() {
             }
         })
     }
-}
+    override fun onDestroy() {
+        super.onDestroy()
 
- */
+        val mainAct=activity as MainActivity
+        mainAct.HideBottomNavi(false)
+    }
+}

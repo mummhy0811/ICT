@@ -1,9 +1,11 @@
-/*package com.fine_app.ui.community
+package com.fine_app.ui.community
 
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -13,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.*
-import com.fine_app.databinding.CommunityWaitinglistBinding
+import com.fine_app.databinding.FragmentWaitingListBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
@@ -22,8 +24,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.properties.Delegates
 
-class WaitingList : AppCompatActivity(), ConfirmDialogInterface  {
-    private lateinit var binding: CommunityWaitinglistBinding
+class WaitingListFragment : Fragment(), ConfirmDialogInterface   {
+    private var _binding: FragmentWaitingListBinding? = null
+    private val binding get() = _binding!!
     private lateinit var memberRecyclerView: RecyclerView
     private lateinit var waitingRecyclerView: RecyclerView
     var waitingList=ArrayList<Recruit>()
@@ -34,19 +37,29 @@ class WaitingList : AppCompatActivity(), ConfirmDialogInterface  {
     lateinit var userInfo: SharedPreferences
     private lateinit var recruitingList:ArrayList<Recruit>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        userInfo = getSharedPreferences("userInfo", MODE_PRIVATE)
-        myID = userInfo.getString("userInfo", "2")!!.toLong()
-        binding = CommunityWaitinglistBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        binding.backButton.setOnClickListener{
-            finish()
-        }
-        postingID=intent.getLongExtra("postingID", 0)
-        viewPosting(postingID, myID)
-    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentWaitingListBinding.inflate(inflater, container, false)
+        val root: View = binding.root
 
+        val mainAct=activity as MainActivity
+        mainAct.HideBottomNavi(true)
+
+        userInfo = this.requireActivity().getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        myID = userInfo.getString("userInfo", "2")!!.toLong()
+
+
+        binding.backButton.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
+            //todo 백버튼
+        }
+        postingID=arguments?.getLong("postingID")!!
+        viewPosting(postingID, myID)
+        return root
+    }
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         private lateinit var crew: Recruit
@@ -76,13 +89,13 @@ class WaitingList : AppCompatActivity(), ConfirmDialogInterface  {
                     if(memberList.size.toLong() != capacity) { //정원이 다 안 찬 상태
                         manageJoinGroup(postingID, this.crew.recruitingId, AcceptCheck(true))
                     }else{ //정원이 다 찬 상태
-                        val dialog = ConfirmDialog(this@WaitingList, "인원을 더 추가할 수 없습니다", 2,1)
-                        dialog.show(this@WaitingList.supportFragmentManager, "ConfirmDialog")
+                        val dialog = ConfirmDialog(this@WaitingListFragment, "인원을 더 추가할 수 없습니다", 2,1)
+                        dialog.show(requireFragmentManager(), "ConfirmDialog")
                     }
                 }
             }
             image.setOnClickListener{
-                val userProfile = Intent(this@WaitingList, ShowUserProfileActivity::class.java)
+                val userProfile = Intent(requireContext(), ShowUserProfileActivity::class.java)
                 userProfile.putExtra("memberId",this.crew.member.memberId )
                 startActivity(userProfile)
             }
@@ -117,7 +130,7 @@ class WaitingList : AppCompatActivity(), ConfirmDialogInterface  {
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val call = iRetrofit?.viewPosting(postingId = postingId , memberId=memberId ) ?:return
 
-        call.enqueue(object :Callback<Post>{
+        call.enqueue(object : Callback<Post> {
 
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.d("retrofit", "그룹 커뮤니티 대기 리스트 - 응답 성공 / t : ${response.raw()}")
@@ -131,11 +144,11 @@ class WaitingList : AppCompatActivity(), ConfirmDialogInterface  {
                 }
 
                 memberRecyclerView=binding.memberRecyclerView
-                memberRecyclerView.layoutManager= LinearLayoutManager(this@WaitingList)
+                memberRecyclerView.layoutManager= LinearLayoutManager(context)
                 memberRecyclerView.adapter=MemberAdapter(memberList)
 
                 waitingRecyclerView=binding.waitingRecyclerView
-                waitingRecyclerView.layoutManager= LinearLayoutManager(this@WaitingList)
+                waitingRecyclerView.layoutManager= LinearLayoutManager(context)
                 waitingRecyclerView.adapter=WaitingAdapter(waitingList)
 
                 if(response.body()!!.closingCheck){
@@ -152,12 +165,12 @@ class WaitingList : AppCompatActivity(), ConfirmDialogInterface  {
 
                 binding.closingButton.setOnClickListener{
                     if(response.body()!!.closingCheck){
-                        val dialog = ConfirmDialog(this@WaitingList, "마감을 수정할 수 없습니다.", 3,1)
-                        dialog.show(this@WaitingList.supportFragmentManager, "ConfirmDialog")
+                        val dialog = ConfirmDialog(this@WaitingListFragment, "마감을 수정할 수 없습니다.", 3,1)
+                        dialog.show(requireFragmentManager(), "ConfirmDialog")
                     }else{
-                        val dialog = ConfirmDialog(this@WaitingList, "모집을 마감하시겠습니까?", 4, 0)
+                        val dialog = ConfirmDialog(this@WaitingListFragment, "모집을 마감하시겠습니까?", 4, 0)
                         dialog.isCancelable = false
-                        dialog.show(this@WaitingList.supportFragmentManager, "ConfirmDialog")
+                        dialog.show(requireFragmentManager(), "ConfirmDialog")
                     }
 
 
@@ -204,7 +217,7 @@ class WaitingList : AppCompatActivity(), ConfirmDialogInterface  {
     }
 
     fun showAgain(){
-        viewPosting(intent.getLongExtra("postingID", 0), myID)
+        viewPosting(arguments?.getLong("postingID")!!, myID)
     }
 
     override fun onYesButtonClick(num: Int, theme: Int) {
@@ -219,19 +232,19 @@ class WaitingList : AppCompatActivity(), ConfirmDialogInterface  {
                     editClosing(postingID)
                     val receiverList=ArrayList<Long>()
                     receiverList.clear()
-                    for( i in 0..memberList.size-1){
+                    for( i in 0 until memberList.size){
                         receiverList.add(memberList[i].member.memberId)
                     }
-                    Log.d("waiting", "receiverList: ${receiverList}")
+                    Log.d("waiting", "receiverList: $receiverList")
                     addGroupChatRoom(GroupChat(myID,receiverList.toList(), "그룹 채팅방", 11))
                 }else{
                     val dialog = ConfirmDialog(this, "인원을 추가해주세요", 2,1)
-                    dialog.show(this.supportFragmentManager, "ConfirmDialog")
+                    dialog.show(requireFragmentManager(), "ConfirmDialog")
                 }
             }
         }
     }
-    private fun addGroupChatRoom(Info:GroupChat){
+    private fun addGroupChatRoom(Info: GroupChat){
         val iRetrofit : IRetrofit? =
             RetrofitClient.getClient(API.BASE_URL)?.create(IRetrofit::class.java)
         val call = iRetrofit?.addGroupChatRoom(Info) ?:return
@@ -239,14 +252,19 @@ class WaitingList : AppCompatActivity(), ConfirmDialogInterface  {
         call.enqueue(object : Callback<CreateChatRoom> {
             override fun onResponse(call: Call<CreateChatRoom>, response: Response<CreateChatRoom>) {
                 Log.d("retrofit", "그룹 채팅방 생성 - 응답 성공 / t : ${response.raw()}")
-                finish()
+                requireActivity().supportFragmentManager.beginTransaction().remove(this@WaitingListFragment).commit()
+                requireActivity().supportFragmentManager.popBackStack()
+                //todo 백버튼
             }
             override fun onFailure(call: Call<CreateChatRoom>, t: Throwable) {
                 Log.d("retrofit", "그룹 채팅방 생성 - 응답 실패 / t: $t")
             }
         })
     }
+    override fun onDestroy() {
+        super.onDestroy()
 
+        val mainAct=activity as MainActivity
+        mainAct.HideBottomNavi(false)
+    }
 }
-
- */

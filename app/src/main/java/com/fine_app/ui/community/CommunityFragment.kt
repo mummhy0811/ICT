@@ -1,10 +1,10 @@
 package com.fine_app.ui.community
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -31,22 +31,18 @@ class CommunityFragment : Fragment() {
         val tabLayout: TabLayout = binding.tabLayout
         val viewpagerFragmentAdapter = ViewPagerAdapter(this)
 
-        // ViewPager2의 adapter 설정
         viewPager.adapter = viewpagerFragmentAdapter
 
-        // ###### TabLayout 과 ViewPager2를 연결
-        // 1. 탭메뉴의 이름을 리스트로 생성해둔다.
         val tabTitles = listOf("일반", "그룹")
 
-        // 2. TabLayout 과 ViewPager2를 연결하고, TabItem 의 메뉴명을 설정한다.
         TabLayoutMediator(tabLayout, viewPager) { tab, position -> tab.text = tabTitles[position] }.attach()
 
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             //검색 버튼 눌렀을 때 호출
             override fun onQueryTextSubmit(p0: String): Boolean {
-                val search= Intent(activity, SearchList::class.java)
-                search.putExtra("text", p0)
-                startActivity(search)
+                val bundle= bundleOf("text" to p0)
+                findNavController().navigate(R.id.action_navigation_community_to_navigation_communitySearch, bundle)
+
                 binding.searchView.setQuery(null, false)
                 return true
             }

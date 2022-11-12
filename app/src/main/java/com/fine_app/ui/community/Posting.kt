@@ -1,4 +1,4 @@
-package com.fine_app.ui.community
+/*package com.fine_app.ui.community
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -147,3 +147,4 @@ class Posting : AppCompatActivity(), ConfirmDialogInterface {
         })
     }
 }
+ */

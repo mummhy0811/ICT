@@ -1,22 +1,23 @@
-/*package com.fine_app.ui.community
+package com.fine_app.ui.community
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.view.View.INVISIBLE
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.*
-import com.fine_app.databinding.CommunityMainPostBinding
+import com.fine_app.databinding.FragmentPostDetailMainBinding
 import com.fine_app.retrofit.API
 import com.fine_app.retrofit.IRetrofit
 import com.fine_app.retrofit.RetrofitClient
@@ -25,9 +26,10 @@ import retrofit2.Response
 import kotlin.properties.Delegates
 
 
-class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
-    private lateinit var binding: CommunityMainPostBinding
-    private lateinit var adapter:MyAdapter
+class PostDetailMainFragment : Fragment(), ConfirmDialogInterface {
+    private var _binding: FragmentPostDetailMainBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var adapter: PostDetailMainFragment.MyAdapter
     private var postingId by Delegates.notNull<Long>()
     private var writerID by Delegates.notNull<Long>()
     private var myID by Delegates.notNull<Long>()
@@ -41,28 +43,35 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
 
     private var bookMarkId:Long=0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        /*
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window: Window = window
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
-        binding = CommunityMainPostBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        userInfo = getSharedPreferences("userInfo", MODE_PRIVATE)
-        myID = userInfo.getString("userInfo", "2")!!.toLong()
-        postingId=intent.getLongExtra("postingId", 1)
-        writerID=intent.getLongExtra("memberId", 1)
-        viewPosting(postingId, myID)
 
+         */
+        _binding = FragmentPostDetailMainBinding.inflate(layoutInflater)
+        val root: View = binding.root
+        val mainAct=activity as MainActivity
+        mainAct.HideBottomNavi(true)
+        userInfo = this.requireActivity().getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
+        myID = userInfo.getString("userInfo", "2")!!.toLong()
+        postingId=arguments?.getLong("postingId")!!
+        writerID=arguments?.getLong("memberId")!!
+        viewPosting(postingId, myID)
+        return root
     }
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
 
         private lateinit var comment: Comment
         private val nickname: TextView =itemView.findViewById(R.id.nickname)
         private val text: TextView =itemView.findViewById(R.id.comment)
-        private val image:ImageView=itemView.findViewById(R.id.commentProfileImage)
+        private val image: ImageView =itemView.findViewById(R.id.commentProfileImage)
         fun bind(comment:Comment){
             this.comment=comment
             nickname.text=this.comment.member.nickname
@@ -80,20 +89,20 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
 
 
             nickname.setOnClickListener { //댓글 작성자 프로필 조회
-                val userProfile = Intent(this@PostDetail_Main, ShowUserProfileActivity::class.java)
+                val userProfile = Intent(context, ShowUserProfileActivity::class.java)
                 userProfile.putExtra("memberId",this.comment.member.memberId)
                 startActivity(userProfile)
             }
 
             image.setOnClickListener{ //댓글 작성자 프로필 조회
-                val userProfile = Intent(this@PostDetail_Main, ShowUserProfileActivity::class.java)
+                val userProfile = Intent(context, ShowUserProfileActivity::class.java)
                 userProfile.putExtra("memberId",this.comment.member.memberId)
                 startActivity(userProfile)
             }
 
             itemView.setOnLongClickListener{
                 val items=arrayOf("수정", "삭제")
-                val builder = AlertDialog.Builder(this@PostDetail_Main)
+                val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle("댓글 관리")
                 builder.setItems(items){ _, which ->
                     if(which == 0) {
@@ -109,7 +118,7 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
                             }
                         })
                         binding.commentButton.setOnClickListener{
-                            val newComment=NewComment(myID, postingId, text)
+                            val newComment= NewComment(myID, postingId, text)
                             editComment(this.comment.commentId, newComment)
                             binding.putComment.setText("")
                         }
@@ -151,7 +160,7 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
         binding.postTitle.text=postTitle
         binding.postContent.text=postContent
         binding.writerName.text=postWriter
-        when (intent.getIntExtra("profileID", 0)) {
+        when (arguments?.getInt("profileID")!!) {
             0 -> binding.writerImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
             1 -> binding.writerImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
             2 -> binding.writerImage.setImageResource(R.drawable.ic_noun_dooda_business_man_2019971)
@@ -162,13 +171,16 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
             else -> binding.writerImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
         }
         binding.writerImage.setOnClickListener{ //작성자 프로필 조회
-            val userProfile = Intent(this, ShowUserProfileActivity::class.java)
+            //todo 작성자 프로필 조회 프래그먼트로 변경
+            val userProfile = Intent(context, ShowUserProfileActivity::class.java)
             userProfile.putExtra("memberId",writerID)
             startActivity(userProfile)
         }
         //-----------------------------------------------------버튼 클릭-------------------------------------------------
         binding.backButton.setOnClickListener{ //글 세부페이지 종료
-            finish()
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            requireActivity().supportFragmentManager.popBackStack()
+            //todo 백버튼
         }
 
         val editButton=binding.editButton
@@ -176,41 +188,39 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
         val markButton=binding.markButton
 
         if(writerID != myID){ //내가 쓴 글이 아니면 수정 삭제 불가
-            editButton.visibility= INVISIBLE
-            deleteButton.visibility= INVISIBLE
+            editButton.visibility= View.INVISIBLE
+            deleteButton.visibility= View.INVISIBLE
             markButton.setOnClickListener{
                 if (bookMarkId ==0.toLong()){//북마크 추가
                     val dialog = ConfirmDialog(this, "북마크를 추가했습니다.", 2,1)
-                    dialog.show(this.supportFragmentManager, "ConfirmDialog")
-                    val newBookMark=BookMark(myID, postingId)
+                    dialog.show(requireFragmentManager(), "ConfirmDialog")
+                    val newBookMark= BookMark(myID, postingId)
                     addBookMark(newBookMark)
                 } else{//북마크 취소
                     val dialog = ConfirmDialog(this, "북마크를 취소하였습니다.", 1,1)
-                    dialog.show(this.supportFragmentManager, "ConfirmDialog")
+                    dialog.show(requireFragmentManager(), "ConfirmDialog")
                     deleteBookMark(bookMarkId)
                 }
             }
         }else{
-            markButton.visibility= INVISIBLE //내가 쓴 글이면 북마크 버튼 안 보임
+            markButton.visibility= View.INVISIBLE //내가 쓴 글이면 북마크 버튼 안 보임
             editButton.setOnClickListener{
-                val postDetail= Intent(this, PostingEdit::class.java)
-                postDetail.putExtra("postingId", postingId)
-                postDetail.putExtra("title", postTitle)
-                postDetail.putExtra("content", postContent)
-                startActivity(postDetail)
+                val bundle= bundleOf("postingId" to postingId, "title" to postTitle, "content" to postContent)
+                findNavController().navigate(R.id.action_navigation_chatList_to_navigation_chattingRoom, bundle)
+                //todo 네비 수정
                 onResume()
             }
             deleteButton.setOnClickListener{
                 val dialog = ConfirmDialog(this, "글을 삭제하시겠습니까?", 0,0)
                 dialog.isCancelable = false
-                dialog.show(this.supportFragmentManager, "ConfirmDialog")
+                dialog.show(requireFragmentManager(), "ConfirmDialog")
             }
 
         }
 
         //-----------------------------댓글------------------------------------------------------
-        val recyclerView:RecyclerView=binding.recyclerView
-        recyclerView.layoutManager=LinearLayoutManager(this)
+        val recyclerView: RecyclerView =binding.recyclerView
+        recyclerView.layoutManager= LinearLayoutManager(requireContext())
         recyclerView.adapter=adapter
 
         var text=""
@@ -236,12 +246,12 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
 
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.d("retrofit", "메인 커뮤니티 세부 글 - 응답 성공 / t : ${response.raw()}")
-                 postTitle=response.body()!!.title
-                 postContent=response.body()!!.content
-                 postWriter=response.body()!!.nickname
-                 writerID=response.body()!!.memberId
-                 createdDate=response.body()!!.createdDate
-                 lastModifiedDate=response.body()!!.lastModifiedDate
+                postTitle=response.body()!!.title
+                postContent=response.body()!!.content
+                postWriter=response.body()!!.nickname
+                writerID=response.body()!!.memberId
+                createdDate=response.body()!!.createdDate
+                lastModifiedDate=response.body()!!.lastModifiedDate
                 bookMarkId=response.body()!!.checkBookmarkId
                 when (response.body()!!.userImageNum) {
                     0 -> binding.writerImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
@@ -275,7 +285,9 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
             //응답성공
             override fun onResponse(call: Call<Long>, response: Response<Long>) {
                 Log.d("retrofit", "글 삭제 - 응답 성공 / t : ${response.raw()}")
-                finish()
+                requireActivity().supportFragmentManager.beginTransaction().remove(this@PostDetailMainFragment).commit()
+                requireActivity().supportFragmentManager.popBackStack()
+                //todo 백버튼
             }
             //응답실패
             override fun onFailure(call: Call<Long>, t: Throwable) {
@@ -374,7 +386,12 @@ class PostDetail_Main : AppCompatActivity(), ConfirmDialogInterface {
     }
     override fun onResume() {
         super.onResume()
-        viewPosting(intent.getLongExtra("postingId", 1), myID)
+        viewPosting(arguments?.getLong("postingId")!!, myID)
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+
+        val mainAct=activity as MainActivity
+        mainAct.HideBottomNavi(false)
     }
 }
-*/

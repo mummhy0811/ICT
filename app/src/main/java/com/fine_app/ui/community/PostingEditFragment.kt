@@ -33,8 +33,10 @@ class PostingEditFragment : Fragment() {
         _binding = FragmentPostingEditBinding.inflate(layoutInflater)
         val root: View = binding.root
         lateinit var text:String
+
         val mainAct=activity as MainActivity
         mainAct.HideBottomNavi(true)
+
         val postTitle=arguments?.getString("title")!!
         val postContent=arguments?.getString("content")!!
         val postingId=arguments?.getLong("postingId")!!

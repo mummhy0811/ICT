@@ -93,8 +93,19 @@
         <action
             android:id="@+id/action_navigation_friendList_to_navigation_create_group_chatroom"
             app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_friendList_to_navigation_SearchFriendList"
+            app:destination="@id/navigation_searchFriendList" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_searchFriendList"
+        android:name="com.fine_app.ui.friendList.SearchFriendListFragment"
+        android:label="@string/title_friendList">
+        <action
+            android:id="@+id/action_navigation_SearchFriendList_to_navigation_friendList"
+            app:destination="@id/navigation_friendList" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_chatList"
         android:name="com.fine_app.ui.chatList.ChatListFragment"
@@ -211,8 +222,277 @@
         <action
             android:id="@+id/action_navigation_community_to_postingFragment"
             app:destination="@id/postingFragment" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_communitySearch"
+            app:destination="@id/navigation_communitySearch" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_communitySearch"
+        android:name="com.fine_app.ui.community.SearchListFragment"
+        android:label="@string/title_community">
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_friendList"
+            app:destination="@id/navigation_friendList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home_recommend"
+            app:destination="@id/navigation_home_recommend" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chatList"
+            app:destination="@id/navigation_chatList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage"
+            app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_community_to_postingFragment"
+            app:destination="@id/postingFragment" />
+        <action
+            android:id="@+id/action_navigation_community4_to_navigation_community"
+            app:destination="@id/navigation_community" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_communityGroup"
+        android:name="com.fine_app.ui.community.CommunityGroupFragment"
+        android:label="@string/title_community">
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_friendList"
+            app:destination="@id/navigation_friendList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home_recommend"
+            app:destination="@id/navigation_home_recommend" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chatList"
+            app:destination="@id/navigation_chatList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage"
+            app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_community_to_postingFragment"
+            app:destination="@id/postingFragment" />
+        <action
+            android:id="@+id/action_navigation_communityGroup_to_navigation_communityGroupPost"
+            app:destination="@id/navigation_communityGroupPost" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_communityMain"
+        android:name="com.fine_app.ui.community.CommunityMainFragment"
+        android:label="@string/title_community">
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_friendList"
+            app:destination="@id/navigation_friendList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home_recommend"
+            app:destination="@id/navigation_home_recommend" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chatList"
+            app:destination="@id/navigation_chatList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage"
+            app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_community_to_postingFragment"
+            app:destination="@id/postingFragment" />
+        <action
+            android:id="@+id/action_navigation_communityGroup_to_navigation_communityGroupPost"
+            app:destination="@id/navigation_communityGroupPost" />
+        <action
+            android:id="@+id/action_navigation_communityMain_to_navigation_communityMainPost"
+            app:destination="@id/navigation_communityMainPost" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_communityGroupPost"
+        android:name="com.fine_app.ui.community.PostDetailGroupFragment"
+        android:label="@string/title_community">
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_friendList"
+            app:destination="@id/navigation_friendList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home_recommend"
+            app:destination="@id/navigation_home_recommend" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chatList"
+            app:destination="@id/navigation_chatList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage"
+            app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_community_to_postingFragment"
+            app:destination="@id/postingFragment" />
+        <action
+            android:id="@+id/action_navigation_communityGroupPost_to_navigation_communityGroup"
+            app:destination="@id/navigation_communityGroup" />
+        <action
+            android:id="@+id/action_navigation_communityGroupPost_to_navigation_communityWaitingList"
+            app:destination="@id/navigation_communityWaitingList" />
+        <action
+            android:id="@+id/action_navigation_communityGroupPost_to_navigation_PostingEdit"
+            app:destination="@id/navigation_PostingEdit" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_communityWaitingList"
+        android:name="com.fine_app.ui.community.WaitingListFragment"
+        android:label="@string/title_community">
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_friendList"
+            app:destination="@id/navigation_friendList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home_recommend"
+            app:destination="@id/navigation_home_recommend" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chatList"
+            app:destination="@id/navigation_chatList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage"
+            app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_community_to_postingFragment"
+            app:destination="@id/postingFragment" />
+        <action
+            android:id="@+id/action_navigation_communityGroupPost_to_navigation_communityGroup"
+            app:destination="@id/navigation_communityGroup" />
+        <action
+            android:id="@+id/action_navigation_communityWaitingList_to_navigation_communityGroupPost"
+            app:destination="@id/navigation_communityGroupPost" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_communityMainPost"
+        android:name="com.fine_app.ui.community.PostDetailMainFragment"
+        android:label="@string/title_community">
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_friendList"
+            app:destination="@id/navigation_friendList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home_recommend"
+            app:destination="@id/navigation_home_recommend" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chatList"
+            app:destination="@id/navigation_chatList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage"
+            app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_community_to_postingFragment"
+            app:destination="@id/postingFragment" />
+        <action
+            android:id="@+id/action_navigation_communityMainPost_to_navigation_communityMain"
+            app:destination="@id/navigation_communityMain" />
+        <action
+            android:id="@+id/action_navigation_communityMainPost_to_navigation_PostingEdit"
+            app:destination="@id/navigation_PostingEdit" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_PostingEdit"
+        android:name="com.fine_app.ui.community.PostingEditFragment"
+        android:label="@string/title_community">
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_friendList"
+            app:destination="@id/navigation_friendList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_home_recommend"
+            app:destination="@id/navigation_home_recommend" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chatList"
+            app:destination="@id/navigation_chatList" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage"
+            app:destination="@id/navigation_myPage" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_chattingRoom"
+            app:destination="@id/navigation_chattingRoom" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_myPage2"
+            app:destination="@id/navigation_create_room_name" />
+        <action
+            android:id="@+id/action_navigation_community_to_navigation_create_group_chatroom"
+            app:destination="@id/navigation_create_group_chatroom" />
+        <action
+            android:id="@+id/action_navigation_community_to_postingFragment"
+            app:destination="@id/postingFragment" />
+        <action
+            android:id="@+id/action_navigation_communityMainPost_to_navigation_communityMain"
+            app:destination="@id/navigation_communityMain" />
+        <action
+            android:id="@+id/action_navigation_PostingEdit_to_navigation_communityMainPost"
+            app:destination="@id/navigation_communityMainPost" />
+        <action
+            android:id="@+id/action_navigation_PostingEdit_to_navigation_communityGroupPost"
+            app:destination="@id/navigation_communityGroupPost" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_myPage"
         android:name="com.fine_app.ui.myPage.MyPageFragment"

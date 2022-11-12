@@ -98,18 +98,6 @@ class ChatListFragment : Fragment() {
         isFabOpen = !isFabOpen
     }
 
-/*
-    private fun resetSubscriptions() {
-        if (compositeDisposable != null) {
-            compositeDisposable!!.dispose()
-        }
-        compositeDisposable = CompositeDisposable()
-    }
-
- */
-
-
-
     inner class MyViewHolder(view:View): RecyclerView.ViewHolder(view){
 
         private lateinit var chatroom: ChatRoomList
@@ -152,15 +140,6 @@ class ChatListFragment : Fragment() {
                 else -> roomImage.setImageResource(R.drawable.ic_noun_dooda_angry_2019970)
             }
             itemView.setOnClickListener{
-                //enter(this.chatroom.roomId)
-                //com.fine_app.ui.Stomp().enter(this.chatroom.roomId, myId)
-                /*
-                val create= Intent(activity, ChatRoom::class.java)
-                create.putExtra("roomId" , this.chatroom.roomId)
-                startActivity(create)
-
-                 */
-
                 val bundle= bundleOf("roomId" to this.chatroom.roomId)
                 findNavController().navigate(R.id.action_navigation_chatList_to_navigation_chattingRoom, bundle)
             }

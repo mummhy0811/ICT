@@ -1,13 +1,14 @@
 package com.fine_app.ui.community
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.Post
@@ -68,9 +69,8 @@ class CommunityGroupFragment : Fragment() {
                 image.visibility=View.VISIBLE
             }
             itemView.setOnClickListener{
-                val postDetail= Intent(activity, PostDetail_Group::class.java)
-                postDetail.putExtra("postingId", this.post.postingId)
-                startActivity(postDetail)
+                val bundle= bundleOf("postingId" to this.post.postingId)
+                findNavController().navigate(R.id.action_navigation_communityGroup_to_navigation_communityGroupPost, bundle)
             }
         }
 

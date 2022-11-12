@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.fine_app.Post
@@ -45,10 +47,8 @@ class CommunityMainFragment : Fragment() {
             commentNum.text=this.post.commentCount
             keyword.text=this.post.keyword
             itemView.setOnClickListener{
-                val postDetail= Intent(activity, PostDetail_Main::class.java)
-                postDetail.putExtra("postingId", this.post.postingId)
-                postDetail.putExtra("memberId", this.post.memberId)
-                startActivity(postDetail)
+                val bundle= bundleOf("postingId" to this.post.postingId, "memberId" to this.post.memberId)
+                findNavController().navigate(R.id.action_navigation_communityMainPost_to_navigation_PostingEdit, bundle)
             }
         }
     }

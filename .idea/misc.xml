@@ -9,8 +9,11 @@
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/chatting_room.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/chatting_room_main.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/chatting_setting.xml" value="0.19427083333333334" />
+        <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/community_group_post.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/community_main_post.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/community_posting.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/community_posting_edit.xml" value="0.153125" />
+        <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/community_waitinglist.xml" value="0.4" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_blank.xml" value="0.2390625" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_chat_room.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_chatlist.xml" value="0.25364583333333335" />
@@ -19,8 +22,14 @@
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_create_group_chatroom.xml" value="0.17708333333333334" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_create_main_chat_room.xml" value="0.153125" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_create_room_name.xml" value="0.1796875" />
+        <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_post_detail_group.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_post_detail_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_posting.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_posting_edit.xml" value="0.13854166666666667" />
+        <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_search_friend_list.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_search_list.xml" value="0.153125" />
+        <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/fragment_waiting_list.xml" value="0.153125" />
+        <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/friend_search.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/user/Desktop/fine_app/FINE-Frontend/app/src/main/res/layout/sidebar.xml" value="0.25364583333333335" />
       </map>
     </option>

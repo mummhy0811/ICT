@@ -1,4 +1,4 @@
-
+/*
 package com.fine_app.ui.chatList
 
 import android.content.SharedPreferences
@@ -156,3 +156,5 @@ class CreateMainChatRoom: AppCompatActivity(), ConfirmDialogInterface {
     }
 }
 
+
+ */
